@@ -1,0 +1,19 @@
+{
+    "posts": "posts",
+    "home": "Home",
+    "search": "Search",
+    "post": "Post",
+    "favorite": "Favorite",
+    "profile": "Profile",
+    "new_posts": "New Posts",
+    "real_estate_news": "News",
+    "all": "All",
+    "apartment": "Apartment",
+    "house": "House",
+    "land": "Land",
+    "discover_by_location": "Discover by locations",
+    "filter_by_type": "Filter by type",
+    "office": "Office",
+    "villa": "Villa",
+    "most_search": "Most searches"
+}
