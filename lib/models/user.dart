@@ -19,7 +19,7 @@ class User with _$User {
     String? phone,
     @Default([]) List<Property> properties,
     @Default([]) List<Property> favorites,
-    PartnerRegistration? registration,
+    PartnerRegistration? partnerRegistration,
     required DateTime createdAt,
     DateTime? updatedAt,
   }) = _User;

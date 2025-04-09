@@ -28,6 +28,10 @@ class AlertService {
         btnOkText: confirmBtnText.tr(),
         showCloseIcon: false,
         btnCancelOnPress: () {
+          result = false;
+          Navigator.pop(StackedService.navigatorKey!.currentContext!);
+        },
+        btnOkOnPress: () {
           if (onConfirm == null) {
             result = true;
             Navigator.pop(StackedService.navigatorKey!.currentContext!);

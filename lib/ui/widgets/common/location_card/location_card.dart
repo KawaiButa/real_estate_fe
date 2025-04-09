@@ -1,15 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:real_estate_fe/constants/app_text_style.dart';
-import 'package:real_estate_fe/models/location.dart';
+import 'package:real_estate_fe/models/location_post.dart';
 import 'package:stacked/stacked.dart';
 
 import 'location_card_model.dart';
 
 class LocationCard extends StackedView<LocationCardModel> {
   const LocationCard({super.key, required this.location, this.onTap});
-  final Location location;
-  final Function(Location location)? onTap;
+  final LocationPost location;
+  final Function(LocationPost location)? onTap;
   @override
   Widget builder(
     BuildContext context,
@@ -34,14 +35,22 @@ class LocationCard extends StackedView<LocationCardModel> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black.withValues(alpha: 0.7),
-                  ],
-                ),
+                gradient: location.url != null
+                    ? null
+                    : LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withValues(alpha: 0.7),
+                        ],
+                      ),
+                image: location.url == null
+                    ? null
+                    : DecorationImage(
+                        image: CachedNetworkImageProvider(location.url!),
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             // Location name and property count
@@ -53,14 +62,14 @@ class LocationCard extends StackedView<LocationCardModel> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "",
+                    location.city,
                     style: AppTextStyle.h4TitleTextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    '${""} ${"posts".tr()}',
+                    '${location.count} ${"posts".tr()}',
                     style: AppTextStyle.h5TitleTextStyle(
                       color: Colors.white,
                     ),

@@ -39,11 +39,11 @@ class BasePage extends StatefulWidget {
   final bool isBlackColorBackArrow;
   final RefreshController? refreshController;
   final Function()? onRefresh;
-  final Function(String query)? getSuggestion;
+  final Function(String value)? onSubmit;
   const BasePage({
     this.showAppBar = false,
     this.leading,
-    this.showLeadingAction = false,
+    this.showLeadingAction = true,
     this.onBackPressed,
     this.showCart = false,
     this.title = "",
@@ -68,7 +68,7 @@ class BasePage extends StatefulWidget {
     this.isBlackColorBackArrow = false,
     this.refreshController,
     this.onRefresh,
-    this.getSuggestion,
+    this.onSubmit,
     Key? key,
     this.onSearchChange,
   }) : super(key: key);
@@ -111,11 +111,7 @@ class _BasePageState extends State<BasePage> {
                                       : Icons.arrow_right_alt,
                                   color: widget.isBlackColorBackArrow
                                       ? Colors.black
-                                      : (widget.appBarItemColor ??
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .color),
+                                      : Vx.white,
                                 ),
                                 onPressed: widget.onBackPressed != null
                                     ? () => widget.onBackPressed!()
@@ -135,20 +131,12 @@ class _BasePageState extends State<BasePage> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
-                                        child: TypeAheadField<String>(
-                                          suggestionsCallback: (pattern) async {
-                                            if (widget.getSuggestion != null) {
-                                              return await widget
-                                                  .getSuggestion!(pattern);
-                                            }
-                                            return [];
-                                          },
-                                          onSelected: widget.onSearchChange,
-                                          itemBuilder: (context, suggestion) {
-                                            return ListTile(
-                                              title: Text(suggestion),
-                                            );
-                                          },
+                                        child: TextField(
+                                          onSubmitted: widget.onSubmit,
+                                          decoration: const InputDecoration(
+                                            hintText: "Search anything here",
+                                            // icon: Icon(Icons.search),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -157,16 +145,10 @@ class _BasePageState extends State<BasePage> {
                               : "${widget.title}"
                                   .text
                                   .textStyle(AppTextStyle.h3TitleTextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color!))
+                                      color: Vx.white))
                                   .maxLines(1)
                                   .overflow(TextOverflow.ellipsis)
-                                  .color(Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .color)
+                                  .color(Vx.white)
                                   .make(),
                       actions: widget.actions ??
                           <Widget>[

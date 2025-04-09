@@ -17,11 +17,15 @@ class WelcomeView extends StackedView<WelcomeViewModel> {
   ) {
     return BasePage(
       showAppBar: true,
+      refreshController: viewModel.refreshController,
+      onRefresh: viewModel.refreshPage,
       appBarColor: AppColors.primaryColor,
+      showLeadingAction: false,
       isIconNotification: true,
       isIconMessage: true,
       isSearch: true,
       isLoading: viewModel.isBusy,
+      onSubmit: viewModel.onSearch,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: AppColors.accentColor,
         unselectedItemColor: Colors.grey,

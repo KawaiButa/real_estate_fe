@@ -10,6 +10,10 @@ class FilterSheetModel extends BaseViewModel {
   final _propertyTypeService = locator<PropertyTypeService>();
   List<PropertyType>? get propertyTypes => _propertyTypeService.data;
   late FilterCriteria filters;
+
+  var maxPriceController;
+
+  var minPriceController;
   FilterSheetModel({required FilterCriteria filterData}) {
     filters = filterData;
   }

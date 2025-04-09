@@ -19,14 +19,14 @@ class ProfileViewModel extends ReactiveViewModel {
           icon: Icons.edit,
           action: () => navigateToEditProfile(),
         ),
-        if (!(user?.roles?.firstOrNullWhere((e) => e.name == "partner") !=
-            null))
+        if (!(user?.partnerRegistration != null))
           ProfileOption(
             title: 'Trở thành đối tác',
             icon: Icons.handshake_outlined,
             action: () => becomePartner(),
           ),
-        if ((user?.roles?.firstOrNullWhere((e) => e.name == "partner") != null))
+        if ((user?.partnerRegistration != null &&
+            user!.partnerRegistration!.approved))
           ProfileOption(
             title: 'Quản lý bất động sản',
             icon: Icons.manage_accounts,
@@ -40,21 +40,33 @@ class ProfileViewModel extends ReactiveViewModel {
       ];
   final _authService = locator<AuthService>();
   final _navigationService = locator<NavigationService>();
-  bool get isLoggedIn => _authService.currentUser != null;
-  User? get user => _authService.currentUser;
+  bool get isLoggedIn => _authService.data != null;
+  User? get user => _authService.data;
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
+  initialise() async {
+    setBusyForObject(user, true);
+    _authService.getUserFromLocalStorage();
+    await _authService.fetchProfile();
+    setBusyForObject(user, false);
+  }
 
   void handleOptionTap(ProfileOption option) => option.action();
 
   void navigateToSettings() {}
-  void navigateToEditProfile() {}
+  void navigateToEditProfile() {
+    _navigationService.navigateToEditProfileView();
+  }
+
   void becomePartner() {
     _navigationService.navigateToPartnerRegistrationView();
   }
 
-  void manageProperties() {}
+  void manageProperties() {
+    _navigationService.navigateToPropertyView();
+  }
+
   void showTermsAndConditions() {}
 
   void navigateToLogin() {

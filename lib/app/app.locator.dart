@@ -9,13 +9,16 @@
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart';
 import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
+import 'package:stacked_services/src/snackbar/snackbar_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/alert_service.dart';
 import '../services/app_service.dart';
 import '../services/article_service.dart';
 import '../services/auth_service.dart';
+import '../services/banner_service.dart';
 import '../services/local_storage_service.dart';
+import '../services/location_post_service.dart';
 import '../services/location_service.dart';
 import '../services/partner_registration_service.dart';
 import '../services/profile_service.dart';
@@ -48,4 +51,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => AppService());
   locator.registerLazySingleton(() => PartnerRegistrationService());
   locator.registerLazySingleton(() => LocationService());
+  locator.registerLazySingleton(() => BannerService());
+  locator.registerLazySingleton(() => SnackbarService());
+  locator.registerLazySingleton(() => LocationPostService());
 }

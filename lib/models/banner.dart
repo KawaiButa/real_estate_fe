@@ -8,9 +8,8 @@ class Banner with _$Banner {
   const factory Banner({
     required String id,
     required String title,
-    required String description,
-    required String imageUrl,
-    required String link,
+    required String content,
+    required String url,
   }) = _Banner;
 
   factory Banner.fromJson(Map<String, dynamic> json) => _$BannerFromJson(json);

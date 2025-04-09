@@ -27,28 +27,34 @@ class SearchView extends StackedView<SearchViewModel> {
     return Scaffold(
       // Added Scaffold here
       body: VStack([
-        _buildLocationSelection(context, viewModel), // Location selection UI
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              onTap: viewModel.showFilterSheet,
-              child: Row(
-                children: [
-                  const Icon(Icons.filter_list).pOnly(right: 4),
-                  Text(
-                    "Filter".tr(),
-                    style: AppTextStyle.h4TitleTextStyle(),
+        HStack(
+          [
+            _buildLocationSelection(context, viewModel)
+                .expand(), // Location selection UI
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: viewModel.showFilterSheet,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.filter_list).pOnly(right: 4),
+                      Text(
+                        "Filter".tr(),
+                        style: AppTextStyle.h4TitleTextStyle(),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            IconButton(
-              icon: Icon(viewModel.isGridView ? Icons.list : Icons.grid_view),
-              onPressed: viewModel.toggleView,
-            ),
+                ),
+                IconButton(
+                  icon:
+                      Icon(viewModel.isGridView ? Icons.list : Icons.grid_view),
+                  onPressed: viewModel.toggleView,
+                ),
+              ],
+            ).px8(),
           ],
-        ).px8(),
+        ),
         _buildSearchResults(viewModel).expand(),
       ]),
     );
@@ -59,13 +65,18 @@ class SearchView extends StackedView<SearchViewModel> {
       BuildContext context, SearchViewModel viewModel) {
     return HStack(
       [
-        IconButton(
-            onPressed: viewModel.showMapSheet,
-            icon: Icon(Icons.location_on_outlined,
-                color: AppColors.primaryColor)),
-        "Select location".tr().text.make()
+        Icon(Icons.location_on_outlined, color: AppColors.primaryColor),
+        if (viewModel.selectedLocation == null)
+          "Select location".tr().text.make()
+        else
+          (viewModel.selectedLocation!.address ?? "").text.make()
       ],
-    );
+    )
+        .onTap(viewModel.showMapSheet)
+        .box
+        .clip(Clip.antiAlias)
+        .make()
+        .pOnly(right: 20, left: 10);
   }
 
   Widget _buildSearchResults(SearchViewModel viewModel) {
@@ -85,6 +96,7 @@ class SearchView extends StackedView<SearchViewModel> {
     return viewModel.isGridView
         ? GridView.builder(
             padding: const EdgeInsets.all(8),
+            controller: viewModel.scrollController,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
               childAspectRatio: 1.2,
@@ -92,19 +104,32 @@ class SearchView extends StackedView<SearchViewModel> {
               crossAxisSpacing: 8,
             ),
             itemCount: viewModel.properties!.length,
-            itemBuilder: (context, index) => PropertyCard(
-              property: viewModel.properties![index],
-              onTap: (property) {},
-            ),
-          )
+            itemBuilder: (context, index) {
+              if (index == viewModel.properties!.length) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return PropertyCard(
+                property: viewModel.properties![index],
+                onTap: viewModel.navigateToPropertyDetail,
+              );
+            })
         : ListView.builder(
             padding: const EdgeInsets.all(8),
+            controller: viewModel.scrollController,
             itemCount: viewModel.properties!.length,
-            itemBuilder: (context, index) => PropertyListItem(
-              property: viewModel.properties![index],
-              onTap: (property) {},
-            ),
-          );
+            itemBuilder: (context, index) {
+              if (index == viewModel.properties!.length) {
+                return const Padding(
+                  // Add padding for the loading indicator in list view
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              return PropertyListItem(
+                property: viewModel.properties![index],
+                onTap: viewModel.navigateToPropertyDetail,
+              );
+            });
   }
 
   @override

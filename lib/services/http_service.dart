@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_http_cache_lts/dio_http_cache_lts.dart';
 import 'package:flutter/foundation.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:real_estate_fe/app/app.locator.dart';
 import 'package:real_estate_fe/constants/api.dart';
 import 'package:real_estate_fe/services/auth_service.dart';
 import 'package:real_estate_fe/services/hive_service.dart';
@@ -18,7 +19,9 @@ abstract class HttpService<T> with ListenableServiceMixin {
   BaseOptions? baseOptions;
   Dio? dio;
   SharedPreferences? prefs;
+  int total = 0;
   T? data;
+  final localStorageService = locator<LocalStorageService>();
   late HiveService<Map<String, dynamic>> hiveService;
   Future<Map<String, String>> getHeaders() async {
     final userToken = await AuthService().getAuthBearerToken();
@@ -31,7 +34,7 @@ abstract class HttpService<T> with ListenableServiceMixin {
   }
 
   HttpService() {
-    LocalStorageService.getPrefs();
+    localStorageService.getPrefs();
     baseOptions = BaseOptions(
       baseUrl: host,
       validateStatus: (status) {

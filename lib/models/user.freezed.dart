@@ -29,7 +29,8 @@ mixin _$User {
   String? get phone => throw _privateConstructorUsedError;
   List<Property> get properties => throw _privateConstructorUsedError;
   List<Property> get favorites => throw _privateConstructorUsedError;
-  PartnerRegistration? get registration => throw _privateConstructorUsedError;
+  PartnerRegistration? get partnerRegistration =>
+      throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -57,13 +58,13 @@ abstract class $UserCopyWith<$Res> {
       String? phone,
       List<Property> properties,
       List<Property> favorites,
-      PartnerRegistration? registration,
+      PartnerRegistration? partnerRegistration,
       DateTime createdAt,
       DateTime? updatedAt});
 
   $ImageCopyWith<$Res>? get profileImage;
   $AddressCopyWith<$Res>? get address;
-  $PartnerRegistrationCopyWith<$Res>? get registration;
+  $PartnerRegistrationCopyWith<$Res>? get partnerRegistration;
 }
 
 /// @nodoc
@@ -90,7 +91,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? phone = freezed,
     Object? properties = null,
     Object? favorites = null,
-    Object? registration = freezed,
+    Object? partnerRegistration = freezed,
     Object? createdAt = null,
     Object? updatedAt = freezed,
   }) {
@@ -131,9 +132,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<Property>,
-      registration: freezed == registration
-          ? _value.registration
-          : registration // ignore: cast_nullable_to_non_nullable
+      partnerRegistration: freezed == partnerRegistration
+          ? _value.partnerRegistration
+          : partnerRegistration // ignore: cast_nullable_to_non_nullable
               as PartnerRegistration?,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -178,13 +179,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $PartnerRegistrationCopyWith<$Res>? get registration {
-    if (_value.registration == null) {
+  $PartnerRegistrationCopyWith<$Res>? get partnerRegistration {
+    if (_value.partnerRegistration == null) {
       return null;
     }
 
-    return $PartnerRegistrationCopyWith<$Res>(_value.registration!, (value) {
-      return _then(_value.copyWith(registration: value) as $Val);
+    return $PartnerRegistrationCopyWith<$Res>(_value.partnerRegistration!,
+        (value) {
+      return _then(_value.copyWith(partnerRegistration: value) as $Val);
     });
   }
 }
@@ -206,7 +208,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? phone,
       List<Property> properties,
       List<Property> favorites,
-      PartnerRegistration? registration,
+      PartnerRegistration? partnerRegistration,
       DateTime createdAt,
       DateTime? updatedAt});
 
@@ -215,7 +217,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   $AddressCopyWith<$Res>? get address;
   @override
-  $PartnerRegistrationCopyWith<$Res>? get registration;
+  $PartnerRegistrationCopyWith<$Res>? get partnerRegistration;
 }
 
 /// @nodoc
@@ -239,7 +241,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? phone = freezed,
     Object? properties = null,
     Object? favorites = null,
-    Object? registration = freezed,
+    Object? partnerRegistration = freezed,
     Object? createdAt = null,
     Object? updatedAt = freezed,
   }) {
@@ -280,9 +282,9 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value._favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<Property>,
-      registration: freezed == registration
-          ? _value.registration
-          : registration // ignore: cast_nullable_to_non_nullable
+      partnerRegistration: freezed == partnerRegistration
+          ? _value.partnerRegistration
+          : partnerRegistration // ignore: cast_nullable_to_non_nullable
               as PartnerRegistration?,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -309,7 +311,7 @@ class _$UserImpl implements _User {
       this.phone,
       final List<Property> properties = const [],
       final List<Property> favorites = const [],
-      this.registration,
+      this.partnerRegistration,
       required this.createdAt,
       this.updatedAt})
       : _roles = roles,
@@ -360,7 +362,7 @@ class _$UserImpl implements _User {
   }
 
   @override
-  final PartnerRegistration? registration;
+  final PartnerRegistration? partnerRegistration;
   @override
   final DateTime createdAt;
   @override
@@ -368,7 +370,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, roles: $roles, profileImage: $profileImage, address: $address, phone: $phone, properties: $properties, favorites: $favorites, registration: $registration, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'User(id: $id, name: $name, email: $email, roles: $roles, profileImage: $profileImage, address: $address, phone: $phone, properties: $properties, favorites: $favorites, partnerRegistration: $partnerRegistration, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -388,8 +390,8 @@ class _$UserImpl implements _User {
                 .equals(other._properties, _properties) &&
             const DeepCollectionEquality()
                 .equals(other._favorites, _favorites) &&
-            (identical(other.registration, registration) ||
-                other.registration == registration) &&
+            (identical(other.partnerRegistration, partnerRegistration) ||
+                other.partnerRegistration == partnerRegistration) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -409,7 +411,7 @@ class _$UserImpl implements _User {
       phone,
       const DeepCollectionEquality().hash(_properties),
       const DeepCollectionEquality().hash(_favorites),
-      registration,
+      partnerRegistration,
       createdAt,
       updatedAt);
 
@@ -440,7 +442,7 @@ abstract class _User implements User {
       final String? phone,
       final List<Property> properties,
       final List<Property> favorites,
-      final PartnerRegistration? registration,
+      final PartnerRegistration? partnerRegistration,
       required final DateTime createdAt,
       final DateTime? updatedAt}) = _$UserImpl;
 
@@ -465,7 +467,7 @@ abstract class _User implements User {
   @override
   List<Property> get favorites;
   @override
-  PartnerRegistration? get registration;
+  PartnerRegistration? get partnerRegistration;
   @override
   DateTime get createdAt;
   @override

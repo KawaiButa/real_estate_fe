@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:flutter/foundation.dart';
@@ -21,7 +23,6 @@ class AuthService extends HttpService<User> {
   final fba.FirebaseAuth _firebaseAuth = fba.FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _navigationService = locator<NavigationService>();
-  final _localStorageService = locator<LocalStorageService>();
   final _alertService = locator<AlertService>();
   User? currentUser;
   Stream<fba.User?> get userStream => _firebaseAuth.authStateChanges();
@@ -106,18 +107,18 @@ class AuthService extends HttpService<User> {
   }
 
   Future<String> getAuthBearerToken() async {
-    return LocalStorageService.prefs?.getString(AppStrings.userAuthToken) ?? "";
+    return localStorageService.prefs?.getString(AppStrings.userAuthToken) ?? "";
   }
 
   Future<bool> setAuthBearerToken(token) async {
-    return LocalStorageService.prefs!
+    return localStorageService.prefs!
         .setString(AppStrings.userAuthToken, token);
   }
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
-    await LocalStorageService.prefs?.clear();
+    await localStorageService.prefs?.clear();
     currentUser = null;
     notifyListeners();
     _navigationService.clearStackAndShow(Routes.welcomeView);
@@ -125,25 +126,30 @@ class AuthService extends HttpService<User> {
 
   @override
   fromResponse(Response response) {
-    throw UnimplementedError();
+    if ((response.data as Map).containsKey("token")) {
+      setAuthBearerToken(response.data["token"]);
+      return saveUser(response.data["user"]);
+    } else {
+      return saveUser(response.data);
+    }
   }
 
   @override
   parser(Map<String, dynamic> hiveMap) {
-    throw UnimplementedError();
+    return saveUser(hiveMap["data"]);
   }
 
-  User? saveUser(data) {
+  User saveUser(data) {
     if (data is! Map) throw Exception("Return data is not map, cannot parse");
     currentUser = User.fromJson(data as Map<String, dynamic>);
-    LocalStorageService.prefs!
+    localStorageService.prefs!
         .setString(AppStrings.user, currentUser!.toJson().toJSON());
     notifyListeners();
-    return currentUser;
+    return currentUser!;
   }
 
   User? getUserFromLocalStorage() {
-    final dataJson = LocalStorageService.prefs!.getString(AppStrings.user);
+    final dataJson = localStorageService.prefs!.getString(AppStrings.user);
     if (dataJson != null) data = User.fromJson(json.decode(dataJson));
     notifyListeners();
     return currentUser;
@@ -166,6 +172,23 @@ class AuthService extends HttpService<User> {
   }
 
   Future<void> fetchProfile() async {
-    await get(Api.profile);
+    get(Api.profile, forceRefresh: true);
+  }
+
+  Future<void> refreshToken() async {
+    get(
+      Api.refreshToken,
+    );
+  }
+
+  updateProfile({String? username, String? phone, File? image}) async {
+    final formData = FormData.fromMap({
+      if (username != null) "name": username,
+      if (phone != null) "phone": phone,
+      if (image != null)
+        "profile_image": MultipartFile.fromFile(image.path,
+            filename: image.path.split("/").last)
+    });
+    await patchWithFiles(Api.profile, formData);
   }
 }

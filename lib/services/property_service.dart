@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:real_estate_fe/constants/api.dart';
 import 'package:real_estate_fe/models/filter_criteria.dart';
+import 'package:real_estate_fe/models/location.dart';
 import 'package:real_estate_fe/models/property.dart';
 import 'package:real_estate_fe/services/http_service.dart';
 
@@ -24,6 +29,7 @@ class PropertyService extends HttpService<List<Property>> {
     String? orderBy,
     String? orderDirection,
     bool forceRefresh = false,
+    int page = 1,
   }) async {
     Map<String, dynamic> queryParameters = {
       if (lat != null) 'lat': lat,
@@ -62,4 +68,27 @@ class PropertyService extends HttpService<List<Property>> {
         .map((e) => Property.fromJson(e))
         .toList();
   }
+
+  createProperty(
+      Map<String, dynamic> value, List<File> images, Location location) async {
+    final List<MultipartFile> multipartImages = await Future.wait(
+      images.map((file) async => await MultipartFile.fromFile(
+            file.path,
+            filename: file.path.split('/').last,
+          )),
+    );
+
+    FormData formData = FormData.fromMap({
+      "image_list": multipartImages,
+      "latitude": location.point.latitude,
+      "longitude": location.point.longitude,
+      "address": location.address,
+      ...value
+    });
+    final response = await postWithFiles(Api.property, {}, formData: formData);
+    if (response.statusCode == 201) return Property.fromJson(response.data);
+    throw Exception("Error when create property: ${response.statusMessage}");
+  }
+
+  updateProperty(String id, FormData formData) {}
 }

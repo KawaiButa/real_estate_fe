@@ -1,7 +1,9 @@
 import 'package:real_estate_fe/services/alert_service.dart';
 import 'package:real_estate_fe/services/app_service.dart';
 import 'package:real_estate_fe/services/article_service.dart';
+import 'package:real_estate_fe/services/banner_service.dart';
 import 'package:real_estate_fe/services/hive_service.dart';
+import 'package:real_estate_fe/services/location_post_service.dart';
 import 'package:real_estate_fe/services/location_service.dart';
 import 'package:real_estate_fe/services/partner_registration_service.dart';
 import 'package:real_estate_fe/services/profile_service.dart';
@@ -28,6 +30,10 @@ import 'package:real_estate_fe/ui/views/property_detail/property_detail_view.dar
 import 'package:real_estate_fe/ui/views/partner_registration/partner_registration_view.dart';
 import 'package:real_estate_fe/ui/views/favorite/favorite_view.dart';
 import 'package:real_estate_fe/ui/dialogs/map/map_dialog.dart';
+import 'package:real_estate_fe/ui/views/property_creation/property_creation_view.dart';
+import 'package:real_estate_fe/ui/views/property/property_view.dart';
+import 'package:real_estate_fe/ui/views/edit_profile/edit_profile_view.dart';
+import 'package:real_estate_fe/ui/views/edit_property/edit_property_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -43,6 +49,10 @@ import 'package:real_estate_fe/ui/dialogs/map/map_dialog.dart';
     MaterialRoute(page: PropertyDetailView),
     MaterialRoute(page: PartnerRegistrationView),
     MaterialRoute(page: FavoriteView),
+    MaterialRoute(page: PropertyCreationView),
+    MaterialRoute(page: PropertyView),
+    MaterialRoute(page: EditProfileView),
+    MaterialRoute(page: EditPropertyView),
 // @stacked-route
   ],
   dependencies: [
@@ -59,7 +69,10 @@ import 'package:real_estate_fe/ui/dialogs/map/map_dialog.dart';
     LazySingleton(classType: PropertyTypeService),
     LazySingleton(classType: AppService),
     LazySingleton(classType: PartnerRegistrationService),
-    LazySingleton(classType: LocationService)
+    LazySingleton(classType: LocationService),
+    LazySingleton(classType: BannerService),
+    LazySingleton(classType: SnackbarService),
+    LazySingleton(classType: LocationPostService)
 // @stacked-service
   ],
   bottomsheets: [

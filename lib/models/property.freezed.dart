@@ -29,14 +29,18 @@ mixin _$Property {
   int get bathrooms => throw _privateConstructorUsedError;
   String get propertyTypeId => throw _privateConstructorUsedError;
   PropertyType get propertyType => throw _privateConstructorUsedError;
+  double? get averageRating => throw _privateConstructorUsedError;
   double? get sqm => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   bool get status => throw _privateConstructorUsedError;
   Address get address => throw _privateConstructorUsedError;
+  List<Review> get reviews => throw _privateConstructorUsedError;
   List<Image> get images => throw _privateConstructorUsedError;
-  User get owner => throw _privateConstructorUsedError;
+  User? get owner => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false)
+  int? get totalReviewCount => throw _privateConstructorUsedError;
 
   /// Serializes this Property to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -63,18 +67,21 @@ abstract class $PropertyCopyWith<$Res> {
       int bathrooms,
       String propertyTypeId,
       PropertyType propertyType,
+      double? averageRating,
       double? sqm,
       String description,
       bool status,
       Address address,
+      List<Review> reviews,
       List<Image> images,
-      User owner,
+      User? owner,
       DateTime createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      @JsonKey(includeFromJson: false) int? totalReviewCount});
 
   $PropertyTypeCopyWith<$Res> get propertyType;
   $AddressCopyWith<$Res> get address;
-  $UserCopyWith<$Res> get owner;
+  $UserCopyWith<$Res>? get owner;
 }
 
 /// @nodoc
@@ -101,14 +108,17 @@ class _$PropertyCopyWithImpl<$Res, $Val extends Property>
     Object? bathrooms = null,
     Object? propertyTypeId = null,
     Object? propertyType = null,
+    Object? averageRating = freezed,
     Object? sqm = freezed,
     Object? description = null,
     Object? status = null,
     Object? address = null,
+    Object? reviews = null,
     Object? images = null,
-    Object? owner = null,
+    Object? owner = freezed,
     Object? createdAt = null,
     Object? updatedAt = freezed,
+    Object? totalReviewCount = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -147,6 +157,10 @@ class _$PropertyCopyWithImpl<$Res, $Val extends Property>
           ? _value.propertyType
           : propertyType // ignore: cast_nullable_to_non_nullable
               as PropertyType,
+      averageRating: freezed == averageRating
+          ? _value.averageRating
+          : averageRating // ignore: cast_nullable_to_non_nullable
+              as double?,
       sqm: freezed == sqm
           ? _value.sqm
           : sqm // ignore: cast_nullable_to_non_nullable
@@ -163,14 +177,18 @@ class _$PropertyCopyWithImpl<$Res, $Val extends Property>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as Address,
+      reviews: null == reviews
+          ? _value.reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<Review>,
       images: null == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<Image>,
-      owner: null == owner
+      owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -179,6 +197,10 @@ class _$PropertyCopyWithImpl<$Res, $Val extends Property>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      totalReviewCount: freezed == totalReviewCount
+          ? _value.totalReviewCount
+          : totalReviewCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -206,8 +228,12 @@ class _$PropertyCopyWithImpl<$Res, $Val extends Property>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get owner {
-    return $UserCopyWith<$Res>(_value.owner, (value) {
+  $UserCopyWith<$Res>? get owner {
+    if (_value.owner == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.owner!, (value) {
       return _then(_value.copyWith(owner: value) as $Val);
     });
   }
@@ -231,21 +257,24 @@ abstract class _$$PropertyImplCopyWith<$Res>
       int bathrooms,
       String propertyTypeId,
       PropertyType propertyType,
+      double? averageRating,
       double? sqm,
       String description,
       bool status,
       Address address,
+      List<Review> reviews,
       List<Image> images,
-      User owner,
+      User? owner,
       DateTime createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      @JsonKey(includeFromJson: false) int? totalReviewCount});
 
   @override
   $PropertyTypeCopyWith<$Res> get propertyType;
   @override
   $AddressCopyWith<$Res> get address;
   @override
-  $UserCopyWith<$Res> get owner;
+  $UserCopyWith<$Res>? get owner;
 }
 
 /// @nodoc
@@ -270,14 +299,17 @@ class __$$PropertyImplCopyWithImpl<$Res>
     Object? bathrooms = null,
     Object? propertyTypeId = null,
     Object? propertyType = null,
+    Object? averageRating = freezed,
     Object? sqm = freezed,
     Object? description = null,
     Object? status = null,
     Object? address = null,
+    Object? reviews = null,
     Object? images = null,
-    Object? owner = null,
+    Object? owner = freezed,
     Object? createdAt = null,
     Object? updatedAt = freezed,
+    Object? totalReviewCount = freezed,
   }) {
     return _then(_$PropertyImpl(
       id: null == id
@@ -316,6 +348,10 @@ class __$$PropertyImplCopyWithImpl<$Res>
           ? _value.propertyType
           : propertyType // ignore: cast_nullable_to_non_nullable
               as PropertyType,
+      averageRating: freezed == averageRating
+          ? _value.averageRating
+          : averageRating // ignore: cast_nullable_to_non_nullable
+              as double?,
       sqm: freezed == sqm
           ? _value.sqm
           : sqm // ignore: cast_nullable_to_non_nullable
@@ -332,14 +368,18 @@ class __$$PropertyImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as Address,
+      reviews: null == reviews
+          ? _value._reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<Review>,
       images: null == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<Image>,
-      owner: null == owner
+      owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -348,6 +388,10 @@ class __$$PropertyImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      totalReviewCount: freezed == totalReviewCount
+          ? _value.totalReviewCount
+          : totalReviewCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -365,15 +409,19 @@ class _$PropertyImpl implements _Property {
       required this.bathrooms,
       required this.propertyTypeId,
       required this.propertyType,
+      this.averageRating,
       this.sqm,
       required this.description,
       required this.status,
       required this.address,
+      final List<Review> reviews = const [],
       final List<Image> images = const [],
       required this.owner,
       required this.createdAt,
-      this.updatedAt})
-      : _images = images;
+      this.updatedAt,
+      @JsonKey(includeFromJson: false) this.totalReviewCount})
+      : _reviews = reviews,
+        _images = images;
 
   factory _$PropertyImpl.fromJson(Map<String, dynamic> json) =>
       _$$PropertyImplFromJson(json);
@@ -397,6 +445,8 @@ class _$PropertyImpl implements _Property {
   @override
   final PropertyType propertyType;
   @override
+  final double? averageRating;
+  @override
   final double? sqm;
   @override
   final String description;
@@ -404,6 +454,15 @@ class _$PropertyImpl implements _Property {
   final bool status;
   @override
   final Address address;
+  final List<Review> _reviews;
+  @override
+  @JsonKey()
+  List<Review> get reviews {
+    if (_reviews is EqualUnmodifiableListView) return _reviews;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reviews);
+  }
+
   final List<Image> _images;
   @override
   @JsonKey()
@@ -414,15 +473,18 @@ class _$PropertyImpl implements _Property {
   }
 
   @override
-  final User owner;
+  final User? owner;
   @override
   final DateTime createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  @JsonKey(includeFromJson: false)
+  final int? totalReviewCount;
 
   @override
   String toString() {
-    return 'Property(id: $id, title: $title, propertyCategory: $propertyCategory, transactionType: $transactionType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, propertyTypeId: $propertyTypeId, propertyType: $propertyType, sqm: $sqm, description: $description, status: $status, address: $address, images: $images, owner: $owner, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Property(id: $id, title: $title, propertyCategory: $propertyCategory, transactionType: $transactionType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, propertyTypeId: $propertyTypeId, propertyType: $propertyType, averageRating: $averageRating, sqm: $sqm, description: $description, status: $status, address: $address, reviews: $reviews, images: $images, owner: $owner, createdAt: $createdAt, updatedAt: $updatedAt, totalReviewCount: $totalReviewCount)';
   }
 
   @override
@@ -445,40 +507,49 @@ class _$PropertyImpl implements _Property {
                 other.propertyTypeId == propertyTypeId) &&
             (identical(other.propertyType, propertyType) ||
                 other.propertyType == propertyType) &&
+            (identical(other.averageRating, averageRating) ||
+                other.averageRating == averageRating) &&
             (identical(other.sqm, sqm) || other.sqm == sqm) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.address, address) || other.address == address) &&
+            const DeepCollectionEquality().equals(other._reviews, _reviews) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.owner, owner) || other.owner == owner) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.totalReviewCount, totalReviewCount) ||
+                other.totalReviewCount == totalReviewCount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      title,
-      propertyCategory,
-      transactionType,
-      price,
-      bedrooms,
-      bathrooms,
-      propertyTypeId,
-      propertyType,
-      sqm,
-      description,
-      status,
-      address,
-      const DeepCollectionEquality().hash(_images),
-      owner,
-      createdAt,
-      updatedAt);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        title,
+        propertyCategory,
+        transactionType,
+        price,
+        bedrooms,
+        bathrooms,
+        propertyTypeId,
+        propertyType,
+        averageRating,
+        sqm,
+        description,
+        status,
+        address,
+        const DeepCollectionEquality().hash(_reviews),
+        const DeepCollectionEquality().hash(_images),
+        owner,
+        createdAt,
+        updatedAt,
+        totalReviewCount
+      ]);
 
   /// Create a copy of Property
   /// with the given fields replaced by the non-null parameter values.
@@ -498,23 +569,27 @@ class _$PropertyImpl implements _Property {
 
 abstract class _Property implements Property {
   const factory _Property(
-      {required final String id,
-      required final String title,
-      required final String propertyCategory,
-      required final String transactionType,
-      required final double price,
-      required final int bedrooms,
-      required final int bathrooms,
-      required final String propertyTypeId,
-      required final PropertyType propertyType,
-      final double? sqm,
-      required final String description,
-      required final bool status,
-      required final Address address,
-      final List<Image> images,
-      required final User owner,
-      required final DateTime createdAt,
-      final DateTime? updatedAt}) = _$PropertyImpl;
+          {required final String id,
+          required final String title,
+          required final String propertyCategory,
+          required final String transactionType,
+          required final double price,
+          required final int bedrooms,
+          required final int bathrooms,
+          required final String propertyTypeId,
+          required final PropertyType propertyType,
+          final double? averageRating,
+          final double? sqm,
+          required final String description,
+          required final bool status,
+          required final Address address,
+          final List<Review> reviews,
+          final List<Image> images,
+          required final User? owner,
+          required final DateTime createdAt,
+          final DateTime? updatedAt,
+          @JsonKey(includeFromJson: false) final int? totalReviewCount}) =
+      _$PropertyImpl;
 
   factory _Property.fromJson(Map<String, dynamic> json) =
       _$PropertyImpl.fromJson;
@@ -538,6 +613,8 @@ abstract class _Property implements Property {
   @override
   PropertyType get propertyType;
   @override
+  double? get averageRating;
+  @override
   double? get sqm;
   @override
   String get description;
@@ -546,13 +623,18 @@ abstract class _Property implements Property {
   @override
   Address get address;
   @override
+  List<Review> get reviews;
+  @override
   List<Image> get images;
   @override
-  User get owner;
+  User? get owner;
   @override
   DateTime get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  @JsonKey(includeFromJson: false)
+  int? get totalReviewCount;
 
   /// Create a copy of Property
   /// with the given fields replaced by the non-null parameter values.

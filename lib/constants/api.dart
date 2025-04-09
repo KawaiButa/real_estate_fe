@@ -10,4 +10,9 @@ class Api {
   static String get toggleFavorite => "/profile/favorite";
   static String get partnerRegistration => "/partner/registration";
   static String get profile => "/profile";
+  static String get banners => "/banners";
+  static String get locationPost => "/property/count";
+  static String get refreshToken => "/profile/refresh-token";
+  static String checkAllow(String propertyId) =>
+      "/properties/$propertyId/verifications/allow";
 }

@@ -36,7 +36,7 @@ class HomeView extends StackedView<HomeViewModel> {
             ...viewModel.properties!
                 .map((property) => PropertyCard(
                       property: property,
-                      onTap: (property) {},
+                      onTap: viewModel.navigateToPropertyDetail,
                     ))
                 .toList(),
           _buildSectionHeader('real_estate_news'.tr()),
@@ -47,18 +47,19 @@ class HomeView extends StackedView<HomeViewModel> {
   }
 
   Widget _buildBannerCarousel(HomeViewModel viewModel) {
+    if (viewModel.banners == null) return const SizedBox.shrink();
     return VxSwiper.builder(
       aspectRatio: 20 / 9,
       autoPlay: true,
       enlargeCenterPage: true,
-      itemCount: viewModel.banners.length,
+      itemCount: viewModel.banners!.length,
       itemBuilder: (context, index) {
-        final banner = viewModel.banners[index];
+        final banner = viewModel.banners![index];
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             image: DecorationImage(
-              image: NetworkImage(banner.imageUrl),
+              image: NetworkImage(banner.url),
               fit: BoxFit.cover,
             ),
           ),
@@ -98,7 +99,7 @@ class HomeView extends StackedView<HomeViewModel> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      banner.description,
+                      banner.content,
                       style: AppTextStyle.h5TitleTextStyle(
                         color: Colors.white,
                       ),
@@ -116,6 +117,12 @@ class HomeView extends StackedView<HomeViewModel> {
   }
 
   Widget _buildFilterSection(HomeViewModel viewModel) {
+    if (viewModel.busy(viewModel.locations)) {
+      return const CircularProgressIndicator();
+    }
+    if (viewModel.locations == null) {
+      return const SizedBox.shrink();
+    }
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       color: AppColors.faintBgColor,
@@ -135,29 +142,23 @@ class HomeView extends StackedView<HomeViewModel> {
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
-                      value: 'all',
+                      value: null,
                       isExpanded: true,
                       icon: Icon(Icons.keyboard_arrow_down,
                           color: AppColors.primaryColor),
                       items: [
                         DropdownMenuItem(
-                            value: 'all',
+                            value: null,
                             child: Text('all'.tr(),
                                 style: AppTextStyle.h4TitleTextStyle())),
-                        DropdownMenuItem(
-                            value: 'apartment',
-                            child: Text('apartment'.tr(),
-                                style: AppTextStyle.h4TitleTextStyle())),
-                        DropdownMenuItem(
-                            value: 'house',
-                            child: Text('house'.tr(),
-                                style: AppTextStyle.h4TitleTextStyle())),
-                        DropdownMenuItem(
-                            value: 'land',
-                            child: Text('land'.tr(),
-                                style: AppTextStyle.h4TitleTextStyle())),
+                        ...((viewModel.propertyTypes ?? []).map(
+                          (e) => DropdownMenuItem(
+                              value: e.name,
+                              child: Text(e.name.tr(),
+                                  style: AppTextStyle.h4TitleTextStyle())),
+                        ))
                       ],
-                      onChanged: (value) {},
+                      onChanged: viewModel.changeLocationPostCountType,
                     ),
                   ),
                 ),
@@ -191,10 +192,10 @@ class HomeView extends StackedView<HomeViewModel> {
             height: 120,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: viewModel.locations.length,
+              itemCount: viewModel.locations!.length,
               itemBuilder: (context, index) {
                 return LocationCard(
-                  location: viewModel.locations[index],
+                  location: viewModel.locations![index],
                   onTap: (location) {
                     // Handle location tap
                   },
@@ -265,7 +266,7 @@ class HomeView extends StackedView<HomeViewModel> {
                 width: 280,
                 child: PropertyCard(
                   property: featuredProperties[index],
-                  onTap: (property) {},
+                  onTap: viewModel.navigateToPropertyDetail,
                 ),
               );
             },

@@ -22,9 +22,8 @@ Banner _$BannerFromJson(Map<String, dynamic> json) {
 mixin _$Banner {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
-  String get link => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
 
   /// Serializes this Banner to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,12 +39,7 @@ abstract class $BannerCopyWith<$Res> {
   factory $BannerCopyWith(Banner value, $Res Function(Banner) then) =
       _$BannerCopyWithImpl<$Res, Banner>;
   @useResult
-  $Res call(
-      {String id,
-      String title,
-      String description,
-      String imageUrl,
-      String link});
+  $Res call({String id, String title, String content, String url});
 }
 
 /// @nodoc
@@ -65,9 +59,8 @@ class _$BannerCopyWithImpl<$Res, $Val extends Banner>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? description = null,
-    Object? imageUrl = null,
-    Object? link = null,
+    Object? content = null,
+    Object? url = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -78,17 +71,13 @@ class _$BannerCopyWithImpl<$Res, $Val extends Banner>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: null == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -101,12 +90,7 @@ abstract class _$$BannerImplCopyWith<$Res> implements $BannerCopyWith<$Res> {
       __$$BannerImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String title,
-      String description,
-      String imageUrl,
-      String link});
+  $Res call({String id, String title, String content, String url});
 }
 
 /// @nodoc
@@ -124,9 +108,8 @@ class __$$BannerImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? description = null,
-    Object? imageUrl = null,
-    Object? link = null,
+    Object? content = null,
+    Object? url = null,
   }) {
     return _then(_$BannerImpl(
       id: null == id
@@ -137,17 +120,13 @@ class __$$BannerImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: null == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -159,9 +138,8 @@ class _$BannerImpl implements _Banner {
   const _$BannerImpl(
       {required this.id,
       required this.title,
-      required this.description,
-      required this.imageUrl,
-      required this.link});
+      required this.content,
+      required this.url});
 
   factory _$BannerImpl.fromJson(Map<String, dynamic> json) =>
       _$$BannerImplFromJson(json);
@@ -171,15 +149,13 @@ class _$BannerImpl implements _Banner {
   @override
   final String title;
   @override
-  final String description;
+  final String content;
   @override
-  final String imageUrl;
-  @override
-  final String link;
+  final String url;
 
   @override
   String toString() {
-    return 'Banner(id: $id, title: $title, description: $description, imageUrl: $imageUrl, link: $link)';
+    return 'Banner(id: $id, title: $title, content: $content, url: $url)';
   }
 
   @override
@@ -189,17 +165,13 @@ class _$BannerImpl implements _Banner {
             other is _$BannerImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
-            (identical(other.link, link) || other.link == link));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.url, url) || other.url == url));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, description, imageUrl, link);
+  int get hashCode => Object.hash(runtimeType, id, title, content, url);
 
   /// Create a copy of Banner
   /// with the given fields replaced by the non-null parameter values.
@@ -221,9 +193,8 @@ abstract class _Banner implements Banner {
   const factory _Banner(
       {required final String id,
       required final String title,
-      required final String description,
-      required final String imageUrl,
-      required final String link}) = _$BannerImpl;
+      required final String content,
+      required final String url}) = _$BannerImpl;
 
   factory _Banner.fromJson(Map<String, dynamic> json) = _$BannerImpl.fromJson;
 
@@ -232,11 +203,9 @@ abstract class _Banner implements Banner {
   @override
   String get title;
   @override
-  String get description;
+  String get content;
   @override
-  String get imageUrl;
-  @override
-  String get link;
+  String get url;
 
   /// Create a copy of Banner
   /// with the given fields replaced by the non-null parameter values.

@@ -28,10 +28,10 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
               ?.map((e) => Property.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      registration: json['registration'] == null
+      partnerRegistration: json['partner_registration'] == null
           ? null
           : PartnerRegistration.fromJson(
-              json['registration'] as Map<String, dynamic>),
+              json['partner_registration'] as Map<String, dynamic>),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: json['updated_at'] == null
           ? null
@@ -49,7 +49,7 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'phone': instance.phone,
       'properties': instance.properties,
       'favorites': instance.favorites,
-      'registration': instance.registration,
+      'partner_registration': instance.partnerRegistration,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
     };

@@ -1,5 +1,6 @@
 import 'package:dartx/dartx_io.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:real_estate_fe/models/location.dart';
@@ -106,21 +107,37 @@ class LocationService with ListenableServiceMixin {
     }
   }
 
-  // Method to get the address from coordinates using Nominatim
   Future<String> getAddressFromCoordinates(double lat, double lng) async {
     final url =
         'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=$lat&lon=$lng';
-    final response = await _dio.get(url);
 
-    if (response.statusCode == 200) {
-      // If the server returned a 200 OK response, parse the JSON
+    try {
+      final response = await _dio.get(
+        url,
+        options: Options(
+          headers: {
+            'User-Agent': 'real_estate_ai/1.0 (21522441@gm.uit.edu.vn)',
+          },
+        ),
+      );
       Map<String, dynamic> data = response.data;
-      // Extract the address from the data
       return data['display_name'] ?? 'Address not found';
-    } else {
-      // If the server did not return a 200 OK response,
-      // throw an exception.
-      throw Exception('Failed to load address');
+    } on DioException catch (e) {
+      debugPrint('Dio error fetching address: ${e.message}');
+      if (e.response != null) {
+        debugPrint('Status Code: ${e.response?.statusCode}');
+        debugPrint('Response Data: ${e.response?.data}');
+        // Specific handling for 403 even with User-Agent, maybe rate limiting?
+        if (e.response?.statusCode == 403) {
+          return 'Error: Access forbidden. Check User-Agent or API usage limits.';
+        }
+      }
+      // Rethrow or return a user-friendly error message
+      throw Exception('Failed to load address due to network or server error.');
+    } catch (e) {
+      // Handle other potential errors (e.g., parsing errors)
+      print('Error fetching address: $e');
+      throw Exception('Failed to load address.');
     }
   }
 

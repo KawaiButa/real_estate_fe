@@ -95,4 +95,6 @@ class AppTextStyle {
       fontWeight: FontWeight.w600,
     );
   }
+
+  static TextStyle bodyTextStyle() => const TextStyle(fontSize: 14);
 }

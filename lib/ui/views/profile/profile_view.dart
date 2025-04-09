@@ -37,14 +37,15 @@ class ProfileView extends StackedView<ProfileViewModel> {
               child: Column(
                 children: [
                   // Profile Avatar
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: AppColors.highlightColor,
-                    child: CustomImage(
-                      imageUrl: viewModel.user!.profileImage?.url ?? "",
-                      boxFit: BoxFit.cover,
+                  if (viewModel.user?.profileImage?.url != null)
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: AppColors.highlightColor,
+                      child: CustomImage(
+                        imageUrl: viewModel.user!.profileImage?.url ?? "",
+                        boxFit: BoxFit.cover,
+                      ),
                     ),
-                  ),
                   const SizedBox(height: 16),
                   // User Name
                   Text(
@@ -183,4 +184,10 @@ class ProfileView extends StackedView<ProfileViewModel> {
 
   @override
   ProfileViewModel viewModelBuilder(BuildContext context) => ProfileViewModel();
+
+  @override
+  void onViewModelReady(ProfileViewModel viewModel) {
+    viewModel.initialise();
+    super.onViewModelReady(viewModel);
+  }
 }

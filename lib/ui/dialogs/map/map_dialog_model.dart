@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_map/flutter_map.dart';
 import 'package:real_estate_fe/app/app.locator.dart';
 import 'package:real_estate_fe/models/location.dart';
@@ -12,13 +14,11 @@ class MapDialogModel extends ReactiveViewModel {
 
   final _locationService = locator<LocationService>();
   final _appService = locator<AppService>();
-  final _navigationService = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
   List<String> get provinces => _locationService.provinces;
   String? _selectedProvinces;
   String? get selectedProvince => _selectedProvinces;
   Location? selectedLocation;
-
   double? circleRadius;
   @override
   List<ListenableServiceMixin> get listenableServices => [_locationService];
@@ -52,14 +52,11 @@ class MapDialogModel extends ReactiveViewModel {
     setBusyForObject(selectedLocation, false);
   }
 
-  void confirmLocation() {
-    _appService.changeFilter(
-      _appService.currentFilters.copyWith(
-          lat: selectedLocation!.point.latitude,
-          radius: circleRadius,
-          lng: selectedLocation!.point.latitude),
-    );
-    _dialogService.completeDialog(DialogResponse(confirmed: true));
+  void confirmLocation({required bool withRadius}) {
+    _dialogService.completeDialog(DialogResponse(confirmed: true, data: {
+      "location": selectedLocation,
+      if (withRadius) "radius": circleRadius
+    }));
   }
 
   Future<List<Location>> searchLocations(String query) async {
@@ -74,5 +71,17 @@ class MapDialogModel extends ReactiveViewModel {
   void changeSelectedLocationFromTypeAhead(Location location) {
     selectedLocation = location;
     notifyListeners();
+  }
+
+  double calculateMetersPerPixel(double latitude, double zoom) {
+    const double earthRadius = 6378137.0; // Earth radius in meters
+
+    // Convert latitude from degrees to radians
+    final double latitudeRadians = latitude * (pi / 180.0);
+
+    final double metersPerPixel =
+        (2 * pi * earthRadius * cos(latitudeRadians)) / (256 * pow(2, zoom));
+
+    return metersPerPixel;
   }
 }

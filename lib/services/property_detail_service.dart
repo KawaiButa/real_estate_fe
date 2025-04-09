@@ -17,4 +17,8 @@ class PropertyDetailService extends HttpService<Property> {
   Property parser(Map<String, dynamic> hiveMap) {
     return Property.fromJson(hiveMap["data"]);
   }
+
+  deleteProperty(String propertyId) async {
+    final response = await delete("${Api.property}/$propertyId");
+  }
 }

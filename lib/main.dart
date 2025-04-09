@@ -5,6 +5,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:real_estate_fe/app/app.bottomsheets.dart';
@@ -46,13 +47,12 @@ Future<void> main() async {
   Hive.init(appDocumentDirectory.path);
   HttpOverrides.global = MyHttpOverrides();
 
-  final packageInfo = await PackageInfo.fromPlatform();
   await dotenv.load(fileName: 'assets/.env');
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
-  // Initialize services
-  await LocalStorageService.getPrefs();
+  // // Initialize services
+  // await LocalStorageService.getPrefs();
 
   // await SentryFlutter.init(
   //   (options) {
@@ -92,8 +92,10 @@ class MainApp extends StatelessWidget {
                 StackedService.routeObserver,
                 // SentryNavigatorObserver()
               ],
-              localizationsDelegates:
-                  translator.delegates, // Android + iOS Delegates
+              localizationsDelegates: [
+                ...translator.delegates, // Android + iOS Delegates
+                FlutterQuillLocalizations.delegate,
+              ],
               locale: translator.activeLocale, // Active locale
               supportedLocales: translator.locals(), // Locals list
             ));

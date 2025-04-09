@@ -8,12 +8,14 @@ part of 'location_post.dart';
 
 _$LocationPostImpl _$$LocationPostImplFromJson(Map<String, dynamic> json) =>
     _$LocationPostImpl(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      city: json['city'] as String,
+      count: (json['count'] as num).toInt(),
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$$LocationPostImplToJson(_$LocationPostImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
+      'city': instance.city,
+      'count': instance.count,
+      'url': instance.url,
     };

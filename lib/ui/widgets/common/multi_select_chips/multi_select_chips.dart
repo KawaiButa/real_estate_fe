@@ -10,7 +10,11 @@ class MultiSelectChips<T> extends StatefulWidget {
       required this.options,
       this.formatToLabel,
       this.onSelect,
-      required this.value})
+      required this.value,
+      required Color selectedChipColor,
+      required Color selectedTextColor,
+      Color? unselectedChipColor,
+      required Color unselectedTextColor})
       : super(key: key);
 
   @override

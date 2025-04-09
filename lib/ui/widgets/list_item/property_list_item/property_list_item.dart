@@ -4,6 +4,7 @@ import 'package:real_estate_fe/constants/app_text_style.dart';
 import 'package:real_estate_fe/extensions/string.dart';
 import 'package:real_estate_fe/models/property.dart';
 import 'package:stacked/stacked.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import 'property_list_item_model.dart';
 
@@ -52,12 +53,14 @@ class PropertyListItem extends StackedView<PropertyListItemModel> {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      property.price.currencyValueFormat(),
-                      style: AppTextStyle.h4TitleTextStyle(
-                        color: AppColors.accentColor,
-                      ),
-                    ),
+                    property.price
+                        .toString()
+                        .numCurrencyWithLocale(locale: "vi-VN")
+                        .text
+                        .textStyle(AppTextStyle.h4TitleTextStyle(
+                          color: AppColors.accentColor,
+                        ))
+                        .make(),
                     const SizedBox(height: 8),
                     Row(
                       children: [

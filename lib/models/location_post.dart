@@ -6,8 +6,9 @@ part 'location_post.g.dart';
 @freezed
 class LocationPost with _$LocationPost {
   const factory LocationPost({
-    required String id,
-    required String name,
+    required String city,
+    required int count,
+    String? url,
   }) = _LocationPost;
 
   factory LocationPost.fromJson(Map<String, dynamic> json) =>
