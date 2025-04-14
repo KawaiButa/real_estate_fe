@@ -47,7 +47,7 @@ class PropertyCreationView extends StackedView<PropertyCreationViewModel> {
             Visibility(
                 visible: viewModel.currentStep == 4,
                 maintainState: true,
-                child: _buildReviewStep(viewModel)),
+                child: _buildReviewStep(context, viewModel)),
             Positioned(
                 bottom: 0,
                 left: 0,
@@ -263,7 +263,8 @@ class PropertyCreationView extends StackedView<PropertyCreationViewModel> {
   }
 
 // _buildReviewStep function updated with summary view
-  Widget _buildReviewStep(PropertyCreationViewModel viewModel) {
+  Widget _buildReviewStep(
+      BuildContext context, PropertyCreationViewModel viewModel) {
     if (viewModel.formKey.currentState == null) return const SizedBox.shrink();
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -301,7 +302,9 @@ class PropertyCreationView extends StackedView<PropertyCreationViewModel> {
               .width(double.infinity) // Make button full width
               .height(50)
               .make() // Create the styled box widget
-              .onTap(viewModel.submitForm),
+              .onTap(() => viewModel.submitForm().then((value) {
+                    if (value) Navigator.of(context).pop();
+                  })),
           UiSpacer.vSpace(10),
           'Edit'
               .tr() // Apply translation
@@ -359,6 +362,8 @@ class PropertyCreationView extends StackedView<PropertyCreationViewModel> {
   }
 
   Widget _buildNavigationControls(PropertyCreationViewModel viewModel) {
+    if (viewModel.currentStep == 4) return const SizedBox.shrink();
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

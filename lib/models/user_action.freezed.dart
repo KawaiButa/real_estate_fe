@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-PropertyVerification _$PropertyVerificationFromJson(Map<String, dynamic> json) {
-  return _PropertyVerification.fromJson(json);
+UserAction _$UserActionFromJson(Map<String, dynamic> json) {
+  return _UserAction.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PropertyVerification {
+mixin _$UserAction {
   String get id => throw _privateConstructorUsedError;
   String get propertyId => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
@@ -27,21 +27,21 @@ mixin _$PropertyVerification {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
-  /// Serializes this PropertyVerification to a JSON map.
+  /// Serializes this UserAction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of PropertyVerification
+  /// Create a copy of UserAction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PropertyVerificationCopyWith<PropertyVerification> get copyWith =>
+  $UserActionCopyWith<UserAction> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PropertyVerificationCopyWith<$Res> {
-  factory $PropertyVerificationCopyWith(PropertyVerification value,
-          $Res Function(PropertyVerification) then) =
-      _$PropertyVerificationCopyWithImpl<$Res, PropertyVerification>;
+abstract class $UserActionCopyWith<$Res> {
+  factory $UserActionCopyWith(
+          UserAction value, $Res Function(UserAction) then) =
+      _$UserActionCopyWithImpl<$Res, UserAction>;
   @useResult
   $Res call(
       {String id,
@@ -53,17 +53,16 @@ abstract class $PropertyVerificationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PropertyVerificationCopyWithImpl<$Res,
-        $Val extends PropertyVerification>
-    implements $PropertyVerificationCopyWith<$Res> {
-  _$PropertyVerificationCopyWithImpl(this._value, this._then);
+class _$UserActionCopyWithImpl<$Res, $Val extends UserAction>
+    implements $UserActionCopyWith<$Res> {
+  _$UserActionCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PropertyVerification
+  /// Create a copy of UserAction
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -105,11 +104,11 @@ class _$PropertyVerificationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$PropertyVerificationImplCopyWith<$Res>
-    implements $PropertyVerificationCopyWith<$Res> {
-  factory _$$PropertyVerificationImplCopyWith(_$PropertyVerificationImpl value,
-          $Res Function(_$PropertyVerificationImpl) then) =
-      __$$PropertyVerificationImplCopyWithImpl<$Res>;
+abstract class _$$UserActionImplCopyWith<$Res>
+    implements $UserActionCopyWith<$Res> {
+  factory _$$UserActionImplCopyWith(
+          _$UserActionImpl value, $Res Function(_$UserActionImpl) then) =
+      __$$UserActionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -122,14 +121,14 @@ abstract class _$$PropertyVerificationImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$PropertyVerificationImplCopyWithImpl<$Res>
-    extends _$PropertyVerificationCopyWithImpl<$Res, _$PropertyVerificationImpl>
-    implements _$$PropertyVerificationImplCopyWith<$Res> {
-  __$$PropertyVerificationImplCopyWithImpl(_$PropertyVerificationImpl _value,
-      $Res Function(_$PropertyVerificationImpl) _then)
+class __$$UserActionImplCopyWithImpl<$Res>
+    extends _$UserActionCopyWithImpl<$Res, _$UserActionImpl>
+    implements _$$UserActionImplCopyWith<$Res> {
+  __$$UserActionImplCopyWithImpl(
+      _$UserActionImpl _value, $Res Function(_$UserActionImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PropertyVerification
+  /// Create a copy of UserAction
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -141,7 +140,7 @@ class __$$PropertyVerificationImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(_$PropertyVerificationImpl(
+    return _then(_$UserActionImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -172,8 +171,8 @@ class __$$PropertyVerificationImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PropertyVerificationImpl implements _PropertyVerification {
-  const _$PropertyVerificationImpl(
+class _$UserActionImpl implements _UserAction {
+  const _$UserActionImpl(
       {required this.id,
       required this.propertyId,
       this.userId,
@@ -181,8 +180,8 @@ class _$PropertyVerificationImpl implements _PropertyVerification {
       required this.createdAt,
       required this.updatedAt});
 
-  factory _$PropertyVerificationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PropertyVerificationImplFromJson(json);
+  factory _$UserActionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserActionImplFromJson(json);
 
   @override
   final String id;
@@ -199,14 +198,14 @@ class _$PropertyVerificationImpl implements _PropertyVerification {
 
   @override
   String toString() {
-    return 'PropertyVerification(id: $id, propertyId: $propertyId, userId: $userId, type: $type, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserAction(id: $id, propertyId: $propertyId, userId: $userId, type: $type, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PropertyVerificationImpl &&
+            other is _$UserActionImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.propertyId, propertyId) ||
                 other.propertyId == propertyId) &&
@@ -223,35 +222,33 @@ class _$PropertyVerificationImpl implements _PropertyVerification {
   int get hashCode => Object.hash(
       runtimeType, id, propertyId, userId, type, createdAt, updatedAt);
 
-  /// Create a copy of PropertyVerification
+  /// Create a copy of UserAction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PropertyVerificationImplCopyWith<_$PropertyVerificationImpl>
-      get copyWith =>
-          __$$PropertyVerificationImplCopyWithImpl<_$PropertyVerificationImpl>(
-              this, _$identity);
+  _$$UserActionImplCopyWith<_$UserActionImpl> get copyWith =>
+      __$$UserActionImplCopyWithImpl<_$UserActionImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PropertyVerificationImplToJson(
+    return _$$UserActionImplToJson(
       this,
     );
   }
 }
 
-abstract class _PropertyVerification implements PropertyVerification {
-  const factory _PropertyVerification(
+abstract class _UserAction implements UserAction {
+  const factory _UserAction(
       {required final String id,
       required final String propertyId,
       final String? userId,
       required final String type,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$PropertyVerificationImpl;
+      required final DateTime updatedAt}) = _$UserActionImpl;
 
-  factory _PropertyVerification.fromJson(Map<String, dynamic> json) =
-      _$PropertyVerificationImpl.fromJson;
+  factory _UserAction.fromJson(Map<String, dynamic> json) =
+      _$UserActionImpl.fromJson;
 
   @override
   String get id;
@@ -266,10 +263,10 @@ abstract class _PropertyVerification implements PropertyVerification {
   @override
   DateTime get updatedAt;
 
-  /// Create a copy of PropertyVerification
+  /// Create a copy of UserAction
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PropertyVerificationImplCopyWith<_$PropertyVerificationImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$UserActionImplCopyWith<_$UserActionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

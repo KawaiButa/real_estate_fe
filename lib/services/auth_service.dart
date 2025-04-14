@@ -24,7 +24,7 @@ class AuthService extends HttpService<User> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _navigationService = locator<NavigationService>();
   final _alertService = locator<AlertService>();
-  User? currentUser;
+  static User? currentUser;
   Stream<fba.User?> get userStream => _firebaseAuth.authStateChanges();
   Future<User?> registerWithEmail({
     required String email,
@@ -32,22 +32,17 @@ class AuthService extends HttpService<User> {
     required String username,
     required String phone,
   }) async {
-    try {
-      final response = await post(Api.register, {
-        "email": email,
-        "password": password,
-        "name": username,
-        "phone": phone,
-      });
-      if (response.statusCode == 201) {
-        return User.fromJson(response.data["user"]);
-      }
-      throw Exception(
-          "Error when register with email: ${response.statusMessage}");
-    } catch (error) {
-      debugPrint("Error when register with email");
-      rethrow;
+    final response = await post(Api.register, {
+      "email": email,
+      "password": password,
+      "name": username,
+      "phone": phone,
+    });
+    if (response.statusCode == 201) {
+      return User.fromJson(response.data["user"]);
     }
+    throw Exception(
+        "Error when register with email: ${response.statusMessage}");
   }
 
   Future<User?> signInWithEmail(String email, String password) async {
@@ -150,7 +145,9 @@ class AuthService extends HttpService<User> {
 
   User? getUserFromLocalStorage() {
     final dataJson = localStorageService.prefs!.getString(AppStrings.user);
-    if (dataJson != null) data = User.fromJson(json.decode(dataJson));
+    if (dataJson == null) return null;
+    data = User.fromJson(json.decode(dataJson));
+    currentUser = data;
     notifyListeners();
     return currentUser;
   }
@@ -172,7 +169,14 @@ class AuthService extends HttpService<User> {
   }
 
   Future<void> fetchProfile() async {
-    get(Api.profile, forceRefresh: true);
+    try {
+      get(Api.profile, forceRefresh: true);
+    } catch (error) {
+      data = null;
+      currentUser = null;
+    } finally {
+      notifyListeners();
+    }
   }
 
   Future<void> refreshToken() async {

@@ -25,6 +25,8 @@ import '../services/profile_service.dart';
 import '../services/property_detail_service.dart';
 import '../services/property_service.dart';
 import '../services/property_type_service.dart';
+import '../services/property_verification_service.dart';
+import '../services/user_action_service.dart';
 
 final locator = StackedLocator.instance;
 
@@ -54,4 +56,6 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => BannerService());
   locator.registerLazySingleton(() => SnackbarService());
   locator.registerLazySingleton(() => LocationPostService());
+  locator.registerLazySingleton(() => UserActionService());
+  locator.registerLazySingleton(() => PropertyVerificationService());
 }

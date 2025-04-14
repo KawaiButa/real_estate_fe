@@ -196,9 +196,7 @@ class HomeView extends StackedView<HomeViewModel> {
               itemBuilder: (context, index) {
                 return LocationCard(
                   location: viewModel.locations![index],
-                  onTap: (location) {
-                    // Handle location tap
-                  },
+                  onTap: viewModel.onLocationPostSelect,
                 );
               },
             ),

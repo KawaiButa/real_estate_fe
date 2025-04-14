@@ -6,9 +6,8 @@ part of 'user_action.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PropertyVerificationImpl _$$PropertyVerificationImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PropertyVerificationImpl(
+_$UserActionImpl _$$UserActionImplFromJson(Map<String, dynamic> json) =>
+    _$UserActionImpl(
       id: json['id'] as String,
       propertyId: json['property_id'] as String,
       userId: json['user_id'] as String?,
@@ -17,8 +16,7 @@ _$PropertyVerificationImpl _$$PropertyVerificationImplFromJson(
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
 
-Map<String, dynamic> _$$PropertyVerificationImplToJson(
-        _$PropertyVerificationImpl instance) =>
+Map<String, dynamic> _$$UserActionImplToJson(_$UserActionImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'property_id': instance.propertyId,

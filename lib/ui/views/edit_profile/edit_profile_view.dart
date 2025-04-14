@@ -86,7 +86,7 @@ class EditProfileView extends StackedView<EditProfileViewModel> {
                           .box // Wrap IconButton in VxBox for styling
                           .color(
                               Theme.of(context).primaryColor) // Use theme color
-                          .p8 // Padding inside the circle
+                          .p4 // Padding inside the circle
                           .roundedFull // Make the button background circular
                           .border(color: Colors.white, width: 2) // White border
                           .make()
@@ -138,6 +138,7 @@ class EditProfileView extends StackedView<EditProfileViewModel> {
                       .rounded
                       .color(AppColors.primaryColor)
                       .width(double.infinity)
+                      .height(100)
                       .make()
                       .px12()
                       .onTap(viewModel.saveProfile),

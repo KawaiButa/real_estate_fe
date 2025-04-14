@@ -100,4 +100,14 @@ class HomeViewModel extends ReactiveViewModel {
   navigateToPropertyDetail(Property value) {
     _navigationService.navigateToPropertyDetailView(property: value);
   }
+
+  onLocationPostSelect(LocationPost location) {
+    _appService
+        .changeFilter(_appService.currentFilters.copyWith(city: location.city));
+    if (_appService.isWelcome) {
+      _appService.changeIndex(1);
+    } else {
+      _navigationService.navigateToWelcomeView();
+    }
+  }
 }

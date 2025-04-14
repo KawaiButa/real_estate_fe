@@ -27,7 +27,7 @@ class MapDialog extends StackedView<MapDialogModel> {
     Widget? child,
   ) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: Colors.white,
       clipBehavior: Clip.antiAlias,
       child: SizedBox(

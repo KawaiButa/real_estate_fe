@@ -15,7 +15,7 @@ class ProfileService extends HttpService<User> {
   final _navigationService = locator<NavigationService>();
   final _alertService = locator<AlertService>();
   Future<void> toggleFavorite(String propertyId) async {
-    if (_authService.currentUser == null) {
+    if (AuthService.currentUser == null) {
       final result = await _alertService.showConfirm(
           title: "Login",
           text: "You need to login to use this feature. Do you want to login?"

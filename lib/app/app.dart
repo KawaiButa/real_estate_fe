@@ -10,6 +10,8 @@ import 'package:real_estate_fe/services/profile_service.dart';
 import 'package:real_estate_fe/services/property_detail_service.dart';
 import 'package:real_estate_fe/services/property_service.dart';
 import 'package:real_estate_fe/services/property_type_service.dart';
+import 'package:real_estate_fe/services/property_verification_service.dart';
+import 'package:real_estate_fe/services/user_action_service.dart';
 import 'package:real_estate_fe/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:real_estate_fe/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:real_estate_fe/ui/views/welcome/welcome_view.dart';
@@ -34,6 +36,9 @@ import 'package:real_estate_fe/ui/views/property_creation/property_creation_view
 import 'package:real_estate_fe/ui/views/property/property_view.dart';
 import 'package:real_estate_fe/ui/views/edit_profile/edit_profile_view.dart';
 import 'package:real_estate_fe/ui/views/edit_property/edit_property_view.dart';
+import 'package:real_estate_fe/ui/dialogs/qr_scanner/qr_scanner_dialog.dart';
+import 'package:real_estate_fe/ui/bottom_sheets/qr_code/qr_code_sheet.dart';
+import 'package:real_estate_fe/ui/views/review/review_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -53,6 +58,7 @@ import 'package:real_estate_fe/ui/views/edit_property/edit_property_view.dart';
     MaterialRoute(page: PropertyView),
     MaterialRoute(page: EditProfileView),
     MaterialRoute(page: EditPropertyView),
+    MaterialRoute(page: ReviewView),
 // @stacked-route
   ],
   dependencies: [
@@ -72,17 +78,21 @@ import 'package:real_estate_fe/ui/views/edit_property/edit_property_view.dart';
     LazySingleton(classType: LocationService),
     LazySingleton(classType: BannerService),
     LazySingleton(classType: SnackbarService),
-    LazySingleton(classType: LocationPostService)
+    LazySingleton(classType: LocationPostService),
+    LazySingleton(classType: UserActionService),
+    LazySingleton(classType: PropertyVerificationService),
 // @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
     StackedBottomsheet(classType: FilterSheet),
+    StackedBottomsheet(classType: QrCodeSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
     StackedDialog(classType: MapDialog),
+    StackedDialog(classType: QrScannerDialog),
 // @stacked-dialog
   ],
 )

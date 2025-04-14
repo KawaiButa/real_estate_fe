@@ -73,7 +73,7 @@ class PropertyCreationViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  Future<void> submitForm() async {
+  Future<bool> submitForm() async {
     setBusy(true);
     formKey.currentState?.patchValue(
         {"description": descriptionController.document.toPlainText()});
@@ -82,18 +82,21 @@ class PropertyCreationViewModel extends ReactiveViewModel {
         _alertService.error(
             title: "Create property",
             text: "There is error in your typed data");
-        return;
+        return false;
       }
       _alertService.showLoading();
       await _propertyService.createProperty(
           formKey.currentState!.value, _images, selectedLocation);
-      _alertService.stopLoading();
-      _alertService.success(
+      await _alertService.success(
           title: "Create Property".tr(),
           text: "Create property successfully".tr());
+      return true;
     } catch (e) {
-      _alertService.error(title: "Create Property".tr(), text: e.toString());
+      await _alertService.error(
+          title: "Create Property".tr(), text: e.toString());
+      return false;
     } finally {
+      _alertService.stopLoading();
       setBusy(false);
     }
   }

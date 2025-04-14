@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/models/review.dart';
+import 'package:real_estate_fe/services/auth_service.dart';
 import 'package:real_estate_fe/utils/ui_spacer.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:stacked/stacked.dart';
@@ -124,6 +125,22 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
               .make()
               .pOnly(top: 8)
               .onTap(viewModel.deleteProperty),
+        if (isOwner)
+          "Review QR"
+              .tr()
+              .text
+              .bold
+              .lg
+              .color(Vx.white)
+              .makeCentered()
+              .box
+              .color(AppColors.primaryColor)
+              .rounded
+              .width(context.screenWidth)
+              .height(50)
+              .make()
+              .pOnly(top: 8)
+              .onTap(viewModel.generateReviewQR),
         _buildDescriptionSection(viewModel),
         _buildAddressSection(viewModel),
         _buildOwnerSection(viewModel),
@@ -206,35 +223,55 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
     return VxBox(
       child: VStack([
         "Write a Review".text.xl.semiBold.make().py8(),
-        Visibility(visible: viewModel.canReview, child: HStack([])),
+        Visibility(
+            visible: !viewModel.canReview,
+            child: HStack([
+              "Scan Review QR"
+                  .tr() // Apply translation
+                  .text // Convert to Text widget
+                  .bold
+                  .lg
+                  .color(Colors.white) // Set text color
+                  .makeCentered() // Center the text
+                  .box
+                  .color(AppColors.primaryColor) // Use grey color when disabled
+                  .rounded
+                  .width(200)
+                  .height(50)
+                  .make() // Create the styled box widget
+                  .onTap(viewModel.openQRScanner)
+            ])),
+        Visibility(
+            visible: viewModel.canReview,
+            child: VStack([
+              TextField(
+                controller: viewModel.newReviewController,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                  hintText: "Share your experience...",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              UiSpacer.verticalSpace(),
 
-        TextField(
-          controller: viewModel.newReviewController,
-          maxLines: 3,
-          decoration: const InputDecoration(
-            hintText: "Share your experience...",
-            border: OutlineInputBorder(),
-          ),
-        ),
-        UiSpacer.verticalSpace(),
-
-        // Submit button
-        ElevatedButton(
-          onPressed: () async {
-            final success = await viewModel.submitReview();
-            if (!success) {
-              // The ViewModel can inform you if the user is not authorized.
-              // If unauthorized, show a dialog:
-              // _showAuthorizationDialog(context, viewModel);
-            } else {
-              // If success, maybe clear text field or fetch updated reviews
-              viewModel.newReviewController.clear();
-            }
-          },
-          child: "Submit".text.make(),
-        )
+              // Submit button
+              ElevatedButton(
+                onPressed: () async {
+                  final success = await viewModel.submitReview();
+                  if (!success) {
+                    // The ViewModel can inform you if the user is not authorized.
+                    // If unauthorized, show a dialog:
+                    // _showAuthorizationDialog(context, viewModel);
+                  } else {
+                    // If success, maybe clear text field or fetch updated reviews
+                    viewModel.newReviewController.clear();
+                  }
+                },
+                child: "Submit".text.make(),
+              )
+            ]))
       ]),
-    ).white.rounded.shadowXs.p16.make();
+    ).white.rounded.shadowXs.p16.make().wFull(context);
   }
 
   Widget _buildReviewSection(
@@ -247,8 +284,7 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
         "No reviews yet. Be the first to write one!".text.gray600.make(),
         UiSpacer.verticalSpace(space: 16),
         Visibility(
-            visible:
-                viewModel.canReview && !viewModel.busy(viewModel.canReview),
+            visible: AuthService.currentUser != null,
             child: _buildAddReviewField(context, viewModel)),
       ]).py12();
     }

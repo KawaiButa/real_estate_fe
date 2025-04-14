@@ -20,7 +20,7 @@ class EditProfileViewModel extends ReactiveViewModel {
   final ImagePicker _imagePicker = ImagePicker();
   TextEditingController get phoneController => _phoneController;
 
-  User? get user => _authService.currentUser;
+  User? get user => _authService.data;
   File? _selectedImageFile;
   File? get selectedImageFile => _selectedImageFile;
   @override

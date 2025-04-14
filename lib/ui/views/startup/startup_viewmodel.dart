@@ -9,7 +9,7 @@ class StartupViewModel extends BaseViewModel {
   final _authService = locator<AuthService>();
   // Place anything here that needs to happen before we get into the application
   Future runStartupLogic() async {
-    await _authService.getUserFromLocalStorage();
+    // await _authService.getUserFromLocalStorage();
     _navigationService.navigateToWelcomeView();
   }
 }

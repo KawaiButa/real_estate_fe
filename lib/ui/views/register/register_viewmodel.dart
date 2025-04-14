@@ -86,11 +86,12 @@ class RegisterViewModel extends BaseViewModel {
     try {
       final user = await _authService.registerWithEmail(
           email: _email, password: _password, username: _name, phone: _phone);
-      AlertService().stopLoading();
       if (user != null) _navigationService.replaceWith(Routes.loginView);
     } catch (e) {
       setError(e.toString());
+      await AlertService().error(title: "Error", text: e.toString());
     } finally {
+      AlertService().stopLoading();
       setBusy(false);
     }
   }

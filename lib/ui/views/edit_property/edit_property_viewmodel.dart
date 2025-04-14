@@ -72,7 +72,7 @@ class EditPropertyViewModel extends PropertyCreationViewModel {
   }
 
   @override
-  Future<void> submitForm() async {
+  Future<bool> submitForm() async {
     setBusy(true);
     try {
       final formData = FormData.fromMap({
@@ -90,9 +90,11 @@ class EditPropertyViewModel extends PropertyCreationViewModel {
       }
 
       await _propertyService.updateProperty(property.id, formData);
+      return true;
       // Handle success
     } catch (e) {
       setError(e.toString());
+      return false;
     } finally {
       setBusy(false);
     }

@@ -1,14 +1,19 @@
 // property_detail_viewmodel.dart
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:real_estate_fe/app/app.bottomsheets.dart';
+import 'package:real_estate_fe/app/app.dialogs.dart';
 import 'package:real_estate_fe/app/app.locator.dart';
 import 'package:real_estate_fe/app/app.router.dart';
 import 'package:real_estate_fe/services/alert_service.dart';
 import 'package:real_estate_fe/services/auth_service.dart';
 import 'package:real_estate_fe/services/property_detail_service.dart';
 import 'package:real_estate_fe/services/property_verification_service.dart';
+import 'package:real_estate_fe/services/user_action_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:real_estate_fe/models/property.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -22,6 +27,9 @@ class PropertyDetailViewModel extends ReactiveViewModel {
   final _propertyVerificationService = locator<PropertyVerificationService>();
   final _snackbarService = locator<SnackbarService>();
   final _authService = locator<AuthService>();
+  final _bottomSheetService = locator<BottomSheetService>();
+  final _dialogService = locator<DialogService>();
+  final _userActionService = locator<UserActionService>();
   PropertyDetailViewModel({required property}) {
     _propertyDetailService.data = property;
   }
@@ -37,13 +45,27 @@ class PropertyDetailViewModel extends ReactiveViewModel {
 
   bool _canReview = false;
   bool get canReview => _canReview;
-
+  Timer? _timer;
   @override
   List<ListenableServiceMixin> get listenableServices =>
       [_propertyDetailService];
   void setImageIndex(int index) {
     _currentImageIndex = index;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  initialise() async {
+    _timer = Timer(const Duration(seconds: 30), () {
+      if (!disposed) {
+        _onUserStayed();
+      }
+    });
   }
 
   void toggleFavorite() {
@@ -128,20 +150,33 @@ class PropertyDetailViewModel extends ReactiveViewModel {
     return true;
   }
 
-  void openQRScanner() {
-    // Navigate to your QR scanner screen
-    // On success, set user as authorized in your state
+  void openQRScanner() async {
+    try {
+      final result = await _dialogService.showCustomDialog(
+        variant: DialogType.qrScanner,
+        title: "QR Scammer",
+      );
+      if ((result?.confirmed ?? false) && result?.data != null) {
+        _alertService.showLoading();
+        await _propertyVerificationService.verifyUser(
+            propertyId: property!.id, code: result!.data);
+      }
+    } catch (error) {
+      await _alertService.error(
+          title: "Error".tr(),
+          text:
+              "Error when validate you to review this property. Please try again in a few moment."
+                  .tr());
+    } finally {
+      _alertService.stopLoading();
+      notifyListeners();
+    }
   }
 
   Future<bool> verifyOTP() async {
     // Attempt to verify the OTP
     // If success, set user as authorized in your state
     // Return true if successful, false otherwise
-    return false;
-  }
-
-  bool checkUserIsAuthorized() {
-    // Your logic to check if user is authorized to leave a review
     return false;
   }
 
@@ -162,5 +197,14 @@ class PropertyDetailViewModel extends ReactiveViewModel {
       setBusyForObject(_canReview, false);
       notifyListeners();
     }
+  }
+
+  void generateReviewQR() {
+    _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.qrCode, title: "QR Code", data: property?.id);
+  }
+
+  void _onUserStayed() {
+    _userActionService.createAction(propertyId: property!.id, type: "view");
   }
 }

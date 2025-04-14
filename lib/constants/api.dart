@@ -13,6 +13,11 @@ class Api {
   static String get banners => "/banners";
   static String get locationPost => "/property/count";
   static String get refreshToken => "/profile/refresh-token";
+  static String get action => "/actions";
   static String checkAllow(String propertyId) =>
       "/properties/$propertyId/verifications/allow";
+  static String verifyUSer(String propertyId) =>
+      "/properties/$propertyId/verifications/verify";
+  static String otp(String propertyId) =>
+      "/properties/$propertyId/verifications/otp";
 }

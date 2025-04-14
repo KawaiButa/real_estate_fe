@@ -4,16 +4,16 @@ part 'user_action.freezed.dart';
 part 'user_action.g.dart';
 
 @freezed
-class PropertyVerification with _$PropertyVerification {
-  const factory PropertyVerification({
+class UserAction with _$UserAction {
+  const factory UserAction({
     required String id,
     required String propertyId,
     String? userId,
     required String type,
     required DateTime createdAt,
     required DateTime updatedAt,
-  }) = _PropertyVerification;
+  }) = _UserAction;
 
-  factory PropertyVerification.fromJson(Map<String, dynamic> json) =>
-      _$PropertyVerificationFromJson(json);
+  factory UserAction.fromJson(Map<String, dynamic> json) =>
+      _$UserActionFromJson(json);
 }
