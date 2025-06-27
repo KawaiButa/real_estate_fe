@@ -3,6 +3,7 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/constants/app_text_style.dart';
 import 'package:real_estate_fe/models/property_type.dart';
+import 'package:real_estate_fe/ui/widgets/common/base_page/base_page.dart';
 import 'package:real_estate_fe/ui/widgets/common/location_card/location_card.dart';
 import 'package:real_estate_fe/ui/widgets/common/news_card/news_card.dart';
 import 'package:real_estate_fe/ui/widgets/common/property_card/property_card.dart';
@@ -13,19 +14,23 @@ import 'home_viewmodel.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
   const HomeView({Key? key}) : super(key: key);
+
   @override
   void onViewModelReady(HomeViewModel viewModel) {
     viewModel.initialise();
   }
 
   @override
+  bool get disposeViewModel => false;
+  @override
+  bool get initialiseSpecialViewModelsOnce => true;
+  @override
   Widget builder(
     BuildContext context,
     HomeViewModel viewModel,
     Widget? child,
   ) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+    return BasePage(
       body: ListView(
         children: [
           _buildBannerCarousel(viewModel),
@@ -47,7 +52,9 @@ class HomeView extends StackedView<HomeViewModel> {
   }
 
   Widget _buildBannerCarousel(HomeViewModel viewModel) {
-    if (viewModel.banners == null) return const SizedBox.shrink();
+    if (viewModel.banners == null || viewModel.banners!.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return VxSwiper.builder(
       aspectRatio: 20 / 9,
       autoPlay: true,

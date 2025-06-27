@@ -6,16 +6,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:real_estate_fe/constants/api.dart';
 import 'package:real_estate_fe/models/filter_criteria.dart';
 import 'package:real_estate_fe/models/location.dart';
+import 'package:real_estate_fe/models/paginated_list.dart';
+import 'package:real_estate_fe/models/paginated_metadata.dart';
 import 'package:real_estate_fe/models/property.dart';
 import 'package:real_estate_fe/services/http_service.dart';
 
-class PropertyService extends HttpService<List<Property>> {
-  Future<void> fetchProperties({
+class PropertyService extends HttpService<PaginatedList<Property>> {
+  Future<PaginatedList<Property>?> fetchProperties({
     double? lat,
     double? lng,
     double? radius,
     double? minPrice,
     double? maxPrice,
+    bool? hasReview,
     String? propertyCategory,
     String? transactionType,
     int? minBedrooms,
@@ -49,24 +52,30 @@ class PropertyService extends HttpService<List<Property>> {
       if (directionFacing != null) 'direction_facing': directionFacing,
       if (orderBy != null) 'order_by': orderBy,
       if (orderDirection != null) 'order_direction': orderDirection,
+      if (hasReview != null) "has_review": hasReview,
+      "page": page,
     };
-
-    await get(Api.property,
+    if (forceRefresh) data = null;
+    return await get(Api.property,
         queryParameters: queryParameters, forceRefresh: forceRefresh);
   }
 
   @override
   fromResponse(Response response) {
-    return (response.data["items"] as List)
-        .map((e) => Property.fromJson(e))
-        .toList();
+    return PaginatedList(
+        data: (response.data["items"] as List)
+            .map((e) => Property.fromJson(e))
+            .toList(),
+        metadata: PaginatedMetadata.fromJson(response.data));
   }
 
   @override
   parser(Map<String, dynamic> hiveMap) {
-    return (hiveMap["data"]["items"] as List)
-        .map((e) => Property.fromJson(e))
-        .toList();
+    return PaginatedList(
+        data: (hiveMap["items"] as List)
+            .map((e) => Property.fromJson(e))
+            .toList(),
+        metadata: PaginatedMetadata.fromJson(hiveMap));
   }
 
   createProperty(
@@ -90,5 +99,11 @@ class PropertyService extends HttpService<List<Property>> {
     throw Exception("Error when create property: ${response.statusMessage}");
   }
 
-  updateProperty(String id, FormData formData) {}
+  updateProperty(String id, FormData formData) async {
+    final response = await patchWithFiles("${Api.property}/$id", formData);
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return throw Exception("Error when trying to fetch data");
+  }
 }

@@ -7,6 +7,7 @@
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app.locator.dart';
+import '../ui/bottom_sheets/ai_result/ai_result_sheet.dart';
 import '../ui/bottom_sheets/filter/filter_sheet.dart';
 import '../ui/bottom_sheets/notice/notice_sheet.dart';
 import '../ui/bottom_sheets/qr_code/qr_code_sheet.dart';
@@ -15,6 +16,7 @@ enum BottomSheetType {
   notice,
   filter,
   qrCode,
+  aiResult,
 }
 
 void setupBottomSheetUi() {
@@ -27,6 +29,8 @@ void setupBottomSheetUi() {
         FilterSheet(request: request, completer: completer),
     BottomSheetType.qrCode: (context, request, completer) =>
         QrCodeSheet(request: request, completer: completer),
+    BottomSheetType.aiResult: (context, request, completer) =>
+        AiResultSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);

@@ -4,11 +4,11 @@ import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/constants/app_text_style.dart';
 import 'package:real_estate_fe/models/property_type.dart';
 import 'package:real_estate_fe/ui/views/search/search_viewmodel.dart';
+import 'package:real_estate_fe/ui/widgets/common/custom_list_view/custom_list_view.dart';
 import 'package:real_estate_fe/ui/widgets/list_item/property_list_item/property_list_item.dart';
 import 'package:stacked/stacked.dart';
 import 'package:real_estate_fe/ui/widgets/common/property_card/property_card.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:flutter_map/flutter_map.dart';
 
 class SearchView extends StackedView<SearchViewModel> {
   const SearchView({
@@ -18,6 +18,7 @@ class SearchView extends StackedView<SearchViewModel> {
   });
   final PropertyType? selectedPropertyType;
   final String? query;
+
   @override
   Widget builder(
     BuildContext context,
@@ -25,12 +26,10 @@ class SearchView extends StackedView<SearchViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      // Added Scaffold here
       body: VStack([
         HStack(
           [
-            _buildLocationSelection(context, viewModel)
-                .expand(), // Location selection UI
+            _buildLocationSelection(context, viewModel).expand(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -60,7 +59,6 @@ class SearchView extends StackedView<SearchViewModel> {
     );
   }
 
-  // Location selection section
   Widget _buildLocationSelection(
       BuildContext context, SearchViewModel viewModel) {
     return HStack(
@@ -80,53 +78,37 @@ class SearchView extends StackedView<SearchViewModel> {
   }
 
   Widget _buildSearchResults(SearchViewModel viewModel) {
-    if (viewModel.busy(viewModel.properties)) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (viewModel.properties != null && viewModel.properties!.isEmpty) {
-      return Center(
-        child: Text(
-          'Không tìm thấy kết quả phù hợp',
-          style: AppTextStyle.h3TitleTextStyle(),
-        ),
-      );
-    }
-
     return viewModel.isGridView
-        ? GridView.builder(
+        ? CustomListView(
+            dataSet: viewModel.properties,
+            onRefresh: viewModel.performSearch,
+            onLoading: () => viewModel.performSearch(initial: false),
+            refreshController: viewModel.refreshController,
             padding: const EdgeInsets.all(8),
-            controller: viewModel.scrollController,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              childAspectRatio: 1.2,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-            ),
-            itemCount: viewModel.properties!.length,
+            canRefresh: true,
+            canPullUp: true,
+            isLoading: viewModel.busy(viewModel.properties),
+            scrollController: viewModel.scrollController,
             itemBuilder: (context, index) {
-              if (index == viewModel.properties!.length) {
-                return const Center(child: CircularProgressIndicator());
-              }
               return PropertyCard(
-                property: viewModel.properties![index],
+                property: viewModel.properties[index],
                 onTap: viewModel.navigateToPropertyDetail,
               );
             })
-        : ListView.builder(
+        : CustomListView(
+            dataSet: viewModel.properties,
+            onRefresh: viewModel.performSearch,
+            onLoading: () => viewModel.performSearch(initial: false),
+            refreshController: viewModel.refreshController,
             padding: const EdgeInsets.all(8),
-            controller: viewModel.scrollController,
-            itemCount: viewModel.properties!.length,
+            canRefresh: true,
+            separator: 0,
+            isLoading: viewModel.busy(viewModel.properties),
+            canPullUp: true,
+            scrollController: viewModel.scrollController,
             itemBuilder: (context, index) {
-              if (index == viewModel.properties!.length) {
-                return const Padding(
-                  // Add padding for the loading indicator in list view
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
               return PropertyListItem(
-                property: viewModel.properties![index],
+                property: viewModel.properties[index],
                 onTap: viewModel.navigateToPropertyDetail,
               );
             });

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:real_estate_fe/app/app.locator.dart';
-import 'package:real_estate_fe/services/app_service.dart';
+import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -125,5 +125,27 @@ class AlertService {
 
   void stopLoading() {
     Navigator.pop(StackedService.navigatorKey!.currentContext!);
+  }
+
+  void showErrorToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+  void showSuccessToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.unreadIndicator,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

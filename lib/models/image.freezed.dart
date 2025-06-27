@@ -20,7 +20,9 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Image {
+  @HiveField(0)
   String get id => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get url => throw _privateConstructorUsedError;
 
   /// Serializes this Image to a JSON map.
@@ -37,7 +39,7 @@ abstract class $ImageCopyWith<$Res> {
   factory $ImageCopyWith(Image value, $Res Function(Image) then) =
       _$ImageCopyWithImpl<$Res, Image>;
   @useResult
-  $Res call({String id, String url});
+  $Res call({@HiveField(0) String id, @HiveField(1) String url});
 }
 
 /// @nodoc
@@ -78,7 +80,7 @@ abstract class _$$ImageImplCopyWith<$Res> implements $ImageCopyWith<$Res> {
       __$$ImageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String url});
+  $Res call({@HiveField(0) String id, @HiveField(1) String url});
 }
 
 /// @nodoc
@@ -113,14 +115,17 @@ class __$$ImageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ImageImpl implements _Image {
-  const _$ImageImpl({required this.id, required this.url});
+  const _$ImageImpl(
+      {@HiveField(0) required this.id, @HiveField(1) required this.url});
 
   factory _$ImageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ImageImplFromJson(json);
 
   @override
+  @HiveField(0)
   final String id;
   @override
+  @HiveField(1)
   final String url;
 
   @override
@@ -158,14 +163,17 @@ class _$ImageImpl implements _Image {
 }
 
 abstract class _Image implements Image {
-  const factory _Image({required final String id, required final String url}) =
-      _$ImageImpl;
+  const factory _Image(
+      {@HiveField(0) required final String id,
+      @HiveField(1) required final String url}) = _$ImageImpl;
 
   factory _Image.fromJson(Map<String, dynamic> json) = _$ImageImpl.fromJson;
 
   @override
+  @HiveField(0)
   String get id;
   @override
+  @HiveField(1)
   String get url;
 
   /// Create a copy of Image

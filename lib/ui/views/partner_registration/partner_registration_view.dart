@@ -1,7 +1,9 @@
 // partner_registration_view.dart
 import 'package:flutter/material.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/models/partner_registration.dart';
+import 'package:real_estate_fe/ui/widgets/common/base_page/base_page.dart';
 import 'package:stacked/stacked.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -16,10 +18,9 @@ class PartnerRegistrationView
   @override
   Widget builder(BuildContext context, PartnerRegistrationViewModel viewModel,
       Widget? child) {
-    return Scaffold(
-      appBar: AppBar(
-        title: "Partner Registration".text.make(),
-      ),
+    return BasePage(
+      title: "Partner Registration".tr(),
+      showAppBar: true,
       body: Form(
         key: _formKey,
         child: VStack([

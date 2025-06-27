@@ -147,7 +147,6 @@ class PropertyCreationView extends StackedView<PropertyCreationViewModel> {
             ],
           ),
           const SizedBox(height: 16),
-          // Area field displayed full width
           FormBuilderTextField(
             name: 'sqm',
             decoration: const InputDecoration(

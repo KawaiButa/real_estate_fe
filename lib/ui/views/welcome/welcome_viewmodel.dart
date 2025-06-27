@@ -17,7 +17,6 @@ import 'package:stacked/stacked.dart';
 class WelcomeViewModel extends ReactiveViewModel {
   final _appService = locator<AppService>();
   final _propertyService = locator<PropertyService>();
-  final _propertyTypeService = locator<PropertyTypeService>();
   final _bannerService = locator<BannerService>();
   final _locationPostService = locator<LocationPostService>();
   final _authService = locator<AuthService>();

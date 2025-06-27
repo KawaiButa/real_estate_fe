@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:real_estate_fe/app/app.locator.dart';
 import 'package:real_estate_fe/models/location.dart';
@@ -11,7 +12,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 class MapDialogModel extends ReactiveViewModel {
   MapController mapController = MapController();
-
+  TextEditingController searchController = TextEditingController();
   final _locationService = locator<LocationService>();
   final _appService = locator<AppService>();
   final _dialogService = locator<DialogService>();
@@ -20,8 +21,17 @@ class MapDialogModel extends ReactiveViewModel {
   String? get selectedProvince => _selectedProvinces;
   Location? selectedLocation;
   double? circleRadius;
+  double minRadius = 5;
+  double maxRadius = 200;
+  ValueNotifier<double> zoomValue = ValueNotifier(13);
   @override
   List<ListenableServiceMixin> get listenableServices => [_locationService];
+
+  double get circlePixelRadius =>
+      (circleRadius ?? 10.0) *
+      1000 /
+      calculateMetersPerPixel(
+          selectedLocation!.point.latitude, zoomValue.value);
   initialise() async {
     try {
       setBusy(true);
@@ -32,6 +42,7 @@ class MapDialogModel extends ReactiveViewModel {
       selectedLocation = Location(
           point: _locationService.currentPosition!,
           address: _locationService.currentAddress);
+      mapController.move(selectedLocation!.point, 10);
     } finally {
       setBusy(false);
       notifyListeners();
@@ -74,9 +85,7 @@ class MapDialogModel extends ReactiveViewModel {
   }
 
   double calculateMetersPerPixel(double latitude, double zoom) {
-    const double earthRadius = 6378137.0; // Earth radius in meters
-
-    // Convert latitude from degrees to radians
+    const double earthRadius = 6378137.0;
     final double latitudeRadians = latitude * (pi / 180.0);
 
     final double metersPerPixel =
@@ -84,4 +93,28 @@ class MapDialogModel extends ReactiveViewModel {
 
     return metersPerPixel;
   }
+
+  void zoomIn() {
+    mapController.move(mapController.center, mapController.zoom + 1);
+  }
+
+  void zoomOut() {
+    mapController.move(mapController.center, mapController.zoom - 1);
+  }
+
+  goToCurrentLocation() async {
+    if (_locationService.currentPosition == null) {
+      await _locationService.getCurrentLocation(autoSave: true);
+    }
+    selectedLocation = Location(
+        point: _locationService.currentPosition!,
+        address: _locationService.currentAddress);
+    mapController.move(selectedLocation!.point, 10);
+  }
+
+  void clearSearch() {
+    searchController.clear();
+  }
+
+  void onMapPositionChanged(MapPosition camera, bool showRadius) {}
 }

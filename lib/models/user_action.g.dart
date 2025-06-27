@@ -11,7 +11,7 @@ _$UserActionImpl _$$UserActionImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       propertyId: json['property_id'] as String,
       userId: json['user_id'] as String?,
-      type: json['type'] as String,
+      action: json['action'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -21,7 +21,7 @@ Map<String, dynamic> _$$UserActionImplToJson(_$UserActionImpl instance) =>
       'id': instance.id,
       'property_id': instance.propertyId,
       'user_id': instance.userId,
-      'type': instance.type,
+      'action': instance.action,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
     };

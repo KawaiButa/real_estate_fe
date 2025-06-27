@@ -14,8 +14,8 @@ class UserActionService extends HttpService<UserAction> {
     final currentUser = _authService.data;
     final response = await post(Api.action, {
       "property_id": propertyId,
-      "type": type,
-      if (currentUser != null) "user_id": currentUser.id
+      "action": type,
+      "user_id": currentUser?.id
     });
     if (response.statusCode == 201) return UserAction.fromJson(response.data);
     throw Exception("Error when create user action");

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/constants/app_text_style.dart';
+import 'package:real_estate_fe/ui/views/guest/guest_view.dart';
 import 'package:real_estate_fe/ui/widgets/common/custom_image/custom_image.dart';
 import 'package:stacked/stacked.dart';
 import 'profile_viewmodel.dart';
@@ -15,7 +16,7 @@ class ProfileView extends StackedView<ProfileViewModel> {
 
     return viewModel.isLoggedIn
         ? _buildLoggedInView(viewModel, screenHeight)
-        : _buildGuestView(viewModel);
+        : const GuestView();
   }
 
   Widget _buildLoggedInView(ProfileViewModel viewModel, double screenHeight) {
@@ -29,25 +30,33 @@ class ProfileView extends StackedView<ProfileViewModel> {
               decoration: BoxDecoration(color: AppColors.primaryColor),
             ),
 
-            // User Information
             Positioned(
               bottom: 30,
               left: 0,
               right: 0,
               child: Column(
                 children: [
-                  // Profile Avatar
-                  if (viewModel.user?.profileImage?.url != null)
+                  if (viewModel.user != null)
                     CircleAvatar(
-                      radius: 50,
-                      backgroundColor: AppColors.highlightColor,
-                      child: CustomImage(
-                        imageUrl: viewModel.user!.profileImage?.url ?? "",
-                        boxFit: BoxFit.cover,
-                      ),
+                      radius: 28,
+                      backgroundColor: Colors.grey[300],
+                      backgroundImage: viewModel.user?.profileImage?.url != null
+                          ? NetworkImage(viewModel.user!.profileImage!.url)
+                          : null,
+                      child: viewModel.user!.profileImage?.url == null
+                          ? Text(
+                              viewModel.user!.name.isNotEmpty
+                                  ? viewModel.user!.name[0].toUpperCase()
+                                  : '?',
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            )
+                          : null,
                     ),
                   const SizedBox(height: 16),
-                  // User Name
                   Text(
                     viewModel.user!.name,
                     style: AppTextStyle.h2TitleTextStyle(
@@ -84,51 +93,6 @@ class ProfileView extends StackedView<ProfileViewModel> {
         ),
         _buildLogoutButton(viewModel),
       ],
-    );
-  }
-
-  Widget _buildGuestView(ProfileViewModel viewModel) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Vui lòng đăng nhập để tiếp tục',
-            style: AppTextStyle.h3TitleTextStyle(
-              color: AppColors.primaryColorDark,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 40),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            onPressed: viewModel.navigateToLogin,
-            child: Text(
-              'Đăng nhập',
-              style: AppTextStyle.h4TitleTextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          TextButton(
-            onPressed: viewModel.navigateToRegister,
-            child: Text(
-              'Chưa có tài khoản? Đăng ký ngay',
-              style: AppTextStyle.h5TitleTextStyle(
-                color: AppColors.accentColor,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 

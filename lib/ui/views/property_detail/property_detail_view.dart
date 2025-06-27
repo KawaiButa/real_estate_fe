@@ -1,12 +1,16 @@
 // property_detail_view.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_map/flutter_map.dart' as fl_map;
+import 'package:latlong2/latlong.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/models/review.dart';
 import 'package:real_estate_fe/services/auth_service.dart';
+import 'package:real_estate_fe/ui/widgets/common/base_page/base_page.dart';
 import 'package:real_estate_fe/utils/ui_spacer.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:stacked/stacked.dart';
@@ -25,11 +29,44 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
   @override
   Widget builder(
       BuildContext context, PropertyDetailViewModel viewModel, Widget? child) {
-    return Scaffold(
+    return BasePage(
       body: CustomScrollView(
         slivers: [
           _buildAppBar(context, viewModel),
           _buildBody(context, viewModel),
+        ],
+      ),
+      fabLocation: ExpandableFab.location,
+      fab: ExpandableFab(
+        distance: 70,
+        type: ExpandableFabType.up,
+        openButtonBuilder: RotateFloatingActionButtonBuilder(
+          child: const Icon(Icons.menu),
+          fabSize: ExpandableFabSize.regular,
+          foregroundColor: Colors.white,
+          backgroundColor: AppColors.primaryColor,
+        ),
+        closeButtonBuilder: RotateFloatingActionButtonBuilder(
+          child: const Icon(Icons.close),
+          fabSize: ExpandableFabSize.regular,
+          foregroundColor: Colors.white,
+          backgroundColor: AppColors.primaryColor,
+        ),
+        children: [
+          FloatingActionButton.extended(
+            heroTag: null,
+            onPressed: viewModel.addToCompareList,
+            foregroundColor: Colors.white,
+            backgroundColor: AppColors.primaryColor,
+            label: "Add to comparison".tr().text.make(),
+          ),
+          FloatingActionButton.extended(
+            heroTag: null,
+            onPressed: viewModel.showAiAnalysis,
+            foregroundColor: Colors.white,
+            backgroundColor: AppColors.primaryColor,
+            label: "Summarize with AI".tr().text.make(),
+          ),
         ],
       ),
     );
@@ -141,8 +178,23 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
               .make()
               .pOnly(top: 8)
               .onTap(viewModel.generateReviewQR),
+        "Tourview"
+            .tr()
+            .text
+            .bold
+            .lg
+            .color(Vx.white)
+            .makeCentered()
+            .box
+            .color(AppColors.primaryColor)
+            .rounded
+            .width(context.screenWidth)
+            .height(50)
+            .make()
+            .pOnly(top: 8)
+            .onTap(viewModel.navigateToNewTourviewView),
         _buildDescriptionSection(viewModel),
-        _buildAddressSection(viewModel),
+        _buildAddressSection(context, viewModel),
         _buildOwnerSection(viewModel),
         _buildReviewSection(context, viewModel),
       ]).p16(),
@@ -153,7 +205,7 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
       BuildContext context, PropertyDetailViewModel viewModel) {
     final property = viewModel.property!;
     final avgRating = property.averageRating ?? 0;
-    final totalReviews = property.totalReviewCount ?? 0;
+    final totalReviews = viewModel.totalReviewCount;
 
     return HStack([
       // Average rating
@@ -175,51 +227,58 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
     ]);
   }
 
-  Widget _buildReviewItem(BuildContext context, Review review) {
-    // A basic layout for the review item:
-    return VStack([
-      // Rating
-      HStack([
-        // Star icon or rating UI
-        const Icon(Icons.star, color: Colors.amber),
-        "${review.rating}".text.semiBold.make(),
-      ]),
-
-      // Comment text
-      review.reviewText.text.make().py4(),
-
-      // If there are images, show them in a grid
-      if (review.media.isNotEmpty)
-        GridView.builder(
-          itemCount: review.media.length,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, // 3 columns
-            crossAxisSpacing: 4,
-            mainAxisSpacing: 4,
-          ),
-          itemBuilder: (context, mediaIndex) {
-            final image = review.media[mediaIndex];
-            return CachedNetworkImage(
-              imageUrl: image.mediaUrl,
-              fit: BoxFit.cover,
-              placeholder: (ctx, _) => VxBox().color(Vx.gray200).make(),
-              errorWidget: (ctx, _, __) => const Icon(Icons.error),
-            );
+  Widget _buildReviewItem(
+      BuildContext context, Review review, PropertyDetailViewModel viewModel) {
+    return HStack([
+      review.reviewer?.profileImage != null
+          ? CircleAvatar(
+              backgroundImage: CachedNetworkImageProvider(
+                  review.reviewer!.profileImage!.url),
+            )
+          : const SizedBox(),
+      VStack([
+        HStack([
+          (review.reviewer?.name ?? "").text.bold.lg.make().expand(),
+          const Icon(Icons.star, color: Colors.amber),
+          "${review.rating}".text.semiBold.make(),
+        ]),
+        Html(
+          data: review.reviewText,
+          style: {
+            '#': Style(
+              maxLines: 4,
+              textOverflow: TextOverflow.ellipsis,
+            ),
           },
-        ).py4(),
-
-      // Review creation date, etc.
-      // "${review.createdAt}".text.gray500.sm.make(),
-    ]);
+        ),
+        if (review.images.isNotEmpty)
+          GridView.builder(
+            itemCount: review.images.length,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, // 3 columns
+              crossAxisSpacing: 4,
+              mainAxisSpacing: 4,
+            ),
+            itemBuilder: (context, mediaIndex) {
+              final image = review.images[mediaIndex];
+              return CachedNetworkImage(
+                imageUrl: image.url,
+                fit: BoxFit.cover,
+                placeholder: (ctx, _) => VxBox().color(Vx.gray200).make(),
+                errorWidget: (ctx, _, __) => const Icon(Icons.error),
+              );
+            },
+          ).py4(),
+      ]).expand()
+    ]).onTap(viewModel.navigateToReviewView);
   }
 
   Widget _buildAddReviewField(
     BuildContext context,
     PropertyDetailViewModel viewModel,
   ) {
-    // We'll assume the viewModel has a TextEditingController for the new review comment
     return VxBox(
       child: VStack([
         "Write a Review".text.xl.semiBold.make().py8(),
@@ -227,18 +286,18 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
             visible: !viewModel.canReview,
             child: HStack([
               "Scan Review QR"
-                  .tr() // Apply translation
-                  .text // Convert to Text widget
+                  .tr()
+                  .text
                   .bold
                   .lg
-                  .color(Colors.white) // Set text color
-                  .makeCentered() // Center the text
+                  .color(Colors.white)
+                  .makeCentered()
                   .box
-                  .color(AppColors.primaryColor) // Use grey color when disabled
+                  .color(AppColors.primaryColor)
                   .rounded
                   .width(200)
                   .height(50)
-                  .make() // Create the styled box widget
+                  .make()
                   .onTap(viewModel.openQRScanner)
             ])),
         Visibility(
@@ -276,34 +335,36 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
 
   Widget _buildReviewSection(
       BuildContext context, PropertyDetailViewModel viewModel) {
-    final property = viewModel.property;
-    if (property?.reviews == null || property!.reviews.isEmpty) {
-      // If no reviews, show an empty-state or a "Be the first to write a review" message
+    if (viewModel.reviews == null || (viewModel.reviews?.isEmpty ?? false)) {
       return VStack([
         "Reviews".text.xl2.semiBold.make().py8(),
-        "No reviews yet. Be the first to write one!".text.gray600.make(),
+        "No reviews yet. ${isOwner ? "" : "Be the first to write one!"}"
+            .text
+            .gray600
+            .make(),
         UiSpacer.verticalSpace(space: 16),
         Visibility(
-            visible: AuthService.currentUser != null,
+            visible: AuthService.currentUser != null && !isOwner,
             child: _buildAddReviewField(context, viewModel)),
-      ]).py12();
+      ]).py16();
     }
 
     return VStack([
       _buildReviewHeader(context, viewModel).pOnly(bottom: 12),
 
       ListView.builder(
-        itemCount: property.reviews.length < 3 ? property.reviews.length : 3,
+        itemCount:
+            viewModel.reviews!.length < 3 ? viewModel.reviews!.length : 3,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          final review = property.reviews[index];
-          return _buildReviewItem(context, review).pOnly(bottom: 16);
+          final review = viewModel.reviews![index];
+          return _buildReviewItem(context, review, viewModel).pOnly(bottom: 16);
         },
       ),
 
       // “Read More” button to go to the full review page (if there are more than 3 reviews)
-      if (property.reviews.length > 3)
+      if (viewModel.reviews!.length > 3)
         "Read more"
             .text
             .blue600
@@ -315,7 +376,7 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
 
       // 4) TextInput for adding new review
       _buildAddReviewField(context, viewModel),
-    ]).py12();
+    ]).py12().box.white.rounded.shadowXs.p16.make().wFull(context);
   }
 
   Widget _buildPriceSection(PropertyDetailViewModel viewModel) {
@@ -335,7 +396,7 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
   Widget _buildDetailsSection(PropertyDetailViewModel viewModel) {
     return VxBox(
       child: VStack([
-        "Property Details".text.xl2.semiBold.make().py8(),
+        (viewModel.property?.title ?? "").text.xl2.semiBold.make().py8(),
         HStack(
           [
             _buildDetailItem("${viewModel.property!.bedrooms}", "Bedrooms"),
@@ -375,7 +436,8 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
     ).white.rounded.shadowXs.p16.make().py12();
   }
 
-  Widget _buildAddressSection(PropertyDetailViewModel viewModel) {
+  Widget _buildAddressSection(
+      BuildContext context, PropertyDetailViewModel viewModel) {
     return VxBox(
       child: VStack([
         "Address".text.xl2.semiBold.make().py8(),
@@ -385,9 +447,49 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
               .text
               .gray600
               .make(),
-          const Icon(Icons.map, size: 20).px8(),
-          "View on Map".text.blue600.bold.make(),
-        ]).py8().onInkTap(() => viewModel.launchGoogleMaps(viewModel)),
+          const Icon(Icons.map, size: 20)
+              .px8()
+              .onTap(viewModel.launchGoogleMaps),
+        ]).py8(),
+        if (viewModel.property != null)
+          fl_map.FlutterMap(
+            mapController: viewModel.mapController, // Use the MapController
+            options: fl_map.MapOptions(
+              center: LatLng(viewModel.property!.address.latitude,
+                  viewModel.property!.address.latitude),
+              zoom: 10.0,
+              onTap: (value, position) => viewModel.launchGoogleMaps,
+              interactiveFlags: fl_map.InteractiveFlag.none,
+            ),
+
+            children: [
+              // Changed from layers to children
+              fl_map.TileLayer(
+                urlTemplate:
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                subdomains: const ['a', 'b', 'c'],
+              ),
+              fl_map.MarkerLayer(
+                // Changed from MarkerLayerOptions to MarkerLayer
+                markers: [
+                  fl_map.Marker(
+                    width: 40.0,
+                    height: 40.0,
+                    point: LatLng(viewModel.property!.address.latitude,
+                        viewModel.property!.address.latitude),
+                    builder: (ctx) =>
+                        const Icon(Icons.location_pin, color: Vx.red500),
+                  ),
+                ],
+              ),
+            ],
+          )
+              .h16(context)
+              .box
+              .rounded
+              .clip(Clip.antiAlias)
+              .make()
+              .onTap(viewModel.launchGoogleMaps)
       ]),
     ).white.rounded.shadowXs.p16.width(double.infinity).make().py12();
   }
@@ -398,11 +500,12 @@ class PropertyDetailView extends StackedView<PropertyDetailViewModel> {
       child: VStack([
         "Owner".text.xl2.semiBold.make().py8(),
         HStack([
-          CircleAvatar(
-            radius: 30,
-            backgroundImage: CachedNetworkImageProvider(
-                viewModel.property!.owner!.profileImage?.url ?? ""),
-          ),
+          if (viewModel.property?.owner!.profileImage?.url != null)
+            CircleAvatar(
+              radius: 30,
+              backgroundImage: CachedNetworkImageProvider(
+                  viewModel.property!.owner!.profileImage?.url ?? ""),
+            ).wh(30, 39),
           VStack([
             viewModel.property!.owner!.name.text.lg.bold.make(),
             "Member since ${viewModel.property!.owner!.partnerRegistration?.createdAt}"

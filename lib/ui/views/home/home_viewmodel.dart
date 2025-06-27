@@ -30,7 +30,7 @@ class HomeViewModel extends ReactiveViewModel {
         _propertyTypeService,
         _locationPostService
       ];
-  List<Property>? get properties => _propertyService.data;
+  List<Property>? get properties => _propertyService.data?.data;
   List<PropertyType>? get propertyTypes => _propertyTypeService.data;
   List<banner.Banner>? get banners => _bannerService.data;
   List<NewsArticle> newsArticles = [];
@@ -53,9 +53,7 @@ class HomeViewModel extends ReactiveViewModel {
   }
 
   Future<void> fetchProperties() async {
-    setBusyForObject(properties, true);
-    await _propertyService.fetchProperties(forceRefresh: !initialised);
-    setBusyForObject(properties, false);
+    _propertyService.fetchProperties(forceRefresh: !initialised);
   }
 
   Future<void> fetchNews() async {}

@@ -1,26 +1,59 @@
 {
   "project_info": {
-    "project_number": "679560385469",
-    "project_id": "real-estate-5bcc3",
-    "storage_bucket": "real-estate-5bcc3.firebasestorage.app"
+    "project_number": "546987742907",
+    "project_id": "gohub-8f035",
+    "storage_bucket": "gohub-8f035.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:679560385469:android:14eb644a2e4ddf763b38d4",
+        "mobilesdk_app_id": "1:546987742907:android:24e5a5f128b32b47713b9e",
         "android_client_info": {
-          "package_name": "app.real_estate.com"
+          "package_name": "app.gohub.vn"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "546987742907-8n23s0mlabneou21aohmfp3tnbcvm5gh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.gohub.vn",
+            "certificate_hash": "d01e5ba8594d37266830d2e859df15d6a70eb154"
+          }
+        },
+        {
+          "client_id": "546987742907-nqgb52hp8h6coeq0nl1sagt6jiabds0j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.gohub.vn",
+            "certificate_hash": "1ffc5638e71050fb26e6b207e6ed0a27b6bf95c1"
+          }
+        },
+        {
+          "client_id": "546987742907-tia976u0bfv23vkfcufio28jitkvtp5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAIM-RY-NJlbEixvFEgIoj7nHOqorEu_rg"
+          "current_key": "AIzaSyDMfzK7T2lq-boiBjoHdBu7JYQyVs5Wzao"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546987742907-tia976u0bfv23vkfcufio28jitkvtp5h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "546987742907-sl3k40bj17nn8t34q5n6u0ad8br44pt9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.gohub.vn"
+              }
+            }
+          ]
         }
       }
     }

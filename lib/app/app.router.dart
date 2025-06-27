@@ -5,10 +5,15 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i18;
+import 'package:flutter/material.dart' as _i28;
 import 'package:flutter/material.dart';
-import 'package:real_estate_fe/models/property.dart' as _i20;
-import 'package:real_estate_fe/models/property_type.dart' as _i19;
+import 'package:real_estate_fe/models/chat_session.dart' as _i31;
+import 'package:real_estate_fe/models/property.dart' as _i30;
+import 'package:real_estate_fe/models/property_type.dart' as _i29;
+import 'package:real_estate_fe/models/user.dart' as _i32;
+import 'package:real_estate_fe/ui/views/chat_detail/chat_detail_view.dart'
+    as _i21;
+import 'package:real_estate_fe/ui/views/chat_list/chat_list_view.dart' as _i20;
 import 'package:real_estate_fe/ui/views/edit_profile/edit_profile_view.dart'
     as _i15;
 import 'package:real_estate_fe/ui/views/edit_property/edit_property_view.dart'
@@ -16,8 +21,18 @@ import 'package:real_estate_fe/ui/views/edit_property/edit_property_view.dart'
 import 'package:real_estate_fe/ui/views/favorite/favorite_view.dart' as _i12;
 import 'package:real_estate_fe/ui/views/full_image_preview/full_image_preview_view.dart'
     as _i4;
+import 'package:real_estate_fe/ui/views/guest/guest_view.dart' as _i18;
+import 'package:real_estate_fe/ui/views/guide_panorama/guide_panorama_view.dart'
+    as _i23;
+import 'package:real_estate_fe/ui/views/guide_vertical/guide_vertical_view.dart'
+    as _i24;
 import 'package:real_estate_fe/ui/views/home/home_view.dart' as _i5;
 import 'package:real_estate_fe/ui/views/login/login_view.dart' as _i8;
+import 'package:real_estate_fe/ui/views/new_tourview/new_tourview_view.dart'
+    as _i19;
+import 'package:real_estate_fe/ui/views/panorama_view/panorama_view_view.dart'
+    as _i27;
+import 'package:real_estate_fe/ui/views/paranoma/paranoma_view.dart' as _i22;
 import 'package:real_estate_fe/ui/views/partner_registration/partner_registration_view.dart'
     as _i11;
 import 'package:real_estate_fe/ui/views/profile/profile_view.dart' as _i7;
@@ -30,9 +45,12 @@ import 'package:real_estate_fe/ui/views/register/register_view.dart' as _i9;
 import 'package:real_estate_fe/ui/views/review/review_view.dart' as _i17;
 import 'package:real_estate_fe/ui/views/search/search_view.dart' as _i6;
 import 'package:real_estate_fe/ui/views/startup/startup_view.dart' as _i3;
+import 'package:real_estate_fe/ui/views/tourview/tourview_view.dart' as _i26;
+import 'package:real_estate_fe/ui/views/vertical_capture/vertical_capture_view.dart'
+    as _i25;
 import 'package:real_estate_fe/ui/views/welcome/welcome_view.dart' as _i2;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i21;
+import 'package:stacked_services/stacked_services.dart' as _i33;
 
 class Routes {
   static const welcomeView = '/welcome-view';
@@ -67,6 +85,26 @@ class Routes {
 
   static const reviewView = '/review-view';
 
+  static const guestView = '/guest-view';
+
+  static const newTourviewView = '/new-tourview-view';
+
+  static const chatListView = '/chat-list-view';
+
+  static const chatDetailView = '/chat-detail-view';
+
+  static const paranomaView = '/paranoma-view';
+
+  static const guidePanoramaView = '/guide-panorama-view';
+
+  static const guideVerticalView = '/guide-vertical-view';
+
+  static const verticalCaptureView = '/vertical-capture-view';
+
+  static const tourviewView = '/tourview-view';
+
+  static const panoramaViewView = '/panorama-view-view';
+
   static const all = <String>{
     welcomeView,
     startupView,
@@ -84,6 +122,16 @@ class Routes {
     editProfileView,
     editPropertyView,
     reviewView,
+    guestView,
+    newTourviewView,
+    chatListView,
+    chatDetailView,
+    paranomaView,
+    guidePanoramaView,
+    guideVerticalView,
+    verticalCaptureView,
+    tourviewView,
+    panoramaViewView,
   };
 }
 
@@ -153,31 +201,71 @@ class StackedRouter extends _i1.RouterBase {
       Routes.reviewView,
       page: _i17.ReviewView,
     ),
+    _i1.RouteDef(
+      Routes.guestView,
+      page: _i18.GuestView,
+    ),
+    _i1.RouteDef(
+      Routes.newTourviewView,
+      page: _i19.NewTourviewView,
+    ),
+    _i1.RouteDef(
+      Routes.chatListView,
+      page: _i20.ChatListView,
+    ),
+    _i1.RouteDef(
+      Routes.chatDetailView,
+      page: _i21.ChatDetailView,
+    ),
+    _i1.RouteDef(
+      Routes.paranomaView,
+      page: _i22.ParanomaView,
+    ),
+    _i1.RouteDef(
+      Routes.guidePanoramaView,
+      page: _i23.GuidePanoramaView,
+    ),
+    _i1.RouteDef(
+      Routes.guideVerticalView,
+      page: _i24.GuideVerticalView,
+    ),
+    _i1.RouteDef(
+      Routes.verticalCaptureView,
+      page: _i25.VerticalCaptureView,
+    ),
+    _i1.RouteDef(
+      Routes.tourviewView,
+      page: _i26.TourviewView,
+    ),
+    _i1.RouteDef(
+      Routes.panoramaViewView,
+      page: _i27.PanoramaViewView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.WelcomeView: (data) {
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.WelcomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.FullImagePreviewView: (data) {
       final args = data.getArgs<FullImagePreviewViewArguments>(nullOk: false);
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i4.FullImagePreviewView(args.imageUrl,
             boxFit: args.boxFit, key: args.key),
         settings: data,
       );
     },
     _i5.HomeView: (data) {
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.HomeView(),
         settings: data,
       );
@@ -186,7 +274,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<SearchViewArguments>(
         orElse: () => const SearchViewArguments(),
       );
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i6.SearchView(
             key: args.key,
             selectedPropertyType: args.selectedPropertyType,
@@ -195,7 +283,7 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i7.ProfileView: (data) {
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.ProfileView(),
         settings: data,
       );
@@ -204,7 +292,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<LoginViewArguments>(
         orElse: () => const LoginViewArguments(),
       );
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i8.LoginView(key: args.key),
         settings: data,
       );
@@ -213,14 +301,14 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<RegisterViewArguments>(
         orElse: () => const RegisterViewArguments(),
       );
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i9.RegisterView(key: args.key),
         settings: data,
       );
     },
     _i10.PropertyDetailView: (data) {
       final args = data.getArgs<PropertyDetailViewArguments>(nullOk: false);
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i10.PropertyDetailView(
             key: args.key, property: args.property, isOwner: args.isOwner),
         settings: data,
@@ -230,7 +318,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<PartnerRegistrationViewArguments>(
         orElse: () => const PartnerRegistrationViewArguments(),
       );
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i11.PartnerRegistrationView(key: args.key),
         settings: data,
       );
@@ -239,7 +327,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<FavoriteViewArguments>(
         orElse: () => const FavoriteViewArguments(),
       );
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i12.FavoriteView(
             key: args.key,
             selectedPropertyType: args.selectedPropertyType,
@@ -248,34 +336,102 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i13.PropertyCreationView: (data) {
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i13.PropertyCreationView(),
         settings: data,
       );
     },
     _i14.PropertyView: (data) {
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i14.PropertyView(),
         settings: data,
       );
     },
     _i15.EditProfileView: (data) {
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i15.EditProfileView(),
         settings: data,
       );
     },
     _i16.EditPropertyView: (data) {
       final args = data.getArgs<EditPropertyViewArguments>(nullOk: false);
-      return _i18.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i16.EditPropertyView(property: args.property, key: args.key),
         settings: data,
       );
     },
     _i17.ReviewView: (data) {
-      return _i18.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i17.ReviewView(),
+      final args = data.getArgs<ReviewViewArguments>(nullOk: false);
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i17.ReviewView(key: args.key, property: args.property),
+        settings: data,
+      );
+    },
+    _i18.GuestView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i18.GuestView(),
+        settings: data,
+      );
+    },
+    _i19.NewTourviewView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i19.NewTourviewView(),
+        settings: data,
+      );
+    },
+    _i20.ChatListView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i20.ChatListView(),
+        settings: data,
+      );
+    },
+    _i21.ChatDetailView: (data) {
+      final args = data.getArgs<ChatDetailViewArguments>(
+        orElse: () => const ChatDetailViewArguments(),
+      );
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => _i21.ChatDetailView(
+            key: args.key, chatSession: args.chatSession, user: args.user),
+        settings: data,
+      );
+    },
+    _i22.ParanomaView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i22.ParanomaView(),
+        settings: data,
+      );
+    },
+    _i23.GuidePanoramaView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i23.GuidePanoramaView(),
+        settings: data,
+      );
+    },
+    _i24.GuideVerticalView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i24.GuideVerticalView(),
+        settings: data,
+      );
+    },
+    _i25.VerticalCaptureView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i25.VerticalCaptureView(),
+        settings: data,
+      );
+    },
+    _i26.TourviewView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i26.TourviewView(),
+        settings: data,
+      );
+    },
+    _i27.PanoramaViewView: (data) {
+      final args = data.getArgs<PanoramaViewViewArguments>(nullOk: false);
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i27.PanoramaViewView(key: args.key, url: args.url),
         settings: data,
       );
     },
@@ -297,9 +453,9 @@ class FullImagePreviewViewArguments {
 
   final String imageUrl;
 
-  final _i18.BoxFit? boxFit;
+  final _i28.BoxFit? boxFit;
 
-  final _i18.Key? key;
+  final _i28.Key? key;
 
   @override
   String toString() {
@@ -327,9 +483,9 @@ class SearchViewArguments {
     this.query,
   });
 
-  final _i18.Key? key;
+  final _i28.Key? key;
 
-  final _i19.PropertyType? selectedPropertyType;
+  final _i29.PropertyType? selectedPropertyType;
 
   final String? query;
 
@@ -355,7 +511,7 @@ class SearchViewArguments {
 class LoginViewArguments {
   const LoginViewArguments({this.key});
 
-  final _i18.Key? key;
+  final _i28.Key? key;
 
   @override
   String toString() {
@@ -377,7 +533,7 @@ class LoginViewArguments {
 class RegisterViewArguments {
   const RegisterViewArguments({this.key});
 
-  final _i18.Key? key;
+  final _i28.Key? key;
 
   @override
   String toString() {
@@ -403,9 +559,9 @@ class PropertyDetailViewArguments {
     this.isOwner = false,
   });
 
-  final _i18.Key? key;
+  final _i28.Key? key;
 
-  final _i20.Property property;
+  final _i30.Property property;
 
   final bool isOwner;
 
@@ -431,7 +587,7 @@ class PropertyDetailViewArguments {
 class PartnerRegistrationViewArguments {
   const PartnerRegistrationViewArguments({this.key});
 
-  final _i18.Key? key;
+  final _i28.Key? key;
 
   @override
   String toString() {
@@ -457,9 +613,9 @@ class FavoriteViewArguments {
     this.query,
   });
 
-  final _i18.Key? key;
+  final _i28.Key? key;
 
-  final _i19.PropertyType? selectedPropertyType;
+  final _i29.PropertyType? selectedPropertyType;
 
   final String? query;
 
@@ -488,9 +644,9 @@ class EditPropertyViewArguments {
     this.key,
   });
 
-  final _i20.Property property;
+  final _i30.Property property;
 
-  final _i18.Key? key;
+  final _i28.Key? key;
 
   @override
   String toString() {
@@ -509,7 +665,93 @@ class EditPropertyViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i21.NavigationService {
+class ReviewViewArguments {
+  const ReviewViewArguments({
+    this.key,
+    required this.property,
+  });
+
+  final _i28.Key? key;
+
+  final _i30.Property property;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "property": "$property"}';
+  }
+
+  @override
+  bool operator ==(covariant ReviewViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.property == property;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ property.hashCode;
+  }
+}
+
+class ChatDetailViewArguments {
+  const ChatDetailViewArguments({
+    this.key,
+    this.chatSession,
+    this.user,
+  });
+
+  final _i28.Key? key;
+
+  final _i31.ChatSession? chatSession;
+
+  final _i32.User? user;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "chatSession": "$chatSession", "user": "$user"}';
+  }
+
+  @override
+  bool operator ==(covariant ChatDetailViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key &&
+        other.chatSession == chatSession &&
+        other.user == user;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ chatSession.hashCode ^ user.hashCode;
+  }
+}
+
+class PanoramaViewViewArguments {
+  const PanoramaViewViewArguments({
+    this.key,
+    required this.url,
+  });
+
+  final _i28.Key? key;
+
+  final String url;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "url": "$url"}';
+  }
+
+  @override
+  bool operator ==(covariant PanoramaViewViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.url == url;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ url.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i33.NavigationService {
   Future<dynamic> navigateToWelcomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -540,8 +782,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
 
   Future<dynamic> navigateToFullImagePreviewView({
     required String imageUrl,
-    _i18.BoxFit? boxFit,
-    _i18.Key? key,
+    _i28.BoxFit? boxFit,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -572,8 +814,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> navigateToSearchView({
-    _i18.Key? key,
-    _i19.PropertyType? selectedPropertyType,
+    _i28.Key? key,
+    _i29.PropertyType? selectedPropertyType,
     String? query,
     int? routerId,
     bool preventDuplicates = true,
@@ -605,7 +847,7 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> navigateToLoginView({
-    _i18.Key? key,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -621,7 +863,7 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> navigateToRegisterView({
-    _i18.Key? key,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -637,8 +879,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> navigateToPropertyDetailView({
-    _i18.Key? key,
-    required _i20.Property property,
+    _i28.Key? key,
+    required _i30.Property property,
     bool isOwner = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -656,7 +898,7 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> navigateToPartnerRegistrationView({
-    _i18.Key? key,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -672,8 +914,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> navigateToFavoriteView({
-    _i18.Key? key,
-    _i19.PropertyType? selectedPropertyType,
+    _i28.Key? key,
+    _i29.PropertyType? selectedPropertyType,
     String? query,
     int? routerId,
     bool preventDuplicates = true,
@@ -733,8 +975,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> navigateToEditPropertyView({
-    required _i20.Property property,
-    _i18.Key? key,
+    required _i30.Property property,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -749,14 +991,165 @@ extension NavigatorStateExtension on _i21.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToReviewView([
+  Future<dynamic> navigateToReviewView({
+    _i28.Key? key,
+    required _i30.Property property,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.reviewView,
+        arguments: ReviewViewArguments(key: key, property: property),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToGuestView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.reviewView,
+    return navigateTo<dynamic>(Routes.guestView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToNewTourviewView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.newTourviewView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToChatListView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.chatListView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToChatDetailView({
+    _i28.Key? key,
+    _i31.ChatSession? chatSession,
+    _i32.User? user,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.chatDetailView,
+        arguments: ChatDetailViewArguments(
+            key: key, chatSession: chatSession, user: user),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToParanomaView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.paranomaView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToGuidePanoramaView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.guidePanoramaView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToGuideVerticalView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.guideVerticalView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToVerticalCaptureView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.verticalCaptureView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToTourviewView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.tourviewView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToPanoramaViewView({
+    _i28.Key? key,
+    required String url,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.panoramaViewView,
+        arguments: PanoramaViewViewArguments(key: key, url: url),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -793,8 +1186,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
 
   Future<dynamic> replaceWithFullImagePreviewView({
     required String imageUrl,
-    _i18.BoxFit? boxFit,
-    _i18.Key? key,
+    _i28.BoxFit? boxFit,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -825,8 +1218,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> replaceWithSearchView({
-    _i18.Key? key,
-    _i19.PropertyType? selectedPropertyType,
+    _i28.Key? key,
+    _i29.PropertyType? selectedPropertyType,
     String? query,
     int? routerId,
     bool preventDuplicates = true,
@@ -858,7 +1251,7 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> replaceWithLoginView({
-    _i18.Key? key,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -874,7 +1267,7 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> replaceWithRegisterView({
-    _i18.Key? key,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -890,8 +1283,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> replaceWithPropertyDetailView({
-    _i18.Key? key,
-    required _i20.Property property,
+    _i28.Key? key,
+    required _i30.Property property,
     bool isOwner = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -909,7 +1302,7 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> replaceWithPartnerRegistrationView({
-    _i18.Key? key,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -925,8 +1318,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> replaceWithFavoriteView({
-    _i18.Key? key,
-    _i19.PropertyType? selectedPropertyType,
+    _i28.Key? key,
+    _i29.PropertyType? selectedPropertyType,
     String? query,
     int? routerId,
     bool preventDuplicates = true,
@@ -986,8 +1379,8 @@ extension NavigatorStateExtension on _i21.NavigationService {
   }
 
   Future<dynamic> replaceWithEditPropertyView({
-    required _i20.Property property,
-    _i18.Key? key,
+    required _i30.Property property,
+    _i28.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1002,14 +1395,165 @@ extension NavigatorStateExtension on _i21.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithReviewView([
+  Future<dynamic> replaceWithReviewView({
+    _i28.Key? key,
+    required _i30.Property property,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.reviewView,
+        arguments: ReviewViewArguments(key: key, property: property),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithGuestView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.reviewView,
+    return replaceWith<dynamic>(Routes.guestView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithNewTourviewView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.newTourviewView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithChatListView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.chatListView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithChatDetailView({
+    _i28.Key? key,
+    _i31.ChatSession? chatSession,
+    _i32.User? user,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.chatDetailView,
+        arguments: ChatDetailViewArguments(
+            key: key, chatSession: chatSession, user: user),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithParanomaView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.paranomaView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithGuidePanoramaView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.guidePanoramaView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithGuideVerticalView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.guideVerticalView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithVerticalCaptureView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.verticalCaptureView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithTourviewView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.tourviewView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithPanoramaViewView({
+    _i28.Key? key,
+    required String url,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.panoramaViewView,
+        arguments: PanoramaViewViewArguments(key: key, url: url),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

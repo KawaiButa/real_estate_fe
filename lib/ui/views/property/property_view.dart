@@ -85,6 +85,12 @@ class PropertyView extends StackedView<PropertyViewModel> {
   }
 
   @override
+  void onViewModelReady(PropertyViewModel viewModel) {
+    viewModel.initialise();
+    super.onViewModelReady(viewModel);
+  }
+
+  @override
   PropertyViewModel viewModelBuilder(
     BuildContext context,
   ) =>

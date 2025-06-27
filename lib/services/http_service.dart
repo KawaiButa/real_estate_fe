@@ -109,28 +109,28 @@ abstract class HttpService<T> with ListenableServiceMixin {
       );
       // Attempt to fetch cached data from Dio cache
       Response? cachedResponse;
-      if (!forceRefresh) {
-        try {
-          cachedResponse = await dio!.get(
-            uri,
-            options: dioOptions.copyWith(
-              extra: {
-                ...?dioOptions.extra,
-                'fromNetwork': false, // Fetch from cache only
-              },
-            ),
-            queryParameters: queryParameters,
-          );
-        } catch (_) {
-          // No valid cache found; fallback to Hive
-        }
-      }
+      // if (!forceRefresh) {
+      //   try {
+      //     cachedResponse = await dio!.get(
+      //       uri,
+      //       options: dioOptions.copyWith(
+      //         extra: {
+      //           ...?dioOptions.extra,
+      //           'fromNetwork': false, // Fetch from cache only
+      //         },
+      //       ),
+      //       queryParameters: queryParameters,
+      //     );
+      //   } catch (_) {
+      //     // No valid cache found; fallback to Hive
+      //   }
+      // }
 
-      if (cachedResponse != null && cachedResponse.data != null) {
-        debugPrint("Found data from Dio cache: ${cachedResponse.data}");
-        data = fromResponse(cachedResponse);
-        return data;
-      }
+      // if (cachedResponse != null && cachedResponse.data != null) {
+      //   debugPrint("Found data from Dio cache: ${cachedResponse.data}");
+      //   data = fromResponse(cachedResponse);
+      //   return data;
+      // }
       if (staleWhileRevalidate && !forceRefresh) {
         if (uri != hiveService.name) {
           hiveService = HiveService<Map<String, dynamic>>(
@@ -143,6 +143,7 @@ abstract class HttpService<T> with ListenableServiceMixin {
           debugPrint("Found data from HiveStorage: $hiveData");
           data = parser(hiveData);
           notifyListeners();
+          if (forceRefresh) data = null;
           callApiAndSave(uri, dioOptions, queryParameters).then((response) {
             data = fromResponse(response);
           });
@@ -160,6 +161,9 @@ abstract class HttpService<T> with ListenableServiceMixin {
       Response apiResponse = await callApi(uri, dioOptions, queryParameters);
       data = fromResponse(apiResponse);
       return data;
+    } catch (error) {
+      print("Error when fetch data ===> $error");
+      return null;
     } finally {
       notifyListeners();
     }
@@ -168,11 +172,15 @@ abstract class HttpService<T> with ListenableServiceMixin {
   Future<Response> callApiAndSave(String uri, Options mOptions,
       Map<String, dynamic>? queryParameters) async {
     Response response = await callApi(uri, mOptions, queryParameters);
-    final data = response.data is Map ? response.data : {"data": response.data};
-    await hiveService.save(
-        Utils.toQueryString(queryParameters ?? {},
-            exclude: ["longitude", "latitude"]),
-        data);
+    final data = response.data is Map
+        ? (response.data as Map).cast<String, dynamic>()
+        : {"data": response.data};
+    if (response.statusCode! < 400) {
+      await hiveService.save(
+          Utils.toQueryString(queryParameters ?? {},
+              exclude: ["longitude", "latitude"]),
+          data);
+    }
     return response;
   }
 
@@ -200,14 +208,12 @@ abstract class HttpService<T> with ListenableServiceMixin {
     String? hostUrl,
     Map<String, dynamic>? headers,
   }) async {
-    //preparing the api uri/url
     String uri;
     if (hostUrl == null) {
       uri = "$host$url";
     } else {
       uri = "$hostUrl$url";
     }
-    //preparing the post options if header is required
     final mOptions = !includeHeaders
         ? null
         : Options(
@@ -224,7 +230,6 @@ abstract class HttpService<T> with ListenableServiceMixin {
     } on DioException catch (error) {
       response = formatDioException(error);
     }
-
     return response;
   }
 

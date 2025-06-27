@@ -20,35 +20,20 @@ Review _$ReviewFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Review {
-  /// The property id (UUID represented as String).
+  String get id => throw _privateConstructorUsedError;
   String get propertyId => throw _privateConstructorUsedError;
-
-  /// The reviewer id (UUID represented as String). Nullable.
-  String? get reviewerId => throw _privateConstructorUsedError;
-
-  /// Rating between 1 and 5.
+  String get reviewerId => throw _privateConstructorUsedError;
   int get rating => throw _privateConstructorUsedError;
-
-  /// The review text.
   String get reviewText => throw _privateConstructorUsedError;
-
-  /// The helpful vote count (default 0).
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  User? get reviewer => throw _privateConstructorUsedError;
+  bool get hasVoted => throw _privateConstructorUsedError;
   int get helpfulCount => throw _privateConstructorUsedError;
-
-  /// If the review is featured (default false).
   bool get featured => throw _privateConstructorUsedError;
-
-  /// The reviewer. Replace this with the appropriate User model.
-  User get reviewer => throw _privateConstructorUsedError;
-
-  /// A list of review responses.
   List<ReviewResponse> get responses => throw _privateConstructorUsedError;
-
-  /// A list of review media.
-  List<ReviewMedia> get media => throw _privateConstructorUsedError;
-
-  /// A list of helpful votes.
+  List<Image> get images => throw _privateConstructorUsedError;
   List<HelpfulVote> get helpfulVotes => throw _privateConstructorUsedError;
+  bool get isComposingReply => throw _privateConstructorUsedError;
 
   /// Serializes this Review to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -65,18 +50,22 @@ abstract class $ReviewCopyWith<$Res> {
       _$ReviewCopyWithImpl<$Res, Review>;
   @useResult
   $Res call(
-      {String propertyId,
-      String? reviewerId,
+      {String id,
+      String propertyId,
+      String reviewerId,
       int rating,
       String reviewText,
+      DateTime createdAt,
+      User? reviewer,
+      bool hasVoted,
       int helpfulCount,
       bool featured,
-      User reviewer,
       List<ReviewResponse> responses,
-      List<ReviewMedia> media,
-      List<HelpfulVote> helpfulVotes});
+      List<Image> images,
+      List<HelpfulVote> helpfulVotes,
+      bool isComposingReply});
 
-  $UserCopyWith<$Res> get reviewer;
+  $UserCopyWith<$Res>? get reviewer;
 }
 
 /// @nodoc
@@ -94,26 +83,34 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? propertyId = null,
-    Object? reviewerId = freezed,
+    Object? reviewerId = null,
     Object? rating = null,
     Object? reviewText = null,
+    Object? createdAt = null,
+    Object? reviewer = freezed,
+    Object? hasVoted = null,
     Object? helpfulCount = null,
     Object? featured = null,
-    Object? reviewer = null,
     Object? responses = null,
-    Object? media = null,
+    Object? images = null,
     Object? helpfulVotes = null,
+    Object? isComposingReply = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       propertyId: null == propertyId
           ? _value.propertyId
           : propertyId // ignore: cast_nullable_to_non_nullable
               as String,
-      reviewerId: freezed == reviewerId
+      reviewerId: null == reviewerId
           ? _value.reviewerId
           : reviewerId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       rating: null == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
@@ -122,6 +119,18 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
           ? _value.reviewText
           : reviewText // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      reviewer: freezed == reviewer
+          ? _value.reviewer
+          : reviewer // ignore: cast_nullable_to_non_nullable
+              as User?,
+      hasVoted: null == hasVoted
+          ? _value.hasVoted
+          : hasVoted // ignore: cast_nullable_to_non_nullable
+              as bool,
       helpfulCount: null == helpfulCount
           ? _value.helpfulCount
           : helpfulCount // ignore: cast_nullable_to_non_nullable
@@ -130,22 +139,22 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
           ? _value.featured
           : featured // ignore: cast_nullable_to_non_nullable
               as bool,
-      reviewer: null == reviewer
-          ? _value.reviewer
-          : reviewer // ignore: cast_nullable_to_non_nullable
-              as User,
       responses: null == responses
           ? _value.responses
           : responses // ignore: cast_nullable_to_non_nullable
               as List<ReviewResponse>,
-      media: null == media
-          ? _value.media
-          : media // ignore: cast_nullable_to_non_nullable
-              as List<ReviewMedia>,
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<Image>,
       helpfulVotes: null == helpfulVotes
           ? _value.helpfulVotes
           : helpfulVotes // ignore: cast_nullable_to_non_nullable
               as List<HelpfulVote>,
+      isComposingReply: null == isComposingReply
+          ? _value.isComposingReply
+          : isComposingReply // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -153,8 +162,12 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get reviewer {
-    return $UserCopyWith<$Res>(_value.reviewer, (value) {
+  $UserCopyWith<$Res>? get reviewer {
+    if (_value.reviewer == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.reviewer!, (value) {
       return _then(_value.copyWith(reviewer: value) as $Val);
     });
   }
@@ -168,19 +181,23 @@ abstract class _$$ReviewImplCopyWith<$Res> implements $ReviewCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String propertyId,
-      String? reviewerId,
+      {String id,
+      String propertyId,
+      String reviewerId,
       int rating,
       String reviewText,
+      DateTime createdAt,
+      User? reviewer,
+      bool hasVoted,
       int helpfulCount,
       bool featured,
-      User reviewer,
       List<ReviewResponse> responses,
-      List<ReviewMedia> media,
-      List<HelpfulVote> helpfulVotes});
+      List<Image> images,
+      List<HelpfulVote> helpfulVotes,
+      bool isComposingReply});
 
   @override
-  $UserCopyWith<$Res> get reviewer;
+  $UserCopyWith<$Res>? get reviewer;
 }
 
 /// @nodoc
@@ -196,26 +213,34 @@ class __$$ReviewImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? propertyId = null,
-    Object? reviewerId = freezed,
+    Object? reviewerId = null,
     Object? rating = null,
     Object? reviewText = null,
+    Object? createdAt = null,
+    Object? reviewer = freezed,
+    Object? hasVoted = null,
     Object? helpfulCount = null,
     Object? featured = null,
-    Object? reviewer = null,
     Object? responses = null,
-    Object? media = null,
+    Object? images = null,
     Object? helpfulVotes = null,
+    Object? isComposingReply = null,
   }) {
     return _then(_$ReviewImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       propertyId: null == propertyId
           ? _value.propertyId
           : propertyId // ignore: cast_nullable_to_non_nullable
               as String,
-      reviewerId: freezed == reviewerId
+      reviewerId: null == reviewerId
           ? _value.reviewerId
           : reviewerId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       rating: null == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
@@ -224,6 +249,18 @@ class __$$ReviewImplCopyWithImpl<$Res>
           ? _value.reviewText
           : reviewText // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      reviewer: freezed == reviewer
+          ? _value.reviewer
+          : reviewer // ignore: cast_nullable_to_non_nullable
+              as User?,
+      hasVoted: null == hasVoted
+          ? _value.hasVoted
+          : hasVoted // ignore: cast_nullable_to_non_nullable
+              as bool,
       helpfulCount: null == helpfulCount
           ? _value.helpfulCount
           : helpfulCount // ignore: cast_nullable_to_non_nullable
@@ -232,22 +269,22 @@ class __$$ReviewImplCopyWithImpl<$Res>
           ? _value.featured
           : featured // ignore: cast_nullable_to_non_nullable
               as bool,
-      reviewer: null == reviewer
-          ? _value.reviewer
-          : reviewer // ignore: cast_nullable_to_non_nullable
-              as User,
       responses: null == responses
           ? _value._responses
           : responses // ignore: cast_nullable_to_non_nullable
               as List<ReviewResponse>,
-      media: null == media
-          ? _value._media
-          : media // ignore: cast_nullable_to_non_nullable
-              as List<ReviewMedia>,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<Image>,
       helpfulVotes: null == helpfulVotes
           ? _value._helpfulVotes
           : helpfulVotes // ignore: cast_nullable_to_non_nullable
               as List<HelpfulVote>,
+      isComposingReply: null == isComposingReply
+          ? _value.isComposingReply
+          : isComposingReply // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -256,57 +293,51 @@ class __$$ReviewImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ReviewImpl implements _Review {
   const _$ReviewImpl(
-      {required this.propertyId,
-      this.reviewerId,
+      {required this.id,
+      required this.propertyId,
+      required this.reviewerId,
       required this.rating,
       required this.reviewText,
+      required this.createdAt,
+      this.reviewer,
+      this.hasVoted = false,
       this.helpfulCount = 0,
       this.featured = false,
-      required this.reviewer,
       final List<ReviewResponse> responses = const [],
-      final List<ReviewMedia> media = const [],
-      final List<HelpfulVote> helpfulVotes = const []})
+      final List<Image> images = const [],
+      final List<HelpfulVote> helpfulVotes = const [],
+      this.isComposingReply = false})
       : _responses = responses,
-        _media = media,
+        _images = images,
         _helpfulVotes = helpfulVotes;
 
   factory _$ReviewImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReviewImplFromJson(json);
 
-  /// The property id (UUID represented as String).
+  @override
+  final String id;
   @override
   final String propertyId;
-
-  /// The reviewer id (UUID represented as String). Nullable.
   @override
-  final String? reviewerId;
-
-  /// Rating between 1 and 5.
+  final String reviewerId;
   @override
   final int rating;
-
-  /// The review text.
   @override
   final String reviewText;
-
-  /// The helpful vote count (default 0).
+  @override
+  final DateTime createdAt;
+  @override
+  final User? reviewer;
+  @override
+  @JsonKey()
+  final bool hasVoted;
   @override
   @JsonKey()
   final int helpfulCount;
-
-  /// If the review is featured (default false).
   @override
   @JsonKey()
   final bool featured;
-
-  /// The reviewer. Replace this with the appropriate User model.
-  @override
-  final User reviewer;
-
-  /// A list of review responses.
   final List<ReviewResponse> _responses;
-
-  /// A list of review responses.
   @override
   @JsonKey()
   List<ReviewResponse> get responses {
@@ -315,22 +346,16 @@ class _$ReviewImpl implements _Review {
     return EqualUnmodifiableListView(_responses);
   }
 
-  /// A list of review media.
-  final List<ReviewMedia> _media;
-
-  /// A list of review media.
+  final List<Image> _images;
   @override
   @JsonKey()
-  List<ReviewMedia> get media {
-    if (_media is EqualUnmodifiableListView) return _media;
+  List<Image> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_media);
+    return EqualUnmodifiableListView(_images);
   }
 
-  /// A list of helpful votes.
   final List<HelpfulVote> _helpfulVotes;
-
-  /// A list of helpful votes.
   @override
   @JsonKey()
   List<HelpfulVote> get helpfulVotes {
@@ -340,8 +365,12 @@ class _$ReviewImpl implements _Review {
   }
 
   @override
+  @JsonKey()
+  final bool isComposingReply;
+
+  @override
   String toString() {
-    return 'Review(propertyId: $propertyId, reviewerId: $reviewerId, rating: $rating, reviewText: $reviewText, helpfulCount: $helpfulCount, featured: $featured, reviewer: $reviewer, responses: $responses, media: $media, helpfulVotes: $helpfulVotes)';
+    return 'Review(id: $id, propertyId: $propertyId, reviewerId: $reviewerId, rating: $rating, reviewText: $reviewText, createdAt: $createdAt, reviewer: $reviewer, hasVoted: $hasVoted, helpfulCount: $helpfulCount, featured: $featured, responses: $responses, images: $images, helpfulVotes: $helpfulVotes, isComposingReply: $isComposingReply)';
   }
 
   @override
@@ -349,6 +378,7 @@ class _$ReviewImpl implements _Review {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReviewImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.propertyId, propertyId) ||
                 other.propertyId == propertyId) &&
             (identical(other.reviewerId, reviewerId) ||
@@ -356,33 +386,43 @@ class _$ReviewImpl implements _Review {
             (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.reviewText, reviewText) ||
                 other.reviewText == reviewText) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.reviewer, reviewer) ||
+                other.reviewer == reviewer) &&
+            (identical(other.hasVoted, hasVoted) ||
+                other.hasVoted == hasVoted) &&
             (identical(other.helpfulCount, helpfulCount) ||
                 other.helpfulCount == helpfulCount) &&
             (identical(other.featured, featured) ||
                 other.featured == featured) &&
-            (identical(other.reviewer, reviewer) ||
-                other.reviewer == reviewer) &&
             const DeepCollectionEquality()
                 .equals(other._responses, _responses) &&
-            const DeepCollectionEquality().equals(other._media, _media) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             const DeepCollectionEquality()
-                .equals(other._helpfulVotes, _helpfulVotes));
+                .equals(other._helpfulVotes, _helpfulVotes) &&
+            (identical(other.isComposingReply, isComposingReply) ||
+                other.isComposingReply == isComposingReply));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       propertyId,
       reviewerId,
       rating,
       reviewText,
+      createdAt,
+      reviewer,
+      hasVoted,
       helpfulCount,
       featured,
-      reviewer,
       const DeepCollectionEquality().hash(_responses),
-      const DeepCollectionEquality().hash(_media),
-      const DeepCollectionEquality().hash(_helpfulVotes));
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_helpfulVotes),
+      isComposingReply);
 
   /// Create a copy of Review
   /// with the given fields replaced by the non-null parameter values.
@@ -402,58 +442,51 @@ class _$ReviewImpl implements _Review {
 
 abstract class _Review implements Review {
   const factory _Review(
-      {required final String propertyId,
-      final String? reviewerId,
+      {required final String id,
+      required final String propertyId,
+      required final String reviewerId,
       required final int rating,
       required final String reviewText,
+      required final DateTime createdAt,
+      final User? reviewer,
+      final bool hasVoted,
       final int helpfulCount,
       final bool featured,
-      required final User reviewer,
       final List<ReviewResponse> responses,
-      final List<ReviewMedia> media,
-      final List<HelpfulVote> helpfulVotes}) = _$ReviewImpl;
+      final List<Image> images,
+      final List<HelpfulVote> helpfulVotes,
+      final bool isComposingReply}) = _$ReviewImpl;
 
   factory _Review.fromJson(Map<String, dynamic> json) = _$ReviewImpl.fromJson;
 
-  /// The property id (UUID represented as String).
+  @override
+  String get id;
   @override
   String get propertyId;
-
-  /// The reviewer id (UUID represented as String). Nullable.
   @override
-  String? get reviewerId;
-
-  /// Rating between 1 and 5.
+  String get reviewerId;
   @override
   int get rating;
-
-  /// The review text.
   @override
   String get reviewText;
-
-  /// The helpful vote count (default 0).
+  @override
+  DateTime get createdAt;
+  @override
+  User? get reviewer;
+  @override
+  bool get hasVoted;
   @override
   int get helpfulCount;
-
-  /// If the review is featured (default false).
   @override
   bool get featured;
-
-  /// The reviewer. Replace this with the appropriate User model.
-  @override
-  User get reviewer;
-
-  /// A list of review responses.
   @override
   List<ReviewResponse> get responses;
-
-  /// A list of review media.
   @override
-  List<ReviewMedia> get media;
-
-  /// A list of helpful votes.
+  List<Image> get images;
   @override
   List<HelpfulVote> get helpfulVotes;
+  @override
+  bool get isComposingReply;
 
   /// Create a copy of Review
   /// with the given fields replaced by the non-null parameter values.
@@ -463,222 +496,16 @@ abstract class _Review implements Review {
       throw _privateConstructorUsedError;
 }
 
-ReviewMedia _$ReviewMediaFromJson(Map<String, dynamic> json) {
-  return _ReviewMedia.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ReviewMedia {
-  /// The review id (UUID as String).
-  String get reviewId => throw _privateConstructorUsedError;
-
-  /// The URL for the media.
-  String get mediaUrl => throw _privateConstructorUsedError;
-
-  /// The media type.
-  String get mediaType => throw _privateConstructorUsedError;
-
-  /// Serializes this ReviewMedia to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ReviewMedia
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ReviewMediaCopyWith<ReviewMedia> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ReviewMediaCopyWith<$Res> {
-  factory $ReviewMediaCopyWith(
-          ReviewMedia value, $Res Function(ReviewMedia) then) =
-      _$ReviewMediaCopyWithImpl<$Res, ReviewMedia>;
-  @useResult
-  $Res call({String reviewId, String mediaUrl, String mediaType});
-}
-
-/// @nodoc
-class _$ReviewMediaCopyWithImpl<$Res, $Val extends ReviewMedia>
-    implements $ReviewMediaCopyWith<$Res> {
-  _$ReviewMediaCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ReviewMedia
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? reviewId = null,
-    Object? mediaUrl = null,
-    Object? mediaType = null,
-  }) {
-    return _then(_value.copyWith(
-      reviewId: null == reviewId
-          ? _value.reviewId
-          : reviewId // ignore: cast_nullable_to_non_nullable
-              as String,
-      mediaUrl: null == mediaUrl
-          ? _value.mediaUrl
-          : mediaUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      mediaType: null == mediaType
-          ? _value.mediaType
-          : mediaType // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ReviewMediaImplCopyWith<$Res>
-    implements $ReviewMediaCopyWith<$Res> {
-  factory _$$ReviewMediaImplCopyWith(
-          _$ReviewMediaImpl value, $Res Function(_$ReviewMediaImpl) then) =
-      __$$ReviewMediaImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String reviewId, String mediaUrl, String mediaType});
-}
-
-/// @nodoc
-class __$$ReviewMediaImplCopyWithImpl<$Res>
-    extends _$ReviewMediaCopyWithImpl<$Res, _$ReviewMediaImpl>
-    implements _$$ReviewMediaImplCopyWith<$Res> {
-  __$$ReviewMediaImplCopyWithImpl(
-      _$ReviewMediaImpl _value, $Res Function(_$ReviewMediaImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ReviewMedia
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? reviewId = null,
-    Object? mediaUrl = null,
-    Object? mediaType = null,
-  }) {
-    return _then(_$ReviewMediaImpl(
-      reviewId: null == reviewId
-          ? _value.reviewId
-          : reviewId // ignore: cast_nullable_to_non_nullable
-              as String,
-      mediaUrl: null == mediaUrl
-          ? _value.mediaUrl
-          : mediaUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      mediaType: null == mediaType
-          ? _value.mediaType
-          : mediaType // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ReviewMediaImpl implements _ReviewMedia {
-  const _$ReviewMediaImpl(
-      {required this.reviewId,
-      required this.mediaUrl,
-      required this.mediaType});
-
-  factory _$ReviewMediaImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ReviewMediaImplFromJson(json);
-
-  /// The review id (UUID as String).
-  @override
-  final String reviewId;
-
-  /// The URL for the media.
-  @override
-  final String mediaUrl;
-
-  /// The media type.
-  @override
-  final String mediaType;
-
-  @override
-  String toString() {
-    return 'ReviewMedia(reviewId: $reviewId, mediaUrl: $mediaUrl, mediaType: $mediaType)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ReviewMediaImpl &&
-            (identical(other.reviewId, reviewId) ||
-                other.reviewId == reviewId) &&
-            (identical(other.mediaUrl, mediaUrl) ||
-                other.mediaUrl == mediaUrl) &&
-            (identical(other.mediaType, mediaType) ||
-                other.mediaType == mediaType));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, reviewId, mediaUrl, mediaType);
-
-  /// Create a copy of ReviewMedia
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ReviewMediaImplCopyWith<_$ReviewMediaImpl> get copyWith =>
-      __$$ReviewMediaImplCopyWithImpl<_$ReviewMediaImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ReviewMediaImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ReviewMedia implements ReviewMedia {
-  const factory _ReviewMedia(
-      {required final String reviewId,
-      required final String mediaUrl,
-      required final String mediaType}) = _$ReviewMediaImpl;
-
-  factory _ReviewMedia.fromJson(Map<String, dynamic> json) =
-      _$ReviewMediaImpl.fromJson;
-
-  /// The review id (UUID as String).
-  @override
-  String get reviewId;
-
-  /// The URL for the media.
-  @override
-  String get mediaUrl;
-
-  /// The media type.
-  @override
-  String get mediaType;
-
-  /// Create a copy of ReviewMedia
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ReviewMediaImplCopyWith<_$ReviewMediaImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
 ReviewResponse _$ReviewResponseFromJson(Map<String, dynamic> json) {
   return _ReviewResponse.fromJson(json);
 }
 
 /// @nodoc
 mixin _$ReviewResponse {
-  /// The review id (UUID as String).
+  String get id => throw _privateConstructorUsedError;
   String get reviewId => throw _privateConstructorUsedError;
-
-  /// The response text.
   String get responseText => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this ReviewResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -696,7 +523,8 @@ abstract class $ReviewResponseCopyWith<$Res> {
           ReviewResponse value, $Res Function(ReviewResponse) then) =
       _$ReviewResponseCopyWithImpl<$Res, ReviewResponse>;
   @useResult
-  $Res call({String reviewId, String responseText});
+  $Res call(
+      {String id, String reviewId, String responseText, DateTime createdAt});
 }
 
 /// @nodoc
@@ -714,10 +542,16 @@ class _$ReviewResponseCopyWithImpl<$Res, $Val extends ReviewResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? reviewId = null,
     Object? responseText = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       reviewId: null == reviewId
           ? _value.reviewId
           : reviewId // ignore: cast_nullable_to_non_nullable
@@ -726,6 +560,10 @@ class _$ReviewResponseCopyWithImpl<$Res, $Val extends ReviewResponse>
           ? _value.responseText
           : responseText // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -738,7 +576,8 @@ abstract class _$$ReviewResponseImplCopyWith<$Res>
       __$$ReviewResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String reviewId, String responseText});
+  $Res call(
+      {String id, String reviewId, String responseText, DateTime createdAt});
 }
 
 /// @nodoc
@@ -754,10 +593,16 @@ class __$$ReviewResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? reviewId = null,
     Object? responseText = null,
+    Object? createdAt = null,
   }) {
     return _then(_$ReviewResponseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       reviewId: null == reviewId
           ? _value.reviewId
           : reviewId // ignore: cast_nullable_to_non_nullable
@@ -766,6 +611,10 @@ class __$$ReviewResponseImplCopyWithImpl<$Res>
           ? _value.responseText
           : responseText // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -774,22 +623,26 @@ class __$$ReviewResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ReviewResponseImpl implements _ReviewResponse {
   const _$ReviewResponseImpl(
-      {required this.reviewId, required this.responseText});
+      {required this.id,
+      required this.reviewId,
+      required this.responseText,
+      required this.createdAt});
 
   factory _$ReviewResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReviewResponseImplFromJson(json);
 
-  /// The review id (UUID as String).
+  @override
+  final String id;
   @override
   final String reviewId;
-
-  /// The response text.
   @override
   final String responseText;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'ReviewResponse(reviewId: $reviewId, responseText: $responseText)';
+    return 'ReviewResponse(id: $id, reviewId: $reviewId, responseText: $responseText, createdAt: $createdAt)';
   }
 
   @override
@@ -797,15 +650,19 @@ class _$ReviewResponseImpl implements _ReviewResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReviewResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.reviewId, reviewId) ||
                 other.reviewId == reviewId) &&
             (identical(other.responseText, responseText) ||
-                other.responseText == responseText));
+                other.responseText == responseText) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, reviewId, responseText);
+  int get hashCode =>
+      Object.hash(runtimeType, id, reviewId, responseText, createdAt);
 
   /// Create a copy of ReviewResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -826,19 +683,22 @@ class _$ReviewResponseImpl implements _ReviewResponse {
 
 abstract class _ReviewResponse implements ReviewResponse {
   const factory _ReviewResponse(
-      {required final String reviewId,
-      required final String responseText}) = _$ReviewResponseImpl;
+      {required final String id,
+      required final String reviewId,
+      required final String responseText,
+      required final DateTime createdAt}) = _$ReviewResponseImpl;
 
   factory _ReviewResponse.fromJson(Map<String, dynamic> json) =
       _$ReviewResponseImpl.fromJson;
 
-  /// The review id (UUID as String).
+  @override
+  String get id;
   @override
   String get reviewId;
-
-  /// The response text.
   @override
   String get responseText;
+  @override
+  DateTime get createdAt;
 
   /// Create a copy of ReviewResponse
   /// with the given fields replaced by the non-null parameter values.

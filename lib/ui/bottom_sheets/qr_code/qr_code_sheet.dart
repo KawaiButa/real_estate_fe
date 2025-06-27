@@ -50,7 +50,7 @@ class QrCodeSheet extends StackedView<QrCodeSheetModel> {
               version: QrVersions.auto,
               size: 320,
               gapless: false,
-              embeddedImage: const AssetImage('assets/images/logo.png'),
+              embeddedImage: const AssetImage('assets/images/icon.png'),
               embeddedImageStyle: const QrEmbeddedImageStyle(
                 size: Size(80, 80),
               ),

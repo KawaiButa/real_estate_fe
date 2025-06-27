@@ -9,7 +9,7 @@ class UserAction with _$UserAction {
     required String id,
     required String propertyId,
     String? userId,
-    required String type,
+    required String action,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _UserAction;

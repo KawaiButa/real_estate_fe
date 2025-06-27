@@ -1,6 +1,7 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/constants/app_text_style.dart';
 import 'package:real_estate_fe/models/filter_criteria.dart';
@@ -8,6 +9,7 @@ import 'package:real_estate_fe/models/property_type.dart';
 import 'package:real_estate_fe/ui/widgets/common/multi_select_chips/multi_select_chips.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'filter_sheet_model.dart';
 
 class FilterSheet extends StackedView<FilterSheetModel> {
@@ -26,124 +28,125 @@ class FilterSheet extends StackedView<FilterSheetModel> {
     Widget? child,
   ) {
     return Container(
-      // Increased padding for better spacing
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
+      ),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20), // Slightly larger radius
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
         ),
       ),
-      // Use LayoutBuilder for potentially responsive height
-      child: LayoutBuilder(builder: (context, constraints) {
-        return Column(
-          mainAxisSize: MainAxisSize.min, // Takes minimum space needed
-          children: [
-            // Header Section
-            Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 10.0), // Add padding below header
-              child: Row(
-                // Use Row instead of HStack for standard Flutter widgets
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Bộ lọc tìm kiếm',
-                    style: AppTextStyle.h2TitleTextStyle(),
-                  ),
-                  // Removed IconButton background for cleaner look
-                  IconButton(
-                    onPressed: viewModel.removeAllFilter,
-                    icon: Icon(Icons.filter_alt_off_outlined,
-                        color: AppColors.primaryColor), // Use primary color
-                    tooltip: 'Xóa bộ lọc', // Add tooltip
-                  )
-                ],
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 40,
+            height: 5,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(10),
             ),
-            Divider(height: 1, color: Colors.grey[300]), // Add a subtle divider
-            const SizedBox(height: 16),
-
-            // Scrollable Filter Options
-            Flexible(
-              // Use Flexible instead of Expanded for Column inside Column
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // Align titles to the left
-                  children: [
-                    _buildPriceFilter(viewModel, context), // Pass context
-                    const SizedBox(height: 20), // Increased spacing
-                    _buildPropertyTypeFilter(viewModel),
-                    const SizedBox(height: 20), // Increased spacing
-                    _buildBedBathFilter(viewModel),
-                    const SizedBox(height: 20), // Increased spacing
-                    // _buildLocationFilter(viewModel), // Assuming you have this
-                    // const SizedBox(height: 16), // Spacing before buttons
-                  ],
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(bottom: 10.0), // Add padding below header
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Bộ lọc tìm kiếm',
+                  style: AppTextStyle.h2TitleTextStyle(),
                 ),
-              ),
+                IconButton(
+                  onPressed: viewModel.removeAllFilter,
+                  icon: Icon(Icons.filter_alt_off_outlined,
+                      color: AppColors.primaryColor), // Use primary color
+                  tooltip: 'Xóa bộ lọc',
+                )
+              ],
             ),
-            const SizedBox(height: 16), // Spacing before buttons
+          ),
+          Divider(height: 1, color: Colors.grey[300]), // Add a subtle divider
+          const SizedBox(height: 16),
 
-            // Action Buttons Section
-            Divider(height: 1, color: Colors.grey[300]), // Add a subtle divider
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 16.0), // Add padding above buttons
-              child: Row(
+          Flexible(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      // Use OutlinedButton for secondary action
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.primaryColor, // Text color
-                        side: BorderSide(
-                            color: AppColors.primaryColor), // Border color
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(8)), // Rounded corners
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12), // Button padding
-                      ),
-                      onPressed: () =>
-                          completer?.call(SheetResponse(confirmed: false)),
-                      child: Text('Hủy',
-                          style: AppTextStyle.h4TitleTextStyle(
-                              color: AppColors.primaryColor)),
-                    ),
-                  ),
-                  const SizedBox(width: 16), // Spacing between buttons
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        foregroundColor: Colors.white, // Text color
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(8)), // Rounded corners
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12), // Button padding
-                      ),
-                      onPressed: () {
-                        // Optionally add validation here before confirming
-                        completer?.call(SheetResponse(
-                          confirmed: true,
-                          data: viewModel.filters,
-                        ));
-                      },
-                      child: Text('Áp dụng',
-                          style: AppTextStyle.h4TitleTextStyle(
-                              color: Colors.white)),
-                    ),
-                  ),
+                  _buildPriceFilter(viewModel, context),
+                  const SizedBox(height: 20),
+                  _buildPropertyTypeFilter(viewModel),
+                  const SizedBox(height: 20),
+                  _buildBedBathFilter(viewModel),
+                  const SizedBox(height: 20), // Increased spacing
+                  _buildHasReviewFilter(viewModel),
                 ],
               ),
-            )
-          ],
-        );
-      }),
+            ),
+          ),
+          const SizedBox(height: 16), // Spacing before buttons
+
+          // Action Buttons Section
+          Divider(height: 1, color: Colors.grey[300]), // Add a subtle divider
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 16.0), // Add padding above buttons
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    // Use OutlinedButton for secondary action
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.primaryColor, // Text color
+                      side: BorderSide(
+                          color: AppColors.primaryColor), // Border color
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(8)), // Rounded corners
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12), // Button padding
+                    ),
+                    onPressed: () =>
+                        completer?.call(SheetResponse(confirmed: false)),
+                    child: Text('Hủy',
+                        style: AppTextStyle.h4TitleTextStyle(
+                            color: AppColors.primaryColor)),
+                  ),
+                ),
+                const SizedBox(width: 16), // Spacing between buttons
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor,
+                      foregroundColor: Colors.white, // Text color
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(8)), // Rounded corners
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12), // Button padding
+                    ),
+                    onPressed: () {
+                      // Optionally add validation here before confirming
+                      completer?.call(SheetResponse(
+                        confirmed: true,
+                        data: viewModel.filters,
+                      ));
+                    },
+                    child: Text('Áp dụng',
+                        style:
+                            AppTextStyle.h4TitleTextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -151,7 +154,6 @@ class FilterSheet extends StackedView<FilterSheetModel> {
   FilterSheetModel viewModelBuilder(BuildContext context) =>
       FilterSheetModel(filterData: request.data as FilterCriteria);
 
-  // --- Updated Price Filter ---
   Widget _buildPriceFilter(FilterSheetModel viewModel, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,7 +162,6 @@ class FilterSheet extends StackedView<FilterSheetModel> {
         const SizedBox(height: 12), // Add space before text fields
         Row(
           children: [
-            // Minimum Price Input
             Expanded(
               child: TextField(
                 controller: viewModel.minPriceController,
@@ -268,21 +269,17 @@ class FilterSheet extends StackedView<FilterSheetModel> {
     );
   }
 
-  // --- Bed/Bath Filter (Minor style adjustments) ---
   Widget _buildBedBathFilter(FilterSheetModel viewModel) {
-    // Helper function for dropdown items
     List<DropdownMenuItem<int>> buildDropDownItems(int maxCount) {
       return List.generate(maxCount + 1, (i) => i)
           .map((i) => DropdownMenuItem(
                 value: i,
-                // Display 'Any' or 'Tất cả' for 0
-                child: Text(i == 0 ? 'Tất cả' : '$i+',
+                child: Text(i == 0 ? 'All'.tr() : '$i+',
                     style: AppTextStyle.bodyTextStyle()),
               ))
           .toList();
     }
 
-    // Helper function for InputDecoration
     InputDecoration buildInputDecoration(String label) {
       return InputDecoration(
         labelText: label,
@@ -308,16 +305,13 @@ class FilterSheet extends StackedView<FilterSheetModel> {
       children: [
         Expanded(
           child: DropdownButtonFormField<int>(
-            // Use 0 as the default/placeholder value if null
             value: viewModel.filters.minBedrooms ?? 0,
             decoration: buildInputDecoration('Phòng ngủ'),
             items: buildDropDownItems(5), // Max 5 bedrooms shown as 5+
             onChanged: (value) {
-              // Treat 0 as null (meaning 'any') when setting filter
               viewModel.setFilter(viewModel.filters
                   .copyWith(minBedrooms: value == 0 ? null : value));
             },
-            // Style the dropdown itself
             iconEnabledColor: AppColors.primaryColor,
             borderRadius: BorderRadius.circular(8),
           ),
@@ -338,5 +332,15 @@ class FilterSheet extends StackedView<FilterSheetModel> {
         ),
       ],
     );
+  }
+
+  _buildHasReviewFilter(FilterSheetModel viewModel) {
+    return CheckboxMenuButton(
+        value: viewModel.filters.hasReview ?? false,
+        onChanged: (value) {
+          viewModel
+              .setFilter(viewModel.filters.copyWith(hasReview: value ?? false));
+        },
+        child: "Have review".tr().text.make());
   }
 }

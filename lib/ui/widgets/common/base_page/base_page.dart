@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:real_estate_fe/app/app.bottomsheets.dart';
+import 'package:real_estate_fe/app/app.locator.dart';
+import 'package:real_estate_fe/app/app.router.dart';
 import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/constants/app_text_style.dart';
+import 'package:real_estate_fe/services/ai_service.dart';
+import 'package:real_estate_fe/services/app_service.dart';
 import 'package:real_estate_fe/utils/ui_spacer.dart';
 import 'package:real_estate_fe/utils/utils.dart';
 
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class BasePage extends StatefulWidget {
@@ -80,7 +86,8 @@ class BasePage extends StatefulWidget {
 class _BasePageState extends State<BasePage> {
   //
   double bottomPaddingSize = 0;
-
+  final appService = locator<AppService>();
+  final aiService = locator<AiService>();
   //
   @override
   Widget build(BuildContext context) {
@@ -98,8 +105,7 @@ class _BasePageState extends State<BasePage> {
                   ? AppBar(
                       centerTitle: true,
                       backgroundColor: widget.appBarColor ??
-                          context.theme.colorScheme
-                              .surface, //context.primaryColor,
+                          AppColors.primaryColor, //context.primaryColor,
                       elevation: widget.elevation,
                       automaticallyImplyLeading: widget.showLeadingAction,
                       leading: widget.showLeadingAction
@@ -153,12 +159,55 @@ class _BasePageState extends State<BasePage> {
                       actions: widget.actions ??
                           <Widget>[
                             if (widget.isIconNotification)
-                              const Icon(Icons.notifications,
-                                      color: Colors.white)
-                                  .pSymmetric(h: 15),
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.compare,
+                                    size: 30,
+                                    color: Colors.white,
+                                  ),
+
+                                  // Red badge
+                                  if (appService.comparedProperties.isNotEmpty)
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(3),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        constraints: const BoxConstraints(
+                                            minWidth: 18, minHeight: 18),
+                                        child: Center(
+                                          child: Text(
+                                            '${appService.comparedProperties.length}',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ).pSymmetric(h: 15).onTap(() {
+                                final bottomSheetService =
+                                    locator<BottomSheetService>();
+                                bottomSheetService.showCustomSheet(
+                                  variant: BottomSheetType.aiResult,
+                                  data: appService.comparedProperties,
+                                  isScrollControlled: true,
+                                );
+                              }),
                             if (widget.isIconMessage)
                               const Icon(Icons.message, color: Colors.white)
-                                  .pOnly(right: 10),
+                                  .pOnly(right: 10)
+                                  .onTap(locator<NavigationService>()
+                                      .navigateToChatListView),
                           ])
                   : null),
           body: widget.refreshController != null

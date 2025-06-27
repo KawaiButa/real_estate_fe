@@ -1,14 +1,17 @@
 {
-    "explorer.fileNesting.enabled": true,
-    "explorer.fileNesting.patterns": {
-        "*.dart": "${capture}.mobile.dart, ${capture}.tablet.dart, ${capture}.desktop.dart, ${capture}.form.dart, ${capture}.g.dart, ${capture}.freezed.dart, ${capture}.logger.dart, ${capture}.locator.dart, ${capture}.router.dart, ${capture}.dialogs.dart, ${capture}.bottomsheets.dart"
-    },
-    "cSpell.words": [
-        "initialise",
-        "initialised",
-        "prefs",
-        "roboto"
-    ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.dart": "${capture}.mobile.dart, ${capture}.tablet.dart, ${capture}.desktop.dart, ${capture}.form.dart, ${capture}.g.dart, ${capture}.freezed.dart, ${capture}.logger.dart, ${capture}.locator.dart, ${capture}.router.dart, ${capture}.dialogs.dart, ${capture}.bottomsheets.dart"
+  },
+  "cSpell.words": [
+    "Bottomsheet",
+    "initialise",
+    "initialised",
+    "Paranoma",
+    "prefs",
+    "roboto",
+    "Tourview"
+  ],
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "dart.flutterSdkPath": ".fvm/versions/3.32.0"
 }
-

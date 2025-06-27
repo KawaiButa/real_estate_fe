@@ -29,6 +29,7 @@ mixin _$FilterCriteria {
   String? get city => throw _privateConstructorUsedError;
   String? get orderBy => throw _privateConstructorUsedError;
   String? get orderDirection => throw _privateConstructorUsedError;
+  bool? get hasReview => throw _privateConstructorUsedError;
 
   /// Create a copy of FilterCriteria
   /// with the given fields replaced by the non-null parameter values.
@@ -56,7 +57,8 @@ abstract class $FilterCriteriaCopyWith<$Res> {
       double? minSqm,
       String? city,
       String? orderBy,
-      String? orderDirection});
+      String? orderDirection,
+      bool? hasReview});
 }
 
 /// @nodoc
@@ -87,6 +89,7 @@ class _$FilterCriteriaCopyWithImpl<$Res, $Val extends FilterCriteria>
     Object? city = freezed,
     Object? orderBy = freezed,
     Object? orderDirection = freezed,
+    Object? hasReview = freezed,
   }) {
     return _then(_value.copyWith(
       minPrice: freezed == minPrice
@@ -141,6 +144,10 @@ class _$FilterCriteriaCopyWithImpl<$Res, $Val extends FilterCriteria>
           ? _value.orderDirection
           : orderDirection // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasReview: freezed == hasReview
+          ? _value.hasReview
+          : hasReview // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -166,7 +173,8 @@ abstract class _$$FilterCriteriaImplCopyWith<$Res>
       double? minSqm,
       String? city,
       String? orderBy,
-      String? orderDirection});
+      String? orderDirection,
+      bool? hasReview});
 }
 
 /// @nodoc
@@ -195,6 +203,7 @@ class __$$FilterCriteriaImplCopyWithImpl<$Res>
     Object? city = freezed,
     Object? orderBy = freezed,
     Object? orderDirection = freezed,
+    Object? hasReview = freezed,
   }) {
     return _then(_$FilterCriteriaImpl(
       minPrice: freezed == minPrice
@@ -249,6 +258,10 @@ class __$$FilterCriteriaImplCopyWithImpl<$Res>
           ? _value.orderDirection
           : orderDirection // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasReview: freezed == hasReview
+          ? _value.hasReview
+          : hasReview // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -269,7 +282,8 @@ class _$FilterCriteriaImpl implements _FilterCriteria {
       this.minSqm,
       this.city,
       this.orderBy,
-      this.orderDirection});
+      this.orderDirection,
+      this.hasReview});
 
   @override
   final double? minPrice;
@@ -297,10 +311,12 @@ class _$FilterCriteriaImpl implements _FilterCriteria {
   final String? orderBy;
   @override
   final String? orderDirection;
+  @override
+  final bool? hasReview;
 
   @override
   String toString() {
-    return 'FilterCriteria(minPrice: $minPrice, maxPrice: $maxPrice, propertyType: $propertyType, minBedrooms: $minBedrooms, minBathrooms: $minBathrooms, provinceCode: $provinceCode, lat: $lat, lng: $lng, radius: $radius, minSqm: $minSqm, city: $city, orderBy: $orderBy, orderDirection: $orderDirection)';
+    return 'FilterCriteria(minPrice: $minPrice, maxPrice: $maxPrice, propertyType: $propertyType, minBedrooms: $minBedrooms, minBathrooms: $minBathrooms, provinceCode: $provinceCode, lat: $lat, lng: $lng, radius: $radius, minSqm: $minSqm, city: $city, orderBy: $orderBy, orderDirection: $orderDirection, hasReview: $hasReview)';
   }
 
   @override
@@ -327,7 +343,9 @@ class _$FilterCriteriaImpl implements _FilterCriteria {
             (identical(other.city, city) || other.city == city) &&
             (identical(other.orderBy, orderBy) || other.orderBy == orderBy) &&
             (identical(other.orderDirection, orderDirection) ||
-                other.orderDirection == orderDirection));
+                other.orderDirection == orderDirection) &&
+            (identical(other.hasReview, hasReview) ||
+                other.hasReview == hasReview));
   }
 
   @override
@@ -345,7 +363,8 @@ class _$FilterCriteriaImpl implements _FilterCriteria {
       minSqm,
       city,
       orderBy,
-      orderDirection);
+      orderDirection,
+      hasReview);
 
   /// Create a copy of FilterCriteria
   /// with the given fields replaced by the non-null parameter values.
@@ -371,7 +390,8 @@ abstract class _FilterCriteria implements FilterCriteria {
       final double? minSqm,
       final String? city,
       final String? orderBy,
-      final String? orderDirection}) = _$FilterCriteriaImpl;
+      final String? orderDirection,
+      final bool? hasReview}) = _$FilterCriteriaImpl;
 
   @override
   double? get minPrice;
@@ -399,6 +419,8 @@ abstract class _FilterCriteria implements FilterCriteria {
   String? get orderBy;
   @override
   String? get orderDirection;
+  @override
+  bool? get hasReview;
 
   /// Create a copy of FilterCriteria
   /// with the given fields replaced by the non-null parameter values.

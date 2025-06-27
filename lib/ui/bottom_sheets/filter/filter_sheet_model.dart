@@ -35,5 +35,6 @@ class FilterSheetModel extends BaseViewModel {
 
   void removeAllFilter() {
     filters = const FilterCriteria();
+    notifyListeners();
   }
 }

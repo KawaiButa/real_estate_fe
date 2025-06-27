@@ -41,15 +41,15 @@ class ProfileViewModel extends ReactiveViewModel {
   final _authService = locator<AuthService>();
   final _navigationService = locator<NavigationService>();
   bool get isLoggedIn => _authService.data != null;
-  User? get user => _authService.data;
+  User? get user => AuthService.currentUser;
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
   initialise() async {
-    setBusyForObject(user, true);
+    setBusy(true);
     _authService.getUserFromLocalStorage();
-    await _authService.fetchProfile();
-    setBusyForObject(user, false);
+    _authService.fetchProfile();
+    setBusy(false);
   }
 
   void handleOptionTap(ProfileOption option) => option.action();

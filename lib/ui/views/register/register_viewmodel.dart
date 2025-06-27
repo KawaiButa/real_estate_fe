@@ -1,6 +1,7 @@
 // register_viewmodel.dart
 import 'package:real_estate_fe/app/app.locator.dart';
 import 'package:real_estate_fe/app/app.router.dart';
+import 'package:real_estate_fe/models/user.dart';
 import 'package:real_estate_fe/services/alert_service.dart';
 import 'package:real_estate_fe/services/auth_service.dart';
 import 'package:stacked/stacked.dart';
@@ -82,11 +83,11 @@ class RegisterViewModel extends BaseViewModel {
   // Registration logic
   Future<void> register() async {
     setBusy(true);
+    User? user;
     AlertService().showLoading();
     try {
-      final user = await _authService.registerWithEmail(
+      user = await _authService.registerWithEmail(
           email: _email, password: _password, username: _name, phone: _phone);
-      if (user != null) _navigationService.replaceWith(Routes.loginView);
     } catch (e) {
       setError(e.toString());
       await AlertService().error(title: "Error", text: e.toString());
@@ -94,5 +95,6 @@ class RegisterViewModel extends BaseViewModel {
       AlertService().stopLoading();
       setBusy(false);
     }
+    if (user != null) _navigationService.replaceWith(Routes.loginView);
   }
 }

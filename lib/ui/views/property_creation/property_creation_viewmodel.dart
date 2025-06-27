@@ -66,7 +66,7 @@ class PropertyCreationViewModel extends ReactiveViewModel {
     final pickedFiles = await _imagePicker.pickMultiImage(
       maxWidth: 1920,
       maxHeight: 1080,
-      imageQuality: 85,
+      imageQuality: 40,
     );
 
     _images.addAll(pickedFiles.map((e) => File(e.path)));

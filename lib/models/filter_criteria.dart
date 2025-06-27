@@ -17,5 +17,6 @@ class FilterCriteria with _$FilterCriteria {
     String? city,
     String? orderBy,
     String? orderDirection,
+    bool? hasReview,
   }) = _FilterCriteria;
 }

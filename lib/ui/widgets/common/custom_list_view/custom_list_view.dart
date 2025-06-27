@@ -85,7 +85,7 @@ class CustomListView extends StatelessWidget {
             scrollDirection: scrollDirection,
             enablePullDown: true,
             enablePullUp: canPullUp,
-            controller: refreshController!,
+            controller: refreshController ?? RefreshController(),
             onRefresh: onRefresh != null ? () => onRefresh!() : null,
             onLoading: onLoading != null ? () => onLoading!() : null,
             child: contentBody,

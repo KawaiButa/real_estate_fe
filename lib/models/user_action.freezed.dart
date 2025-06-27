@@ -23,7 +23,7 @@ mixin _$UserAction {
   String get id => throw _privateConstructorUsedError;
   String get propertyId => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  String get action => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
@@ -47,7 +47,7 @@ abstract class $UserActionCopyWith<$Res> {
       {String id,
       String propertyId,
       String? userId,
-      String type,
+      String action,
       DateTime createdAt,
       DateTime updatedAt});
 }
@@ -70,7 +70,7 @@ class _$UserActionCopyWithImpl<$Res, $Val extends UserAction>
     Object? id = null,
     Object? propertyId = null,
     Object? userId = freezed,
-    Object? type = null,
+    Object? action = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -87,9 +87,9 @@ class _$UserActionCopyWithImpl<$Res, $Val extends UserAction>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
+      action: null == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -115,7 +115,7 @@ abstract class _$$UserActionImplCopyWith<$Res>
       {String id,
       String propertyId,
       String? userId,
-      String type,
+      String action,
       DateTime createdAt,
       DateTime updatedAt});
 }
@@ -136,7 +136,7 @@ class __$$UserActionImplCopyWithImpl<$Res>
     Object? id = null,
     Object? propertyId = null,
     Object? userId = freezed,
-    Object? type = null,
+    Object? action = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -153,9 +153,9 @@ class __$$UserActionImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
+      action: null == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -176,7 +176,7 @@ class _$UserActionImpl implements _UserAction {
       {required this.id,
       required this.propertyId,
       this.userId,
-      required this.type,
+      required this.action,
       required this.createdAt,
       required this.updatedAt});
 
@@ -190,7 +190,7 @@ class _$UserActionImpl implements _UserAction {
   @override
   final String? userId;
   @override
-  final String type;
+  final String action;
   @override
   final DateTime createdAt;
   @override
@@ -198,7 +198,7 @@ class _$UserActionImpl implements _UserAction {
 
   @override
   String toString() {
-    return 'UserAction(id: $id, propertyId: $propertyId, userId: $userId, type: $type, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserAction(id: $id, propertyId: $propertyId, userId: $userId, action: $action, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -210,7 +210,7 @@ class _$UserActionImpl implements _UserAction {
             (identical(other.propertyId, propertyId) ||
                 other.propertyId == propertyId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.type, type) || other.type == type) &&
+            (identical(other.action, action) || other.action == action) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -220,7 +220,7 @@ class _$UserActionImpl implements _UserAction {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, propertyId, userId, type, createdAt, updatedAt);
+      runtimeType, id, propertyId, userId, action, createdAt, updatedAt);
 
   /// Create a copy of UserAction
   /// with the given fields replaced by the non-null parameter values.
@@ -243,7 +243,7 @@ abstract class _UserAction implements UserAction {
       {required final String id,
       required final String propertyId,
       final String? userId,
-      required final String type,
+      required final String action,
       required final DateTime createdAt,
       required final DateTime updatedAt}) = _$UserActionImpl;
 
@@ -257,7 +257,7 @@ abstract class _UserAction implements UserAction {
   @override
   String? get userId;
   @override
-  String get type;
+  String get action;
   @override
   DateTime get createdAt;
   @override

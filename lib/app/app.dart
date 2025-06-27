@@ -1,16 +1,23 @@
+import 'package:real_estate_fe/services/ai_service.dart';
 import 'package:real_estate_fe/services/alert_service.dart';
 import 'package:real_estate_fe/services/app_service.dart';
 import 'package:real_estate_fe/services/article_service.dart';
 import 'package:real_estate_fe/services/banner_service.dart';
-import 'package:real_estate_fe/services/hive_service.dart';
+import 'package:real_estate_fe/services/chat_service.dart';
+import 'package:real_estate_fe/services/chat_session_service.dart';
+import 'package:real_estate_fe/services/favorite_service.dart';
+import 'package:real_estate_fe/services/firebase_message_service.dart';
 import 'package:real_estate_fe/services/location_post_service.dart';
 import 'package:real_estate_fe/services/location_service.dart';
+import 'package:real_estate_fe/services/panorama_service.dart';
 import 'package:real_estate_fe/services/partner_registration_service.dart';
 import 'package:real_estate_fe/services/profile_service.dart';
 import 'package:real_estate_fe/services/property_detail_service.dart';
 import 'package:real_estate_fe/services/property_service.dart';
 import 'package:real_estate_fe/services/property_type_service.dart';
 import 'package:real_estate_fe/services/property_verification_service.dart';
+import 'package:real_estate_fe/services/review_service.dart';
+import 'package:real_estate_fe/services/tourview_service.dart';
 import 'package:real_estate_fe/services/user_action_service.dart';
 import 'package:real_estate_fe/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:real_estate_fe/ui/dialogs/info_alert/info_alert_dialog.dart';
@@ -27,7 +34,6 @@ import 'package:real_estate_fe/ui/bottom_sheets/filter/filter_sheet.dart';
 import 'package:real_estate_fe/ui/views/profile/profile_view.dart';
 import 'package:real_estate_fe/ui/views/login/login_view.dart';
 import 'package:real_estate_fe/ui/views/register/register_view.dart';
-import 'package:real_estate_fe/ui/views/register/register_view.dart';
 import 'package:real_estate_fe/ui/views/property_detail/property_detail_view.dart';
 import 'package:real_estate_fe/ui/views/partner_registration/partner_registration_view.dart';
 import 'package:real_estate_fe/ui/views/favorite/favorite_view.dart';
@@ -39,6 +45,18 @@ import 'package:real_estate_fe/ui/views/edit_property/edit_property_view.dart';
 import 'package:real_estate_fe/ui/dialogs/qr_scanner/qr_scanner_dialog.dart';
 import 'package:real_estate_fe/ui/bottom_sheets/qr_code/qr_code_sheet.dart';
 import 'package:real_estate_fe/ui/views/review/review_view.dart';
+import 'package:real_estate_fe/ui/views/guest/guest_view.dart';
+import 'package:real_estate_fe/ui/views/new_tourview/new_tourview_view.dart';
+import 'package:real_estate_fe/ui/dialogs/create_room/create_room_dialog.dart';
+import 'package:real_estate_fe/ui/views/chat_list/chat_list_view.dart';
+import 'package:real_estate_fe/ui/views/chat_detail/chat_detail_view.dart';
+import 'package:real_estate_fe/ui/views/paranoma/paranoma_view.dart';
+import 'package:real_estate_fe/ui/bottom_sheets/ai_result/ai_result_sheet.dart';
+import 'package:real_estate_fe/ui/views/guide_panorama/guide_panorama_view.dart';
+import 'package:real_estate_fe/ui/views/guide_vertical/guide_vertical_view.dart';
+import 'package:real_estate_fe/ui/views/vertical_capture/vertical_capture_view.dart';
+import 'package:real_estate_fe/ui/views/tourview/tourview_view.dart';
+import 'package:real_estate_fe/ui/views/panorama_view/panorama_view_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -59,6 +77,16 @@ import 'package:real_estate_fe/ui/views/review/review_view.dart';
     MaterialRoute(page: EditProfileView),
     MaterialRoute(page: EditPropertyView),
     MaterialRoute(page: ReviewView),
+    MaterialRoute(page: GuestView),
+    MaterialRoute(page: NewTourviewView),
+    MaterialRoute(page: ChatListView),
+    MaterialRoute(page: ChatDetailView),
+    MaterialRoute(page: ParanomaView),
+    MaterialRoute(page: GuidePanoramaView),
+    MaterialRoute(page: GuideVerticalView),
+    MaterialRoute(page: VerticalCaptureView),
+    MaterialRoute(page: TourviewView),
+    MaterialRoute(page: PanoramaViewView),
 // @stacked-route
   ],
   dependencies: [
@@ -81,18 +109,28 @@ import 'package:real_estate_fe/ui/views/review/review_view.dart';
     LazySingleton(classType: LocationPostService),
     LazySingleton(classType: UserActionService),
     LazySingleton(classType: PropertyVerificationService),
+    Factory(classType: ReviewService),
+    Factory(classType: ChatService),
+    LazySingleton(classType: AiService),
+    LazySingleton(classType: FirebaseMessageService),
+    LazySingleton(classType: TourviewService),
+    Factory(classType: PanoramaService),
+    LazySingleton(classType: ChatSessionService),
+    LazySingleton(classType: FavoriteService)
 // @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
     StackedBottomsheet(classType: FilterSheet),
     StackedBottomsheet(classType: QrCodeSheet),
+    StackedBottomsheet(classType: AiResultSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
     StackedDialog(classType: MapDialog),
     StackedDialog(classType: QrScannerDialog),
+    StackedDialog(classType: CreateRoomDialog),
 // @stacked-dialog
   ],
 )

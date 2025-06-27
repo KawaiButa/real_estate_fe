@@ -17,7 +17,7 @@ class ImageUploadButton extends StackedView<ImageUploadButtonModel> {
       onTap: () => onTap == null ? null : onTap!(),
       child: VxBox(
         child: const Icon(Icons.add, color: Vx.gray600, size: 30),
-      ).size(100, 100).border(color: Vx.gray400).roundedLg.make().p8(),
+      ).size(100, 100).border(color: Vx.gray400).rounded.make().p8(),
     );
   }
 

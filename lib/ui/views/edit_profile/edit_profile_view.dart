@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_fe/constants/app_colors.dart';
 import 'package:real_estate_fe/ui/views/edit_profile/edit_profile_viewmodel.dart';
+import 'package:real_estate_fe/ui/widgets/common/custom_image/custom_image.dart';
 import 'package:stacked/stacked.dart'; // Import Stacked
 import 'package:velocity_x/velocity_x.dart'; // Import VelocityX
 
@@ -24,38 +25,28 @@ class EditProfileView extends StackedView<EditProfileViewModel> {
           : SingleChildScrollView(
               // Keep SingleChildScrollView for keyboard handling
               child: VStack(
-                // Use VStack for the main column layout
                 [
-                  // --- Profile Image Section ---
                   ZStack(
-                    // Use ZStack for layering image and button
                     [
-                      // Profile Image Avatar using VxBox or Image.network
                       viewModel.selectedImageFile == null
-                          ? Image.network(
-                              viewModel.user?.profileImage!.url ?? "",
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.broken_image,
-                                          size: 60, color: Vx.gray400)
-                                      .box
-                                      .color(Vx.gray200)
-                                      .width(130)
-                                      .height(130)
-                                      .roundedFull
-                                      .makeCentered(),
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return const CircularProgressIndicator()
-                                    .box
-                                    .width(130)
-                                    .height(130)
-                                    .roundedFull
-                                    .alignCenter
-                                    .make();
-                              },
-                            )
+                          ? (viewModel.user?.profileImage == null
+                                  ? const SizedBox.shrink()
+                                  : CustomImage(
+                                      imageUrl:
+                                          viewModel.user?.profileImage!.url,
+                                      boxFit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(Icons.broken_image,
+                                                      size: 60,
+                                                      color: Vx.gray400)
+                                                  .box
+                                                  .color(Vx.gray200)
+                                                  .width(130)
+                                                  .height(130)
+                                                  .roundedFull
+                                                  .makeCentered(),
+                                    ))
                               .box
                               .width(130)
                               .height(130)
@@ -73,27 +64,24 @@ class EditProfileView extends StackedView<EditProfileViewModel> {
                               .height(130)
                               .roundedFull
                               .make(),
-
                       IconButton(
                         icon: const Icon(Icons.camera_alt,
-                            color: Colors.white, size: 20),
+                            color: Colors.white, size: 15),
                         tooltip: 'Change profile picture',
                         padding: EdgeInsets.zero, // Remove default padding
                         constraints: const BoxConstraints(),
-                        // Call ViewModel method
                         onPressed: viewModel.changeProfileImage,
                       )
-                          .box // Wrap IconButton in VxBox for styling
+                          .box
                           .color(
                               Theme.of(context).primaryColor) // Use theme color
-                          .p4 // Padding inside the circle
-                          .roundedFull // Make the button background circular
-                          .border(color: Colors.white, width: 2) // White border
+                          .p4
+                          .roundedFull
+                          .border(color: Colors.white, width: 2)
                           .make()
                           .positioned(
-                            // Position explicitly if alignment is tricky
-                            bottom: 0,
-                            right: 0,
+                            bottom: -10,
+                            right: -10,
                           ),
                     ],
                     alignment: Alignment.center, // Center image by default
@@ -131,6 +119,8 @@ class EditProfileView extends StackedView<EditProfileViewModel> {
                   40.heightBox,
                   "Save Changes"
                       .text
+                      .bold
+                      .xl
                       .white // Text color
                       .size(16) // Text size
                       .makeCentered() // Center text in the box
@@ -138,7 +128,7 @@ class EditProfileView extends StackedView<EditProfileViewModel> {
                       .rounded
                       .color(AppColors.primaryColor)
                       .width(double.infinity)
-                      .height(100)
+                      .height(50)
                       .make()
                       .px12()
                       .onTap(viewModel.saveProfile),

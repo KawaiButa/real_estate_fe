@@ -12,6 +12,10 @@ class PropertyViewModel extends ReactiveViewModel {
   final _navigationService = locator<NavigationService>();
   User? get user => _authService.data;
   final scrollController = ScrollController();
+  initialise() async {
+    fetchProfile();
+  }
+
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
   navigateToPropertyDetail(Property property) {
@@ -22,5 +26,11 @@ class PropertyViewModel extends ReactiveViewModel {
   void navigateToPropertyCreate() async {
     await _navigationService.navigateToPropertyCreationView();
     _authService.fetchProfile();
+  }
+
+  Future<void> fetchProfile() async {
+    setBusyForObject(user, true);
+    await _authService.fetchProfile();
+    setBusyForObject(user, false);
   }
 }

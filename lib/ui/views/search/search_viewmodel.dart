@@ -1,8 +1,10 @@
+import 'package:dartx/dartx.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:real_estate_fe/app/app.bottomsheets.dart';
 import 'package:real_estate_fe/app/app.dialogs.dart';
 import 'package:real_estate_fe/app/app.locator.dart';
@@ -26,7 +28,7 @@ class SearchViewModel extends ReactiveViewModel {
   final _navigationService = locator<NavigationService>();
   final TextEditingController searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
-  List<Property>? get properties => _propertyService.data;
+  List<Property> properties = [];
   bool _isGridView = true;
   FilterCriteria get filter => _appService.currentFilters;
   Location? selectedLocation;
@@ -34,8 +36,9 @@ class SearchViewModel extends ReactiveViewModel {
   List<ListenableServiceMixin> get listenableServices =>
       [_propertyService, _locationService];
   bool get isGridView => _isGridView;
-
+  bool isLoadMore = false;
   List<String> provinces = [];
+  final RefreshController refreshController = RefreshController();
 
   Future<void> initialise({
     String? query,
@@ -43,13 +46,21 @@ class SearchViewModel extends ReactiveViewModel {
   }) async {
     try {
       setBusy(true);
-      if (_locationService.currentPosition == null) {
-        await _locationService.getCurrentLocation(autoSave: true);
+      if (_appService.currentFilters.city == null) {
+        if (_locationService.currentPosition == null) {
+          await _locationService.getCurrentLocation(autoSave: true);
+        }
+        selectedLocation = Location(
+            point: _locationService.currentPosition!,
+            address: _locationService.currentAddress);
+        _appService.changeFilter(_appService.currentFilters.copyWith(
+          lat: selectedLocation?.point.latitude,
+          lng: selectedLocation?.point.longitude,
+        ));
+      } else {
+        _appService.changeFilter(
+            FilterCriteria(city: _appService.currentFilters.city));
       }
-      selectedLocation = Location(
-          point: _locationService.currentPosition!,
-          address: _locationService.currentAddress);
-      scrollController.addListener(_onScroll);
     } finally {
       setBusy(false);
       notifyListeners();
@@ -63,26 +74,34 @@ class SearchViewModel extends ReactiveViewModel {
   }
 
   Future<void> performSearch({bool initial = true}) async {
-    setBusyForObject(properties, true);
+    refreshController.refreshCompleted();
+    if (initial) {
+      setBusyForObject(properties, true);
+      properties.clear();
+    } else {
+      isLoadMore = true;
+    }
     try {
-      await _propertyService.fetchProperties(
+      final result = await _propertyService.fetchProperties(
           minSqm: filter.minSqm,
           minPrice: filter.minPrice,
           maxPrice: filter.maxPrice,
           radius: filter.radius,
           lat: filter.lat,
           lng: filter.lng,
+          page: initial ? 1 : (_propertyService.data?.page ?? 0) + 1,
           minBathrooms: filter.minBathrooms,
           city: filter.city,
           orderBy: filter.orderBy,
           orderDirection: filter.orderDirection,
           propertyCategory: filter.propertyType,
-          forceRefresh: true);
+          hasReview: filter.hasReview,
+          forceRefresh: initial);
+      properties.addAll(result?.data ?? []);
     } catch (e) {
-      // Handle error
+      if (kDebugMode) rethrow;
     } finally {
       setBusyForObject(properties, false);
-      notifyListeners();
     }
   }
 
@@ -93,10 +112,11 @@ class SearchViewModel extends ReactiveViewModel {
       title: 'Bộ lọc tìm kiếm',
       description: 'Áp dụng các bộ lọc để thu hẹp kết quả',
       data: filter,
+      isScrollControlled: true,
     )
         .then((result) {
       if (result != null && result.confirmed) {
-        _appService.changeFilter(result.data["location"]);
+        _appService.changeFilter(result.data);
         performSearch();
       }
     });
@@ -114,20 +134,15 @@ class SearchViewModel extends ReactiveViewModel {
             lat: location.point.latitude,
             lng: location.point.longitude,
             radius: radius));
+        selectedLocation = location;
         performSearch();
       }
     });
   }
 
-  void _onScroll() {
-    if (scrollController.position.pixels >=
-        scrollController.position.maxScrollExtent * 0.9) {}
-  }
-
   @override
   void dispose() {
-    scrollController.removeListener(_onScroll); // Remove listener
-    scrollController.dispose(); // Dispose controller
+    scrollController.dispose();
     super.dispose();
   }
 

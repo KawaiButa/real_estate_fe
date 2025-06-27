@@ -20,18 +20,24 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
+  @HiveField(0)
   String get id => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get name => throw _privateConstructorUsedError;
+  @HiveField(2)
   String get email => throw _privateConstructorUsedError;
   List<Role>? get roles => throw _privateConstructorUsedError;
   Image? get profileImage => throw _privateConstructorUsedError;
   Address? get address => throw _privateConstructorUsedError;
+  @HiveField(3)
   String? get phone => throw _privateConstructorUsedError;
   List<Property> get properties => throw _privateConstructorUsedError;
   List<Property> get favorites => throw _privateConstructorUsedError;
   PartnerRegistration? get partnerRegistration =>
       throw _privateConstructorUsedError;
+  @HiveField(4)
   DateTime get createdAt => throw _privateConstructorUsedError;
+  @HiveField(5)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
@@ -49,18 +55,18 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call(
-      {String id,
-      String name,
-      String email,
+      {@HiveField(0) String id,
+      @HiveField(1) String name,
+      @HiveField(2) String email,
       List<Role>? roles,
       Image? profileImage,
       Address? address,
-      String? phone,
+      @HiveField(3) String? phone,
       List<Property> properties,
       List<Property> favorites,
       PartnerRegistration? partnerRegistration,
-      DateTime createdAt,
-      DateTime? updatedAt});
+      @HiveField(4) DateTime createdAt,
+      @HiveField(5) DateTime? updatedAt});
 
   $ImageCopyWith<$Res>? get profileImage;
   $AddressCopyWith<$Res>? get address;
@@ -199,18 +205,18 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
-      String name,
-      String email,
+      {@HiveField(0) String id,
+      @HiveField(1) String name,
+      @HiveField(2) String email,
       List<Role>? roles,
       Image? profileImage,
       Address? address,
-      String? phone,
+      @HiveField(3) String? phone,
       List<Property> properties,
       List<Property> favorites,
       PartnerRegistration? partnerRegistration,
-      DateTime createdAt,
-      DateTime? updatedAt});
+      @HiveField(4) DateTime createdAt,
+      @HiveField(5) DateTime? updatedAt});
 
   @override
   $ImageCopyWith<$Res>? get profileImage;
@@ -302,18 +308,18 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl implements _User {
   const _$UserImpl(
-      {required this.id,
-      required this.name,
-      required this.email,
+      {@HiveField(0) required this.id,
+      @HiveField(1) required this.name,
+      @HiveField(2) required this.email,
       final List<Role>? roles,
       this.profileImage,
       this.address,
-      this.phone,
+      @HiveField(3) this.phone,
       final List<Property> properties = const [],
       final List<Property> favorites = const [],
       this.partnerRegistration,
-      required this.createdAt,
-      this.updatedAt})
+      @HiveField(4) required this.createdAt,
+      @HiveField(5) this.updatedAt})
       : _roles = roles,
         _properties = properties,
         _favorites = favorites;
@@ -322,10 +328,13 @@ class _$UserImpl implements _User {
       _$$UserImplFromJson(json);
 
   @override
+  @HiveField(0)
   final String id;
   @override
+  @HiveField(1)
   final String name;
   @override
+  @HiveField(2)
   final String email;
   final List<Role>? _roles;
   @override
@@ -342,6 +351,7 @@ class _$UserImpl implements _User {
   @override
   final Address? address;
   @override
+  @HiveField(3)
   final String? phone;
   final List<Property> _properties;
   @override
@@ -364,8 +374,10 @@ class _$UserImpl implements _User {
   @override
   final PartnerRegistration? partnerRegistration;
   @override
+  @HiveField(4)
   final DateTime createdAt;
   @override
+  @HiveField(5)
   final DateTime? updatedAt;
 
   @override
@@ -433,26 +445,29 @@ class _$UserImpl implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final String id,
-      required final String name,
-      required final String email,
+      {@HiveField(0) required final String id,
+      @HiveField(1) required final String name,
+      @HiveField(2) required final String email,
       final List<Role>? roles,
       final Image? profileImage,
       final Address? address,
-      final String? phone,
+      @HiveField(3) final String? phone,
       final List<Property> properties,
       final List<Property> favorites,
       final PartnerRegistration? partnerRegistration,
-      required final DateTime createdAt,
-      final DateTime? updatedAt}) = _$UserImpl;
+      @HiveField(4) required final DateTime createdAt,
+      @HiveField(5) final DateTime? updatedAt}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
+  @HiveField(0)
   String get id;
   @override
+  @HiveField(1)
   String get name;
   @override
+  @HiveField(2)
   String get email;
   @override
   List<Role>? get roles;
@@ -461,6 +476,7 @@ abstract class _User implements User {
   @override
   Address? get address;
   @override
+  @HiveField(3)
   String? get phone;
   @override
   List<Property> get properties;
@@ -469,8 +485,10 @@ abstract class _User implements User {
   @override
   PartnerRegistration? get partnerRegistration;
   @override
+  @HiveField(4)
   DateTime get createdAt;
   @override
+  @HiveField(5)
   DateTime? get updatedAt;
 
   /// Create a copy of User

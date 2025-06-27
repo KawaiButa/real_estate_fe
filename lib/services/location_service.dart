@@ -22,10 +22,13 @@ class LocationService with ListenableServiceMixin {
 
     try {
       // Construct the API URL
-      final url = Uri.parse(
-          'https://nominatim.openstreetmap.org/search?q=$query&format=json');
+      final uri = Uri.https(
+        'nominatim.openstreetmap.org',
+        '/search',
+        {'q': query, 'format': 'json'},
+      );
       // Make the HTTP request using Dio
-      final response = await _dio.get(url.toString());
+      final response = await _dio.get(uri.toString());
 
       // Check the response status code
       if (response.statusCode == 200) {
